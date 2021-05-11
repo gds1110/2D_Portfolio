@@ -8,7 +8,7 @@ HRESULT H_BountyHunter::Init()
     ImageManager::GetSingleton()->AddImage("바운티헌터 워크", "resource/hero/bountyHunter/walk/bountyHunter_walk.BMP", 2688, 300, 16, 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("바운티헌터 아이들", "resource/hero/bountyHunter/idle/bountyHunter_idle.BMP", 2880, 300, 18, 1, true, RGB(88, 88, 88));
     currFrameX = 0;
-    pos.y = 300;
+    pos.y = WINSIZE_Y / 3;
     elapsed = 0.0f;
     walkElapsed = 0;
     currstate = State::COMBAT;
@@ -21,17 +21,6 @@ void H_BountyHunter::Release()
 
 void H_BountyHunter::Update()
 {
-    Move();
-
-}
-
-void H_BountyHunter::Render(HDC hdc)
-{
-    img->FrameRender(hdc, pos.x, pos.y, currFrameX, 0);
-}
-
-void H_BountyHunter::Move()
-{
     if (currstate == State::COMBAT)
     {
         img = ImageManager::GetSingleton()->FindImage("바운티헌터 아이들");
@@ -41,6 +30,18 @@ void H_BountyHunter::Move()
         img = ImageManager::GetSingleton()->FindImage("바운티헌터 워크");
     }
 
+    Move();
+
+}
+
+void H_BountyHunter::Render(HDC hdc)
+{
+    img->FrameRender(hdc, pos.x+30, pos.y+110, currFrameX, 0,true,0.9);
+}
+
+void H_BountyHunter::Move()
+{
+    
     if (currstate == State::COMBAT) {
         elapsed += TimerManager::GetSingleton()->GetElapsedTime();
         if (elapsed > 0.05f)

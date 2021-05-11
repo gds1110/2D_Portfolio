@@ -18,8 +18,8 @@ using namespace std;
 #include "TimerManager.h"
 #include "SceneManager.h"
 
-#define WINSIZE_X	1440
-#define WINSIZE_Y	1000
+#define WINSIZE_X	1280
+#define WINSIZE_Y	720
 #define TILEMAPTOOLSIZE_X	1620
 #define TILEMAPTOOLSIZE_Y	900
 #define ASTARSIZE_X	1620

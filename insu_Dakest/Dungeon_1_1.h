@@ -10,8 +10,11 @@ private:
 	Image* Ip_Bg_First;
 	Image* Ip_Bg_Second;
 	Image* Ip_BG_Passage;
+	Image* UnderUI;
+	Image* CamBuffer;
 
 
+	float test = 0.0f;
 	int CamPos;
 	CharacterManager* C_MGR;
 	Character* ptr_Hero1;

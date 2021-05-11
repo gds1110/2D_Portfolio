@@ -4,7 +4,7 @@ HRESULT H_Crusader::Init()
 {
 
     pos.x = WINSIZE_X / 2-200;
-    pos.y = 300;
+    pos.y = WINSIZE_Y/3;
 
     img = ImageManager::GetSingleton()->AddImage("农风技捞歹 哪诡", "resource/hero/crusader/combat/crusader_combat.BMP", 2115, 300,15,1,true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("农风技捞歹 况农", "resource/hero/crusader/walk/crusader_walk.BMP", 2896, 300, 16, 1, true, RGB(88, 88, 88));
@@ -28,7 +28,7 @@ void H_Crusader::Update()
 
 void H_Crusader::Render(HDC hdc)
 {
-    img->FrameRender(hdc, pos.x, pos.y, currFrameX, 0);
+    img->FrameRender(hdc, pos.x, pos.y+50, currFrameX, 0,true,1.1);
 }
 
 void H_Crusader::Move()

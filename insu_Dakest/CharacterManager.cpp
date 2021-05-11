@@ -16,7 +16,7 @@ HRESULT CharacterManager::Init()
         v_Heros[i] = new Character();
         v_Heros[i]->Init();
     }*/
-
+ 
     return S_OK;
 }
 
@@ -50,11 +50,21 @@ void CharacterManager::AddHero(Character* chr)
         (*it)->Init();
         (*it)->SetPos(WINSIZE_X / 2 - (index * 200));*/
         v_Heros[index]->Init();
-        v_Heros[index]->SetPos(WINSIZE_X / 2 -150-(index * 120));
+        //v_Heros[index]->SetPos(WINSIZE_X / 2-(index * 100));
+        //v_Heros[index]->SetPos(WINSIZE_X / 2-(posarray[index]));
+        v_Heros[index]->SetPos((WINSIZE_X / 2-100)-(index*150));
         index++;
 
     }
 
+}
+
+int CharacterManager::GetHeroPos()
+{
+    if (!v_Heros.empty())
+    {
+        return v_Heros[0]->GetPosx();
+    }
 }
 
 void CharacterManager::Release()
@@ -68,15 +78,33 @@ void CharacterManager::Release()
 
 void CharacterManager::Update()
 {
-    //for (int i = 0; i < v_Heros.size(); i++)
-    //{
-    //    v_Heros[i]->Update();
-    //}
-    vector<Character*>::iterator it;
-    for (it = v_Heros.begin(); it < v_Heros.end(); it++)
-    {
-        (*it)->Update();
+    if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RIGHT)) {
+
+       
     }
+    else if (KeyManager::GetSingleton()->IsStayKeyDown(VK_LEFT))
+    {
+      
+    }
+    if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_RETURN))
+    {
+        //swaps((v_Heros.begin()), (v_Heros.begin() + 1));
+        (itHero) = (v_Heros.begin());
+        
+       
+    }
+
+    for (int i = 0; i < v_Heros.size(); i++)
+    {
+        v_Heros[i]->Update();
+    }
+
+
+    //vector<Character*>::iterator it;
+    //for (it = v_Heros.begin(); it < v_Heros.end(); it++)
+    //{
+    //    (*it)->Update();
+    //}
 }
 
 void CharacterManager::Render(HDC hdc)
@@ -89,5 +117,6 @@ void CharacterManager::Render(HDC hdc)
     for (it = v_Heros.begin(); it < v_Heros.end(); it++)
     {
         (*it)->Render(hdc);
+    
     }
 }
