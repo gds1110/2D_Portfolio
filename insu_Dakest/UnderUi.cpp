@@ -17,9 +17,10 @@ void UnderUi::Release()
 void UnderUi::Update()
 {
 	
-	if (UiDataManager::GetSingleton()->GetSelectedChar()->GetClass()==Character::HCLASS::CRUSADER)
+	if (UiDataManager::GetSingleton()->GetSelectedChar())
 	{
-		iconKey = "크루세이더 아이콘";
+		
+		iconKey = UiDataManager::GetSingleton()->GetSelectedChar()->GetClassArr()[UiDataManager::GetSingleton()->GetSelectedChar()->GetClass()] + "아이콘";
 		underIcon = ImageManager::GetSingleton()->FindImage(iconKey);
 	}
 }

@@ -1,6 +1,7 @@
 #include "CharacterManager.h"
 #include "Image.h"
 #include "Character.h"
+#include "CommonFunction.h"
 #include "H_BountyHunter.h"
 #include "H_Crusader.h"
 #include "H_HighWayMan.h"
@@ -78,8 +79,18 @@ void CharacterManager::Release()
 
 void CharacterManager::Update()
 {
-    if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RIGHT)) {
+    if (KeyManager::GetSingleton()->IsStayKeyDown(VK_UP)) {
+        if (UiDataManager::GetSingleton()->GetSelectedChar())
+        {
+            for (int i = 0; i < v_Heros.size(); i++)
+            {
+                if (UiDataManager::GetSingleton()->GetSelectedChar() != v_Heros[i])
+                {
+                    
 
+               }
+            }
+        }
        
     }
     else if (KeyManager::GetSingleton()->IsStayKeyDown(VK_LEFT))
@@ -87,12 +98,21 @@ void CharacterManager::Update()
       
     }
 
-
     for (int i = 0; i < v_Heros.size(); i++)
     {
         v_Heros[i]->Update();
     }
 
+    if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
+    {
+        
+        for (int i = 0; i < v_Heros.size(); i++)
+        {
+            if (PointInRect(g_ptMouse, v_Heros[i]->GetRect())) {
+                UiDataManager::GetSingleton()->SelectChar(v_Heros[i]);
+            }
+        }
+    }
 
     //vector<Character*>::iterator it;
     //for (it = v_Heros.begin(); it < v_Heros.end(); it++)

@@ -1,6 +1,8 @@
 #pragma once
 #include "GameNode.h"
 
+class UI;
+class OverUi;
 class UnderUi;
 class Image;
 class Character;
@@ -12,6 +14,7 @@ private:
 	Image* Ip_Bg_Second;
 	Image* Ip_BG_Passage;
 	UnderUi* underUI;
+	OverUi* overUi;
 
 	Image* CamBuffer;
 

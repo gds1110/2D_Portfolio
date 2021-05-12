@@ -5,7 +5,6 @@ class Image;
 class H_Crusader : public Character
 {
 private:
-	
 	int currFrameX;
 	int maxFrameX;
 	float elapsed;

@@ -14,5 +14,7 @@ void UiDataManager::Release()
 
 void UiDataManager::Update()
 {
+
+
 }
 

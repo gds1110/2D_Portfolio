@@ -84,9 +84,6 @@
     <ClCompile Include="H_Vestel.cpp">
       <Filter>소스 파일\Character</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterManager.cpp">
-      <Filter>소스 파일\Character</Filter>
-    </ClCompile>
     <ClCompile Include="UnderUi.cpp">
       <Filter>소스 파일\UI</Filter>
     </ClCompile>
@@ -98,6 +95,9 @@
     </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>소스 파일\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterManager.cpp">
+      <Filter>소스 파일\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,9 +155,6 @@
     <ClInclude Include="H_Vestel.h">
       <Filter>소스 파일\Character</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterManager.h">
-      <Filter>소스 파일\Character</Filter>
-    </ClInclude>
     <ClInclude Include="UnderUi.h">
       <Filter>소스 파일\UI</Filter>
     </ClInclude>
@@ -175,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>소스 파일\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterManager.h">
+      <Filter>소스 파일\Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@
 #include "H_Crusader.h"
 #include "H_BountyHunter.h"
 #include "UnderUi.h"
-
+#include "OverUi.h"
 HRESULT Dungeon_1_1::Init()
 {
 	SetClientRect(g_hWnd, WINSIZE_X, WINSIZE_Y);
@@ -29,9 +29,12 @@ HRESULT Dungeon_1_1::Init()
 	C_MGR->Init();
 	C_MGR->AddHero(new H_Crusader);
 	C_MGR->AddHero(new H_BountyHunter);
-	C_MGR->AddHero(new H_Crusader);
-	C_MGR->AddHero(new H_Crusader);
+	//C_MGR->AddHero(new H_Crusader);
+	//C_MGR->AddHero(new H_Crusader);
 	
+	overUi = new OverUi;
+	overUi->Init();
+
 	underUI = new UnderUi;
 	underUI->Init();
 	
@@ -83,6 +86,10 @@ void Dungeon_1_1::Update()
 	{
 		underUI->Update();
 	}
+	if (overUi)
+	{
+		overUi->Update();
+	}
 	/*if (ptr_Hero1)
 	{
 		
@@ -114,6 +121,7 @@ void Dungeon_1_1::Render(HDC hdc)
 		//C_MGR->Render(camDC);
 	}
 	underUI->Render(hdc);
+	overUi->Render(hdc);
 	//CamBuffer->Render2(hdc,C_MGR->GetHeroPos()-WINSIZE_X/2,0,false,1.5);
 
 

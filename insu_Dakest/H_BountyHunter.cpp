@@ -21,6 +21,7 @@ void H_BountyHunter::Release()
 
 void H_BountyHunter::Update()
 {
+    SetRect(&body, pos.x - 20, pos.y - 50, pos.x + 80, pos.y + 200);
     if (currstate == State::COMBAT)
     {
         img = ImageManager::GetSingleton()->FindImage("바운티헌터 아이들");
@@ -37,6 +38,7 @@ void H_BountyHunter::Update()
 void H_BountyHunter::Render(HDC hdc)
 {
     img->FrameRender(hdc, pos.x+30, pos.y+110, currFrameX, 0,true,0.9);
+    Rectangle(hdc, body.left, body.top, body.right, body.bottom);
 }
 
 void H_BountyHunter::Move()
