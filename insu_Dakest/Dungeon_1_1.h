@@ -1,6 +1,7 @@
 #pragma once
 #include "GameNode.h"
 
+class UnderUi;
 class Image;
 class Character;
 class CharacterManager;
@@ -10,20 +11,23 @@ private:
 	Image* Ip_Bg_First;
 	Image* Ip_Bg_Second;
 	Image* Ip_BG_Passage;
-	Image* UnderUI;
+	UnderUi* underUI;
+
 	Image* CamBuffer;
 
+	int battlePos[4];
 
 	float test = 0.0f;
 	int CamPos;
 	CharacterManager* C_MGR;
-	Character* ptr_Hero1;
 
 public:
 	virtual HRESULT Init();
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
+
+	
 
 	virtual ~Dungeon_1_1() {};
 };

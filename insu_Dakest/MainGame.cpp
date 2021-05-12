@@ -6,17 +6,13 @@ HRESULT MainGame::Init()
 {
 	hdc = GetDC(g_hWnd);
 
+
 	KeyManager::GetSingleton()->Init();
 	ImageManager::GetSingleton()->Init();
 	SceneManager::GetSingleton()->Init();
-
+	UiDataManager::GetSingleton()->Init();
 	// 이미지를 미리 로드한다
-	ImageManager::GetSingleton()->AddImage("Enemy",
-		"Image/ufo.bmp", 530, 32, 10, 1,
-		true, RGB(255, 0, 255));
 
-	ImageManager::GetSingleton()->AddImage("EnemyMissile",
-		"Image/구슬.bmp", 20, 20, true, RGB(255, 0, 255));
 
 	// 메인게임의 초기화 함수
 	//hTimer = (HANDLE)SetTimer(g_hWnd, 0, 1, NULL);

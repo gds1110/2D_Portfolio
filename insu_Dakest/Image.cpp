@@ -173,7 +173,7 @@ void Image::Render2(HDC hdc, int destX, int destY, bool isCenterRenderring, floa
     }
     else
     {
-        if (size > 1)
+        if (size > 0)
         {
             StretchBlt(hdc,
                 x, y,

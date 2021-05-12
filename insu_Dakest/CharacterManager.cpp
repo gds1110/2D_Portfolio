@@ -86,13 +86,7 @@ void CharacterManager::Update()
     {
       
     }
-    if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_RETURN))
-    {
-        //swaps((v_Heros.begin()), (v_Heros.begin() + 1));
-        (itHero) = (v_Heros.begin());
-        
-       
-    }
+
 
     for (int i = 0; i < v_Heros.size(); i++)
     {
@@ -109,14 +103,22 @@ void CharacterManager::Update()
 
 void CharacterManager::Render(HDC hdc)
 {
-    //for (int i = 0; i < v_Heros.size(); i++)
-    //{
-    //    v_Heros[i]->Render(hdc);
-    //}
-    vector<Character*>::iterator it;
-    for (it = v_Heros.begin(); it < v_Heros.end(); it++)
+   
+    if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RETURN))
     {
-        (*it)->Render(hdc);
-    
+        for (int i = 0; i < v_Heros.size(); i++)
+          {
+                 v_Heros[i]->Render2(hdc);
+         }
     }
+    else {
+        vector<Character*>::iterator it;
+        for (it = v_Heros.begin(); it < v_Heros.end(); it++)
+        {
+
+            (*it)->Render(hdc);
+            
+        }
+    }
+  /*  }*/
 }

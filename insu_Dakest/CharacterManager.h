@@ -21,6 +21,8 @@ public:
 	template <class It1, class It2>
 	constexpr void swaps(It1 chr1, It2 chr2);
 
+	vector<Character*> GetVHeros() { return this->v_Heros; }
+
 	void AddHero(Character* chr);
 	int GetHeroPos();
 
