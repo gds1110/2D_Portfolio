@@ -7,6 +7,7 @@
 #include "H_HighWayMan.h"
 #include "H_Leaper.h"
 #include "H_Vestel.h"
+#include <algorithm>
 
 HRESULT CharacterManager::Init()
 {/*
@@ -80,7 +81,7 @@ void CharacterManager::Release()
 void CharacterManager::Update()
 {
     if (KeyManager::GetSingleton()->IsStayKeyDown(VK_UP)) {
-        if (UiDataManager::GetSingleton()->GetSelectedChar())
+      /*  if (UiDataManager::GetSingleton()->GetSelectedChar())
         {
             for (int i = 0; i < v_Heros.size(); i++)
             {
@@ -90,8 +91,10 @@ void CharacterManager::Update()
 
                }
             }
-        }
-       
+        }*/
+        swap(v_Heros[0], v_Heros[1]);
+        v_Heros[0]->SetPos((WINSIZE_X / 2 - 100) - (0 * 150));
+        v_Heros[1]->SetPos((WINSIZE_X / 2 - 100) - (1 * 150));
     }
     else if (KeyManager::GetSingleton()->IsStayKeyDown(VK_LEFT))
     {
