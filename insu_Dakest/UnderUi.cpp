@@ -1,6 +1,7 @@
 #include "UnderUi.h"
 #include "Image.h"
 #include "Character.h"
+#include "skill.h"
 HRESULT UnderUi::Init()
 {
 	underUi = ImageManager::GetSingleton()->AddImage("유아이", "resource/dungeon/UI/D_under_ui.BMP", 1280, 240, false);
@@ -21,6 +22,7 @@ void UnderUi::Update()
 		
 		iconKey = UiDataManager::GetSingleton()->GetSelectedChar()->GetClassArr()[UiDataManager::GetSingleton()->GetSelectedChar()->GetClass()] + "아이콘";
 		underIcon = ImageManager::GetSingleton()->FindImage(iconKey);
+		
 	}
 }
 
@@ -30,4 +32,5 @@ void UnderUi::Render(HDC hdc)
 	if (underIcon) {
 		underIcon->Render2(hdc, 210, WINSIZE_Y - WINSIZE_Y / 3 + 50, true, 0.5);
 	}
+	
 }

@@ -2,6 +2,7 @@
 #include "GameNode.h"
 
 class Image;
+class skill;
 class Character : public GameNode
 {
 public:
@@ -24,6 +25,7 @@ protected:
 		int defense;
 		POINT damage; //데미지 x <- low y <- high
 		int acc; //명중률
+		int stress;
 	};
 
 protected:
@@ -35,6 +37,7 @@ protected:
 	State currstate;
 	RECT body; 
 
+	vector<skill*>skillslot;
 
 	int currFrameX;
 	int maxFrameX;
@@ -80,16 +83,12 @@ public:
 	//FrameRender Update : state :: combat or idle..
 	void IdleCombatUpdate();
 
-	Character() {
-		index = -1;
-		img = nullptr;
-		pos = { 0,WINSIZE_Y/3 };
-		hClass = NONEHCLASS;
-		currstate = NONESTATE;
-		currFrameX = 0;
-		elapsed = 0.0f;
-		walkElapsed = 0;
-		SetRect(&body, pos.x - 50, pos.y - 50, pos.x + 50, pos.y + 50); };
+	//skillslot
+	vector<skill*> GetSkillslot() {
+		return this->skillslot;
+	}
+
+	Character();
 	virtual ~Character() {};
 };
 

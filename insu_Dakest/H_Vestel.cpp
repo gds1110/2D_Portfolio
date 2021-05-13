@@ -11,6 +11,7 @@ HRESULT H_Vestel::Init()
     img = ImageManager::GetSingleton()->AddImage("己赤 哪诡", "resource/hero/Vestel/combat/combat.BMP", 2565, 300, maxFrameArr[State::COMBAT], 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("己赤 况农", "resource/hero/Vestel/walk/walk.BMP", 3072, 300, maxFrameArr[State::WALK], 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("己赤 酒捞能", "resource/hero/Vestel/icon.BMP", 65, 65, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("己赤 胶懦", "resource/hero/Vestel/skill/skillset.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
 
 
     currstate = State::COMBAT;

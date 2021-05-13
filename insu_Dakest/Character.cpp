@@ -1,5 +1,5 @@
 #include "Character.h"
-
+#include "skill.h"
 HRESULT Character::Init()
 {
 	return S_OK;
@@ -98,4 +98,23 @@ void Character::IdleCombatUpdate()
 
     }
 
+}
+
+Character::Character()
+{
+    index = -1;
+    img = nullptr;
+    pos = { 0,WINSIZE_Y / 3 };
+    hClass = NONEHCLASS;
+    currstate = NONESTATE;
+    currFrameX = 0;
+    elapsed = 0.0f;
+    walkElapsed = 0;
+    SetRect(&body, pos.x - 50, pos.y - 50, pos.x + 50, pos.y + 50);
+    skillslot.resize(4);
+    for (int i = 0; i < 4; i++)
+    {
+        skillslot[i] = new skill();
+        skillslot[i]->setPos(370+i*60);
+    }
 }

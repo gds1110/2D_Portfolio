@@ -28,5 +28,5 @@ void OverUi::Update()
 
 void OverUi::Render(HDC hdc)
 {
-	selecetedIcon->FrameRender(hdc, UiDataManager::GetSingleton()->GetSelectedChar()->GetPosx()+30, 410, 0, sIconCurrFrame, true);
+	selecetedIcon->FrameRender(hdc, UiDataManager::GetSingleton()->GetSelectedChar()->GetPosx()+50, 430, 0, sIconCurrFrame, true,0.8);
 }

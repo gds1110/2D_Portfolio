@@ -120,6 +120,9 @@
     <ClCompile Include="MonsterManager.cpp">
       <Filter>소스 파일\UnitObject</Filter>
     </ClCompile>
+    <ClCompile Include="skill.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h">
@@ -214,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="MonsterManager.h">
       <Filter>소스 파일\UnitObject</Filter>
+    </ClInclude>
+    <ClInclude Include="skill.h">
+      <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -162,6 +162,7 @@
     <ClCompile Include="skeleton_bearer.cpp" />
     <ClCompile Include="skeleton_captain.cpp" />
     <ClCompile Include="skeleton_common.cpp" />
+    <ClCompile Include="skill.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TimerManager.cpp" />
     <ClCompile Include="UI.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="skeleton_bearer.h" />
     <ClInclude Include="skeleton_captain.h" />
     <ClInclude Include="skeleton_common.h" />
+    <ClInclude Include="skill.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TimerManager.h" />
     <ClInclude Include="UI.h" />

@@ -36,8 +36,6 @@ HRESULT Dungeon_1_1::Init()
 	C_MGR->AddHero(new H_BountyHunter);
 	C_MGR->AddHero(new H_HighWayMan);
 	C_MGR->AddHero(new H_Vestel);
-	//C_MGR->AddHero(new H_Crusader);
-	//C_MGR->AddHero(new H_Crusader);
 
 	M_MGR = new MonsterManager;
 	M_MGR->Init();
@@ -118,16 +116,16 @@ void Dungeon_1_1::Render(HDC hdc)
 	HDC camDC = CamBuffer->GetMemDC();
 
 	if (Ip_Bg_First) {
-		Ip_Bg_First->Render(camDC,CamPos/5,0,false);
+		Ip_Bg_First->Render(camDC, CamPos / 5, 0, false);
 	}
 	if (Ip_Bg_Second) {
-		Ip_Bg_Second->Render(camDC,CamPos/2,0,false);
+		Ip_Bg_Second->Render(camDC, CamPos / 2, 0, false);
 	}
 	if (Ip_BG_Passage) {
-		Ip_BG_Passage->Render(camDC,CamPos,0,false);
+		Ip_BG_Passage->Render(camDC, CamPos, 0, false);
 	}
 
-	CamBuffer->Render2(hdc,WINSIZE_X/2,300,true);
+	CamBuffer->Render2(hdc, WINSIZE_X / 2, 300, true);
 
 
 	if (C_MGR)
@@ -141,13 +139,4 @@ void Dungeon_1_1::Render(HDC hdc)
 	}
 	underUI->Render(hdc);
 	overUi->Render(hdc);
-	//CamBuffer->Render2(hdc,C_MGR->GetHeroPos()-WINSIZE_X/2,0,false,1.5);
-
-
-	//확대되서 움직여야할곳 표시
-	//for (int i = 0; i < 4; i++)
-	//{
-	//	Rectangle(hdc, battlePos[i] - 50, 400, battlePos[i], 450);
-	//}
-	
 }
