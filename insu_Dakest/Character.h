@@ -16,6 +16,17 @@ public:
 	};
 
 protected:
+	struct Status
+	{
+		int hp;
+		int atkSpeed;
+		int avd; //회피율
+		int defense;
+		POINT damage; //데미지 x <- low y <- high
+		int acc; //명중률
+	};
+
+protected:
 	int CharArrPos[4] = { 540,390,240,40 };
 	string classArr[5] = { "크루세이더 ","바운티헌터 ","노상강도 ","나병환자 ","성녀 " };
 	Image* img;

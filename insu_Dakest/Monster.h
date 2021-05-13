@@ -13,7 +13,16 @@ public:
 		SKELETON_COMMON,
 		NONEKINDS
 	};
-
+protected:
+	struct Status
+	{
+		int hp;
+		int atkSpeed;
+		int avd; //회피율
+		int defense;
+		POINT damage; //데미지 x <- low y <- high
+		int acc; //명중률
+	};
 protected:
 
 	Image* img;
