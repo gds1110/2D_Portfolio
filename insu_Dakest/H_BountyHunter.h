@@ -6,23 +6,13 @@ class H_BountyHunter : public Character
 {
 private:
 
-	int currFrameX;
-	int maxFrameX;
-	float elapsed;
-	int walkElapsed;
-
 public:
 	virtual HRESULT Init();
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
 	virtual void SetPos(int x) { this->pos.x = x; }
-	virtual int GetPosx() { return this->pos.x; }
 
-	void Move();
-
-
-	//void SetCurrState(State state) { this->currstate = state; }
 
 	virtual ~H_BountyHunter() {};
 };

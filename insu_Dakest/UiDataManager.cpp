@@ -4,6 +4,7 @@
 HRESULT UiDataManager::Init()
 {
 	selectedChr = nullptr;
+
 	return S_OK;
 }
 

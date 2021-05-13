@@ -3,10 +3,15 @@
 #include "CommonFunction.h"
 #include "Character.h"
 #include "CharacterManager.h"
+#include "MonsterManager.h"
 #include "H_Crusader.h"
 #include "H_BountyHunter.h"
+#include "H_Leaper.h"
+#include "H_HighWayMan.h"
+#include "H_Vestel.h"
 #include "UnderUi.h"
 #include "OverUi.h"
+#include "skeleton_arbalistar.h"
 HRESULT Dungeon_1_1::Init()
 {
 	SetClientRect(g_hWnd, WINSIZE_X, WINSIZE_Y);
@@ -27,18 +32,28 @@ HRESULT Dungeon_1_1::Init()
 
 	C_MGR = new CharacterManager;
 	C_MGR->Init();
-	C_MGR->AddHero(new H_Crusader);
+	C_MGR->AddHero(new H_Leaper);
 	C_MGR->AddHero(new H_BountyHunter);
+	C_MGR->AddHero(new H_HighWayMan);
+	C_MGR->AddHero(new H_Vestel);
 	//C_MGR->AddHero(new H_Crusader);
 	//C_MGR->AddHero(new H_Crusader);
+
+	M_MGR = new MonsterManager;
+	M_MGR->Init();
+	M_MGR->AddMonster(new skeleton_arbalistar);
+	M_MGR->AddMonster(new skeleton_arbalistar);
+	M_MGR->AddMonster(new skeleton_arbalistar);
+	M_MGR->AddMonster(new skeleton_arbalistar);
+
 	
 	overUi = new OverUi;
 	overUi->Init();
 
+
+	UiDataManager::GetSingleton()->SelectChar(C_MGR->GetVHeros()[0]);
 	underUI = new UnderUi;
 	underUI->Init();
-	
-	UiDataManager::GetSingleton()->SelectChar(C_MGR->GetVHeros()[0]);
 
 	return S_OK;
 }
@@ -46,6 +61,7 @@ HRESULT Dungeon_1_1::Init()
 void Dungeon_1_1::Release()
 {
 	SAFE_RELEASE(C_MGR);
+	SAFE_RELEASE(M_MGR);
 	SAFE_RELEASE(CamBuffer);
 }
 
@@ -55,6 +71,10 @@ void Dungeon_1_1::Update()
 	{
 		C_MGR->Update();
 		
+	}
+	if (M_MGR)
+	{
+		M_MGR->Update();
 	}
 
 	if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RIGHT)) {
@@ -90,12 +110,7 @@ void Dungeon_1_1::Update()
 	{
 		overUi->Update();
 	}
-	/*if (ptr_Hero1)
-	{
-		
-		ptr_Hero1->Update();
 
-	}*/
 }
 
 void Dungeon_1_1::Render(HDC hdc)
@@ -119,6 +134,10 @@ void Dungeon_1_1::Render(HDC hdc)
 	{
 		C_MGR->Render(hdc);
 		//C_MGR->Render(camDC);
+	}
+	if (M_MGR)
+	{
+		M_MGR->Render(hdc);
 	}
 	underUI->Render(hdc);
 	overUi->Render(hdc);

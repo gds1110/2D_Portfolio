@@ -30,7 +30,7 @@ HRESULT CharacterManager::Init(int num)
         v_Heros[i] = new Character();
         v_Heros[i]->Init();
         v_Heros[i]->SetPos(WINSIZE_X/2-(i*200));
-        index++;
+        v_Heros[i]->SetIndex(i);
     }
 
     return S_OK;
@@ -55,6 +55,7 @@ void CharacterManager::AddHero(Character* chr)
         //v_Heros[index]->SetPos(WINSIZE_X / 2-(index * 100));
         //v_Heros[index]->SetPos(WINSIZE_X / 2-(posarray[index]));
         v_Heros[index]->SetPos((WINSIZE_X / 2-100)-(index*150));
+        v_Heros[index]->SetIndex(index);
         index++;
 
     }
@@ -80,7 +81,7 @@ void CharacterManager::Release()
 
 void CharacterManager::Update()
 {
-    if (KeyManager::GetSingleton()->IsStayKeyDown(VK_UP)) {
+    if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_UP)) {
       /*  if (UiDataManager::GetSingleton()->GetSelectedChar())
         {
             for (int i = 0; i < v_Heros.size(); i++)
@@ -95,10 +96,6 @@ void CharacterManager::Update()
         swap(v_Heros[0], v_Heros[1]);
         v_Heros[0]->SetPos((WINSIZE_X / 2 - 100) - (0 * 150));
         v_Heros[1]->SetPos((WINSIZE_X / 2 - 100) - (1 * 150));
-    }
-    else if (KeyManager::GetSingleton()->IsStayKeyDown(VK_LEFT))
-    {
-      
     }
 
     for (int i = 0; i < v_Heros.size(); i++)
@@ -117,15 +114,15 @@ void CharacterManager::Update()
         }
     }
 
-    //vector<Character*>::iterator it;
-    //for (it = v_Heros.begin(); it < v_Heros.end(); it++)
-    //{
-    //    (*it)->Update();
-    //}
+ 
 }
 
 void CharacterManager::Render(HDC hdc)
 {
+    for (int i = 0; i < v_Heros.size(); i++)
+    {
+        v_Heros[i]->Render(hdc);
+    }
    
     if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RETURN))
     {
@@ -135,13 +132,7 @@ void CharacterManager::Render(HDC hdc)
          }
     }
     else {
-        vector<Character*>::iterator it;
-        for (it = v_Heros.begin(); it < v_Heros.end(); it++)
-        {
-
-            (*it)->Render(hdc);
-            
-        }
+  
     }
   /*  }*/
 }

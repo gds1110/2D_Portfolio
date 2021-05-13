@@ -4,7 +4,6 @@
 HRESULT UnderUi::Init()
 {
 	underUi = ImageManager::GetSingleton()->AddImage("유아이", "resource/dungeon/UI/D_under_ui.BMP", 1280, 240, false);
-	//underIcon = ImageManager::GetSingleton()->FindImage("크루세이더 아이콘");
 	underIcon = nullptr;
 	return S_OK;
 }

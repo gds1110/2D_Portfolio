@@ -22,14 +22,17 @@
     <Filter Include="소스 파일\FrameWork">
       <UniqueIdentifier>{54548eb7-22c6-4bfe-891e-fbb913ce0248}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Character">
-      <UniqueIdentifier>{a52163f6-ec97-4739-a48b-e7073fd24c2d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Monster">
-      <UniqueIdentifier>{792e7cbc-5053-4825-bdfa-e9e70fff386c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\UI">
       <UniqueIdentifier>{ccbc0c7c-7929-4a3c-a73d-8a969015a509}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\UnitObject">
+      <UniqueIdentifier>{33475dc6-3623-43a2-857b-952408189f8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\UnitObject\Monster">
+      <UniqueIdentifier>{792e7cbc-5053-4825-bdfa-e9e70fff386c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\UnitObject\Character">
+      <UniqueIdentifier>{a52163f6-ec97-4739-a48b-e7073fd24c2d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -67,22 +70,22 @@
       <Filter>소스 파일\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
-      <Filter>소스 파일\Character</Filter>
+      <Filter>소스 파일\UnitObject\Character</Filter>
     </ClCompile>
     <ClCompile Include="H_Crusader.cpp">
-      <Filter>소스 파일\Character</Filter>
+      <Filter>소스 파일\UnitObject\Character</Filter>
     </ClCompile>
     <ClCompile Include="H_BountyHunter.cpp">
-      <Filter>소스 파일\Character</Filter>
+      <Filter>소스 파일\UnitObject\Character</Filter>
     </ClCompile>
     <ClCompile Include="H_HighWayMan.cpp">
-      <Filter>소스 파일\Character</Filter>
+      <Filter>소스 파일\UnitObject\Character</Filter>
     </ClCompile>
     <ClCompile Include="H_Leaper.cpp">
-      <Filter>소스 파일\Character</Filter>
+      <Filter>소스 파일\UnitObject\Character</Filter>
     </ClCompile>
     <ClCompile Include="H_Vestel.cpp">
-      <Filter>소스 파일\Character</Filter>
+      <Filter>소스 파일\UnitObject\Character</Filter>
     </ClCompile>
     <ClCompile Include="UnderUi.cpp">
       <Filter>소스 파일\UI</Filter>
@@ -96,8 +99,26 @@
     <ClCompile Include="UI.cpp">
       <Filter>소스 파일\UI</Filter>
     </ClCompile>
+    <ClCompile Include="skeleton_arbalistar.cpp">
+      <Filter>소스 파일\UnitObject\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="skeleton_bearer.cpp">
+      <Filter>소스 파일\UnitObject\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="skeleton_captain.cpp">
+      <Filter>소스 파일\UnitObject\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="skeleton_common.cpp">
+      <Filter>소스 파일\UnitObject\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>소스 파일\UnitObject\Monster</Filter>
+    </ClCompile>
     <ClCompile Include="CharacterManager.cpp">
-      <Filter>소스 파일\Manager</Filter>
+      <Filter>소스 파일\UnitObject</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterManager.cpp">
+      <Filter>소스 파일\UnitObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -138,22 +159,22 @@
       <Filter>소스 파일\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
-      <Filter>소스 파일\Character</Filter>
+      <Filter>소스 파일\UnitObject\Character</Filter>
     </ClInclude>
     <ClInclude Include="H_Crusader.h">
-      <Filter>소스 파일\Character</Filter>
+      <Filter>소스 파일\UnitObject\Character</Filter>
     </ClInclude>
     <ClInclude Include="H_BountyHunter.h">
-      <Filter>소스 파일\Character</Filter>
+      <Filter>소스 파일\UnitObject\Character</Filter>
     </ClInclude>
     <ClInclude Include="H_HighWayMan.h">
-      <Filter>소스 파일\Character</Filter>
+      <Filter>소스 파일\UnitObject\Character</Filter>
     </ClInclude>
     <ClInclude Include="H_Leaper.h">
-      <Filter>소스 파일\Character</Filter>
+      <Filter>소스 파일\UnitObject\Character</Filter>
     </ClInclude>
     <ClInclude Include="H_Vestel.h">
-      <Filter>소스 파일\Character</Filter>
+      <Filter>소스 파일\UnitObject\Character</Filter>
     </ClInclude>
     <ClInclude Include="UnderUi.h">
       <Filter>소스 파일\UI</Filter>
@@ -173,8 +194,26 @@
     <ClInclude Include="UI.h">
       <Filter>소스 파일\UI</Filter>
     </ClInclude>
+    <ClInclude Include="skeleton_arbalistar.h">
+      <Filter>소스 파일\UnitObject\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="skeleton_bearer.h">
+      <Filter>소스 파일\UnitObject\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="skeleton_captain.h">
+      <Filter>소스 파일\UnitObject\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="skeleton_common.h">
+      <Filter>소스 파일\UnitObject\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>소스 파일\UnitObject\Monster</Filter>
+    </ClInclude>
     <ClInclude Include="CharacterManager.h">
-      <Filter>소스 파일\Manager</Filter>
+      <Filter>소스 파일\UnitObject</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterManager.h">
+      <Filter>소스 파일\UnitObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

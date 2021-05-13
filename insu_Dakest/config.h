@@ -37,6 +37,16 @@ typedef struct tagFPoint
 	float y;
 } FPOINT, *PFPOINT;
 
+enum State
+{
+	IDLE,
+	WALK,
+	COMBAT,
+	ATTACK1,
+	NONESTATE
+};
+
+
 //typedef tagFPoint FPOINT2;
 //typedef tagFPoint* PFPOINT2;
 
