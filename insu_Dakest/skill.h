@@ -2,22 +2,22 @@
 #include "GameNode.h"
 
 class Image;
-class skill :public GameNode
+class Skill :public GameNode
 {
 public:
-	enum skillState
+	enum SkillState
 	{
 		ON,
 		OFF,
-		SKILLNONE
+		SkillNONE
 	};
 private:
 	Image* iconImg;
 	RECT iconRC;
 	POINT pos;
-	skillState skillstate;
+	SkillState Skillstate;
 	int slotNum;
-	
+	int index;
 
 public:
 	virtual HRESULT Init();
@@ -25,11 +25,16 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
-	void setPos(int x) { this->pos.x = x; }
-	skill()
+	RECT GetRect() { return this->iconRC; }
+	void SetPos(int x) { this->pos.x = x; }
+	POINT GetPos() { return this->pos; }
+
+	void SetIndex(int index) { this->index = index; }
+	Skill()
 	{
-		pos.y = 570;
+		index = 0;
+		pos.y = 530;
 	}
-	virtual ~skill() {};
+	virtual ~Skill() {};
 };
 

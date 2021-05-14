@@ -12,6 +12,8 @@
 #include "UnderUi.h"
 #include "OverUi.h"
 #include "skeleton_arbalistar.h"
+#include "SkillManager.h"
+
 HRESULT Dungeon_1_1::Init()
 {
 	SetClientRect(g_hWnd, WINSIZE_X, WINSIZE_Y);
@@ -45,6 +47,7 @@ HRESULT Dungeon_1_1::Init()
 	M_MGR->AddMonster(new skeleton_arbalistar);
 
 	
+
 	overUi = new OverUi;
 	overUi->Init();
 
@@ -68,11 +71,22 @@ void Dungeon_1_1::Update()
 	if (C_MGR)
 	{
 		C_MGR->Update();
-		
+		UiDataManager::GetSingleton()->SetSC_MGR(C_MGR);
+
 	}
 	if (M_MGR)
 	{
 		M_MGR->Update();
+	}
+
+
+	if (underUI)
+	{
+		underUI->Update();
+	}
+	if (overUi)
+	{
+		overUi->Update();
 	}
 
 	if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RIGHT)) {
@@ -100,14 +114,6 @@ void Dungeon_1_1::Update()
 		}
 	}
 
-	if (underUI)
-	{
-		underUI->Update();
-	}
-	if (overUi)
-	{
-		overUi->Update();
-	}
 
 }
 
@@ -137,6 +143,8 @@ void Dungeon_1_1::Render(HDC hdc)
 	{
 		M_MGR->Render(hdc);
 	}
+
 	underUI->Render(hdc);
 	overUi->Render(hdc);
+
 }

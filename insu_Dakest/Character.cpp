@@ -1,5 +1,6 @@
 #include "Character.h"
-#include "skill.h"
+#include "Skill.h"
+#include "SkillManager.h"
 HRESULT Character::Init()
 {
 	return S_OK;
@@ -19,6 +20,15 @@ void Character::Render(HDC hdc)
 
 void Character::Render2(HDC hdc)
 {
+}
+
+void Character::SharedUpdate()
+{
+    switchSprite();
+    Move();
+    IdleCombatUpdate();
+    S_MGR->Update();
+    //UiDataManager::GetSingleton()->SetSS_MGR(S_MGR);
 }
 
 void Character::switchSprite()
@@ -110,11 +120,13 @@ Character::Character()
     currFrameX = 0;
     elapsed = 0.0f;
     walkElapsed = 0;
-    SetRect(&body, pos.x - 50, pos.y - 50, pos.x + 50, pos.y + 50);
-    skillslot.resize(4);
-    for (int i = 0; i < 4; i++)
-    {
-        skillslot[i] = new skill();
-        skillslot[i]->setPos(370+i*60);
-    }
+    SetRect(&body, pos.x - 45, pos.y - 40, pos.x + 45, pos.y + 40);
+    S_MGR = new SkillManager();
+    S_MGR->Init();
+    S_MGR->AddSkill(new Skill);
+    S_MGR->AddSkill(new Skill);
+    S_MGR->AddSkill(new Skill);
+    S_MGR->AddSkill(new Skill);
+    S_MGR->AddSkill(new Skill);
+
 }

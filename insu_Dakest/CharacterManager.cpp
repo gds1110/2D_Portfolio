@@ -103,16 +103,6 @@ void CharacterManager::Update()
         v_Heros[i]->Update();
     }
 
-    if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
-    {
-        
-        for (int i = 0; i < v_Heros.size(); i++)
-        {
-            if (PointInRect(g_ptMouse, v_Heros[i]->GetRect())) {
-                UiDataManager::GetSingleton()->SelectChar(v_Heros[i]);
-            }
-        }
-    }
 
  
 }

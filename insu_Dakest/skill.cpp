@@ -1,23 +1,25 @@
-#include "skill.h"
+#include "Skill.h"
 #include "Image.h"
 
-HRESULT skill::Init()
+HRESULT Skill::Init()
 {
 	iconImg = nullptr;
+	SetRect(&iconRC, pos.x - 25, pos.y - 25, pos.x + 25, pos.y + 25);
+
 	return S_OK;
 }
 
-void skill::Release()
+void Skill::Release()
 {
 }
 
-void skill::Update()
+void Skill::Update()
 {
 	SetRect(&iconRC, pos.x - 25, pos.y - 25, pos.x + 25, pos.y + 25);
 }
 
-void skill::Render(HDC hdc)
+void Skill::Render(HDC hdc)
 {
 	Rectangle(hdc, iconRC.left, iconRC.top, iconRC.right, iconRC.bottom);
-	//iconImg->FrameRender(hdc, pos.x, pos.y, slotNum, skillstate, true);
+	//iconImg->FrameRender(hdc, pos.x, pos.y, slotNum, Skillstate, true);
 }

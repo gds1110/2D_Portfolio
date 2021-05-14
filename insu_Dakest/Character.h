@@ -2,7 +2,7 @@
 #include "GameNode.h"
 
 class Image;
-class skill;
+class SkillManager;
 class Character : public GameNode
 {
 public:
@@ -36,8 +36,7 @@ protected:
 	HCLASS hClass;
 	State currstate;
 	RECT body; 
-
-	vector<skill*>skillslot;
+	SkillManager* S_MGR;
 
 	int currFrameX;
 	int maxFrameX;
@@ -70,6 +69,8 @@ public:
 	//Rect
 	virtual RECT GetRect() { return this->body; }
 
+	void SharedUpdate();
+
 	//Index
 	void SetIndex(int i) { this->index = i; }
 	int GetIndex() { return this->index; }
@@ -83,10 +84,9 @@ public:
 	//FrameRender Update : state :: combat or idle..
 	void IdleCombatUpdate();
 
-	//skillslot
-	vector<skill*> GetSkillslot() {
-		return this->skillslot;
-	}
+	//skill
+	SkillManager* getSkillMgr() { return this->S_MGR; }
+
 
 	Character();
 	virtual ~Character() {};

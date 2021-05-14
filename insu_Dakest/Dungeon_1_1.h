@@ -8,6 +8,8 @@ class Image;
 class Character;
 class CharacterManager;
 class MonsterManager;
+class SkillManager;
+
 class Dungeon_1_1 : public GameNode
 {
 private:
