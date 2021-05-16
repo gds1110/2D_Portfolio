@@ -24,9 +24,11 @@ void Character::Render2(HDC hdc)
 
 void Character::SharedUpdate()
 {
+
     switchSprite();
     Move();
-    IdleCombatUpdate();
+    //IdleCombatUpdate();
+    S_MGR->SetHClass(hClass);
     S_MGR->Update();
     //UiDataManager::GetSingleton()->SetSS_MGR(S_MGR);
 }
@@ -83,18 +85,19 @@ void Character::Move()
 
     if (KeyManager::GetSingleton()->IsOnceKeyUp(VK_LEFT) || KeyManager::GetSingleton()->IsOnceKeyUp(VK_RIGHT))
     {
+        currstate = State::IDLE;
         walkElapsed = 0;
         currFrameX = 0;
-        SetCurrState(State::IDLE);
-
+        elapsed = 0;
+        //SetCurrState(State::IDLE);
     }
 }
 
 void Character::IdleCombatUpdate()
 {
-    if (currstate == State::COMBAT || currstate == State::IDLE) {
-
+    if (currstate == State::IDLE || currstate == State::COMBAT) {
         elapsed += TimerManager::GetSingleton()->GetElapsedTime();
+
         if (elapsed > 0.07f)
         {
             currFrameX++;
@@ -110,8 +113,21 @@ void Character::IdleCombatUpdate()
 
 }
 
+void Character::skillSeting()
+{
+    S_MGR = new SkillManager();
+    S_MGR->Init();
+    S_MGR->SetHClass(hClass);
+    S_MGR->AddSkill(new Skill);
+    S_MGR->AddSkill(new Skill);
+    S_MGR->AddSkill(new Skill);
+    S_MGR->AddSkill(new Skill);
+    S_MGR->AddSkill(new Skill);
+}
+
 Character::Character()
 {
+    UiDataManager::GetSingleton()->SetClassArr(this->classArr);
     index = -1;
     img = nullptr;
     pos = { 0,WINSIZE_Y / 3 };
@@ -121,12 +137,6 @@ Character::Character()
     elapsed = 0.0f;
     walkElapsed = 0;
     SetRect(&body, pos.x - 45, pos.y - 40, pos.x + 45, pos.y + 40);
-    S_MGR = new SkillManager();
-    S_MGR->Init();
-    S_MGR->AddSkill(new Skill);
-    S_MGR->AddSkill(new Skill);
-    S_MGR->AddSkill(new Skill);
-    S_MGR->AddSkill(new Skill);
-    S_MGR->AddSkill(new Skill);
+
 
 }

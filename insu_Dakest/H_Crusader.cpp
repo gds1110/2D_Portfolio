@@ -13,10 +13,12 @@ HRESULT H_Crusader::Init()
     ImageManager::GetSingleton()->AddImage("크루세이더 아이들", "resource/hero/crusader/idle/idle.BMP", 5808, 300, 33, 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("크루세이더 아이콘", "resource/hero/crusader/icon.BMP", 65, 65, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("크루세이더 기본공격", "resource/hero/crusader/attack.BMP", 295, 295,1,1, true, RGB(88, 88, 88));
-    ImageManager::GetSingleton()->AddImage("크루세이더 스킬", "resource/hero/crusader/Skill/Skillset.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("크루세이더 스킬", "resource/hero/crusader/skill/skillset.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
 
     currstate = State::COMBAT;
     hClass = HCLASS::CRUSADER;
+    skillSeting();
+
     return S_OK;
 }
 
@@ -49,6 +51,8 @@ void H_Crusader::Update()
         SetCurrState(State::COMBAT);
 
     }
+   IdleCombatUpdate();
+
    SharedUpdate();
    /*  switchSprite();
 

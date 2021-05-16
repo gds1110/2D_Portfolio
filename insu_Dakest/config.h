@@ -37,7 +37,7 @@ typedef struct tagFPoint
 	float y;
 } FPOINT, *PFPOINT;
 
-enum State
+extern enum State
 {
 	IDLE,
 	WALK,
@@ -45,8 +45,24 @@ enum State
 	ATTACK1,
 	NONESTATE
 };
+extern enum HCLASS
+{
+	CRUSADER,
+	BOUNTYHUNTER,
+	HIGHWAYMAN,
+	LEAPER,
+	VESTEL,
+	NONEHCLASS
+};
 
-
+extern enum MonsterKinds
+{
+	SKELETON_ARBALISTAR,
+	SKELETON_BEARER,
+	SKELETON_CAPTAIN,
+	SKELETON_COMMON,
+	NONEKINDS
+};
 //typedef tagFPoint FPOINT2;
 //typedef tagFPoint* PFPOINT2;
 

@@ -53,6 +53,7 @@ HRESULT Dungeon_1_1::Init()
 
 
 	UiDataManager::GetSingleton()->SelectChar(C_MGR->GetVHeros()[0]);
+
 	underUI = new UnderUi;
 	underUI->Init();
 
@@ -77,6 +78,8 @@ void Dungeon_1_1::Update()
 	if (M_MGR)
 	{
 		M_MGR->Update();
+		UiDataManager::GetSingleton()->SetSM_MGR(M_MGR);
+
 	}
 
 

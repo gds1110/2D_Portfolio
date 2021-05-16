@@ -34,6 +34,9 @@
     <Filter Include="소스 파일\UnitObject\Character">
       <UniqueIdentifier>{a52163f6-ec97-4739-a48b-e7073fd24c2d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\abillity">
+      <UniqueIdentifier>{d8d4e00d-08eb-4bd9-905c-08d1768c5586}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -120,11 +123,23 @@
     <ClCompile Include="MonsterManager.cpp">
       <Filter>소스 파일\UnitObject</Filter>
     </ClCompile>
+    <ClCompile Include="arange.cpp">
+      <Filter>소스 파일\abillity</Filter>
+    </ClCompile>
+    <ClCompile Include="change.cpp">
+      <Filter>소스 파일\abillity</Filter>
+    </ClCompile>
+    <ClCompile Include="heal.cpp">
+      <Filter>소스 파일\abillity</Filter>
+    </ClCompile>
+    <ClCompile Include="melee.cpp">
+      <Filter>소스 파일\abillity</Filter>
+    </ClCompile>
     <ClCompile Include="Skill.cpp">
-      <Filter>소스 파일\UnitObject</Filter>
+      <Filter>소스 파일\abillity</Filter>
     </ClCompile>
     <ClCompile Include="SkillManager.cpp">
-      <Filter>소스 파일\UnitObject</Filter>
+      <Filter>소스 파일\abillity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,11 +236,23 @@
     <ClInclude Include="MonsterManager.h">
       <Filter>소스 파일\UnitObject</Filter>
     </ClInclude>
+    <ClInclude Include="arange.h">
+      <Filter>소스 파일\abillity</Filter>
+    </ClInclude>
+    <ClInclude Include="change.h">
+      <Filter>소스 파일\abillity</Filter>
+    </ClInclude>
+    <ClInclude Include="heal.h">
+      <Filter>소스 파일\abillity</Filter>
+    </ClInclude>
+    <ClInclude Include="melee.h">
+      <Filter>소스 파일\abillity</Filter>
+    </ClInclude>
     <ClInclude Include="Skill.h">
-      <Filter>소스 파일\UnitObject</Filter>
+      <Filter>소스 파일\abillity</Filter>
     </ClInclude>
     <ClInclude Include="SkillManager.h">
-      <Filter>소스 파일\UnitObject</Filter>
+      <Filter>소스 파일\abillity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

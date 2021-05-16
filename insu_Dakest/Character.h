@@ -6,15 +6,6 @@ class SkillManager;
 class Character : public GameNode
 {
 public:
-	enum HCLASS
-	{
-		CRUSADER,
-		BOUNTYHUNTER,
-		HIGHWAYMAN,
-		LEAPER,
-		VESTEL,
-		NONEHCLASS
-	};
 
 protected:
 	struct Status
@@ -30,13 +21,15 @@ protected:
 
 protected:
 	int CharArrPos[4] = { 540,390,240,40 };
-	string classArr[5] = { "크루세이더 ","바운티헌터 ","노상강도 ","나병환자 ","성녀 " };
 	Image* img;
 	POINT pos;
 	HCLASS hClass;
 	State currstate;
+	MonsterKinds mkinds;
+
 	RECT body; 
 	SkillManager* S_MGR;
+	string classArr[5] = { "크루세이더 ","바운티헌터 ","노상강도 ","나병환자 ","성녀 " };
 
 	int currFrameX;
 	int maxFrameX;
@@ -86,7 +79,7 @@ public:
 
 	//skill
 	SkillManager* getSkillMgr() { return this->S_MGR; }
-
+	void skillSeting();
 
 	Character();
 	virtual ~Character() {};

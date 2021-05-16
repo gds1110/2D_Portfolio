@@ -12,10 +12,11 @@ HRESULT H_Leaper::Init()
     img = ImageManager::GetSingleton()->AddImage("나병환자 컴뱃", "resource/hero/Leaper/combat/combat.BMP", 3248, 300, maxFrameArr[State::COMBAT], 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("나병환자 워크", "resource/hero/Leaper/walk/walk.BMP", 3232, 300, maxFrameArr[State::WALK], 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("나병환자 아이콘", "resource/hero/Leaper/icon.BMP", 65, 65, true, RGB(88, 88, 88));
-    ImageManager::GetSingleton()->AddImage("나병환자 스킬", "resource/hero/Leaper/Skill/Skillset.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("나병환자 스킬", "resource/hero/Leaper/skill/skillset.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
 
     currstate = State::COMBAT;
     hClass = HCLASS::LEAPER;
+    skillSeting();
 
 	return S_OK;
 }
@@ -27,7 +28,9 @@ void H_Leaper::Release()
 void H_Leaper::Update()
 {
     SetRect(&body, pos.x - 20, pos.y - 50, pos.x + 80, pos.y + 200);
-    SharedUpdate();
+    SharedUpdate();   
+    IdleCombatUpdate();
+
   /*  switchSprite();
 
     IdleCombatUpdate();

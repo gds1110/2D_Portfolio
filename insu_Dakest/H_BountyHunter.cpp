@@ -11,9 +11,11 @@ HRESULT H_BountyHunter::Init()
     ImageManager::GetSingleton()->AddImage("바운티헌터 워크", "resource/hero/bountyhunter/walk/walk.BMP", 2688, 300, maxFrameArr[State::WALK], 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("바운티헌터 아이들", "resource/hero/bountyhunter/idle/idle.BMP", 2880, 300, maxFrameArr[State::IDLE], 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("바운티헌터 아이콘", "resource/hero/bountyhunter/icon.BMP", 65, 65, true, RGB(88, 88, 88));
-    ImageManager::GetSingleton()->AddImage("바운티헌터 스킬", "resource/hero/bountyhunter/Skill/Skillset.BMP", 504, 144,7,2, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("바운티헌터 스킬", "resource/hero/bountyhunter/skill/skillset.BMP", 504, 144,7,2, true, RGB(88, 88, 88));
     currstate = State::COMBAT;
     hClass = HCLASS::BOUNTYHUNTER;
+    skillSeting();
+
 
     return S_OK;
 }
@@ -27,6 +29,7 @@ void H_BountyHunter::Update()
     SetRect(&body, pos.x - 20, pos.y - 50, pos.x + 80, pos.y + 200);
 
     SharedUpdate();
+    IdleCombatUpdate();
     /*  switchSprite();
 
       IdleCombatUpdate();

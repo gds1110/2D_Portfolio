@@ -1,18 +1,18 @@
 #pragma once
-#include "GameNode.h"
+#include "Character.h"
 class Image;
 
-class Monster : public GameNode
+class Monster : public Character
 {
 public:
-	enum MonsterKinds
+	/*enum MonsterKinds
 	{
 		SKELETON_ARBALISTAR,
 		SKELETON_BEARER,
 		SKELETON_CAPTAIN,
 		SKELETON_COMMON,
 		NONEKINDS
-	};
+	};*/
 protected:
 	struct Status
 	{
@@ -44,6 +44,7 @@ public:
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
+	virtual RECT GetRect() { return this->body; }
 
 
 	void SetIndex(int i) { this->index = i; }

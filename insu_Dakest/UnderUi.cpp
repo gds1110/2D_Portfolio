@@ -5,7 +5,7 @@
 #include "Skill.h"
 #include "SkillManager.h"
 #include "CommonFunction.h"
-
+#include "MonsterManager.h"
 HRESULT UnderUi::Init()
 {
 	underUi = ImageManager::GetSingleton()->AddImage("À¯¾ÆÀÌ", "resource/dungeon/UI/D_under_ui2.BMP", 1280, 240, false);
@@ -53,7 +53,7 @@ void UnderUi::Update()
 				UiDataManager::GetSingleton()->SelectChar(c_mgr->GetVHeros()[i]);
 				if (selChr != c_mgr->GetVHeros()[i])
 				{
-
+					UiDataManager::GetSingleton()->SetselCheck(false);
 					selSkill = nullptr;
 				}
 			}
@@ -65,11 +65,12 @@ void UnderUi::Update()
 
 				UiDataManager::GetSingleton()->selectSkill(selSkillmgr->GetSkillSlot()[i]);
 				selSkill = UiDataManager::GetSingleton()->GetSelectedSkill();
-
+				UiDataManager::GetSingleton()->SetselCheck(true);
 			}
 		}
 
 	}
+
 
 	//if (selSkill)
 	//{

@@ -6,8 +6,12 @@ class OverUi:public UI
 {
 private:
 	Image* selecetedIcon;
+	Image* targetIcon;
 	int sIconCurrFrame;
 	float eltimes;
+
+	//tets
+	int ePos;
 public:
 	virtual HRESULT Init();
 	virtual void Release();

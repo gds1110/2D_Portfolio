@@ -10,6 +10,7 @@ HRESULT UiDataManager::Init()
 	selctedSkill = nullptr;
 	SS_MGR = nullptr;
 	SC_MGR = nullptr;
+	selCheck = false;
 	return S_OK;
 }
 
