@@ -165,8 +165,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="melee.cpp" />
-    <ClCompile Include="Monster.cpp" />
-    <ClCompile Include="MonsterManager.cpp" />
     <ClCompile Include="OverUi.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="skeleton_arbalistar.cpp" />
@@ -202,8 +200,6 @@
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="melee.h" />
-    <ClInclude Include="Monster.h" />
-    <ClInclude Include="MonsterManager.h" />
     <ClInclude Include="OverUi.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneManager.h" />

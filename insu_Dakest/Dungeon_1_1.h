@@ -7,7 +7,6 @@ class UnderUi;
 class Image;
 class Character;
 class CharacterManager;
-class MonsterManager;
 class SkillManager;
 
 class Dungeon_1_1 : public GameNode
@@ -26,7 +25,7 @@ private:
 	float test = 0.0f;
 	int CamPos;
 	CharacterManager* C_MGR;
-	MonsterManager* M_MGR;
+	CharacterManager* M_MGR;
 
 public:
 	virtual HRESULT Init();

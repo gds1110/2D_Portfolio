@@ -1,7 +1,7 @@
 #include "H_Leaper.h"
 #include "Image.h"
 #include "SkillManager.h"
-
+#include "skill.h"
 HRESULT H_Leaper::Init()
 {
     maxFrameArr[State::IDLE] = 18;
@@ -14,9 +14,16 @@ HRESULT H_Leaper::Init()
     ImageManager::GetSingleton()->AddImage("나병환자 아이콘", "resource/hero/Leaper/icon.BMP", 65, 65, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("나병환자 스킬", "resource/hero/Leaper/skill/skillset.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
 
-    currstate = State::COMBAT;
+    currstate = State::IDLE;
     hClass = HCLASS::LEAPER;
     skillSeting();
+
+    S_MGR->AddSkill(new CombatAttack);
+    S_MGR->AddSkill(new ArangeAttack);
+    S_MGR->AddSkill(new ChargeAttack);
+    S_MGR->AddSkill(new Skill);
+    S_MGR->AddSkill(new Skill);
+    //skillSeting();
 
 	return S_OK;
 }

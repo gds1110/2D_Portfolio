@@ -7,8 +7,9 @@ class Character;
 class CharacterManager : public GameNode
 {
 private:
-	vector<Character*> v_Heros;
+	vector<Character*> v_Characters;
 	vector<Character*>::iterator itHero;
+
 	int index;
 	int CharArrPos[4] = { 640,440,240,40 };
 public:
@@ -18,11 +19,13 @@ public:
 	virtual void Render(HDC hdc);
 	virtual HRESULT Init(int num);
 
-	vector<Character*> GetVHeros() { return this->v_Heros; }
 
-	void AddHero(Character* chr);
-	int GetHeroPos();
+	vector<Character*> GetCharacters() { return this->v_Characters; }
 
+	void AddCharacter(Character* chr, UnitType type);
+
+	int GetCharPos();
+	
 	virtual ~CharacterManager() {};
 
 };

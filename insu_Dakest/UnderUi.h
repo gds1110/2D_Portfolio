@@ -5,6 +5,7 @@ class Image;
 class Skill;
 class SkillManager;
 class Character;
+class CharacterManager;
 class UnderUi :public UI
 {
 private:
@@ -16,7 +17,7 @@ private:
 	Skill* selSkill;
 	SkillManager* selSkillmgr;
 	CharacterManager* c_mgr;
-
+	CharacterManager* m_mgr;
 	string iconKey;
 
 public:

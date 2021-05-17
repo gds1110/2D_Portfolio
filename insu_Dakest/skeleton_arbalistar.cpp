@@ -24,5 +24,5 @@ void skeleton_arbalistar::Update()
 void skeleton_arbalistar::Render(HDC hdc)
 {
 	img->FrameRender(hdc, pos.x, pos.y + 110, currFrameX, 0, true, 1);
-	Rectangle(hdc, body.left, body.top, body.right, body.bottom);
+	//Rectangle(hdc, body.left, body.top, body.right, body.bottom);
 }

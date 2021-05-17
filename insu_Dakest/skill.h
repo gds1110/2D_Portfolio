@@ -11,16 +11,31 @@ public:
 		OFF,
 		SkillNONE
 	};
-private:
+
+
+protected:
+	struct skillInfo
+	{
+
+		POINT skillRank;
+		POINT targetRank;
+		int range;
+	};
+
 	Image* iconImg;
 	RECT iconRC;
 	POINT pos;
 	SkillState skillstate;
 
+
+
 	HCLASS hClass;
 	int skillNum;
 	int slotNum;
 	int index;
+	skillInfo s_info;
+
+
 
 public:
 	virtual HRESULT Init();
@@ -32,17 +47,22 @@ public:
 	
 
 	void SetskillNum(int num) { skillNum = num; }
-
-	int getskillNum() { return skillNum; }
+	int GetskillNum() { return skillNum; }
 
 	SkillState GetSkillState() { return this->skillstate; }
 	void SetSkillState(SkillState state) { this->skillstate = state; }
 
 	RECT GetRect() { return this->iconRC; }
+	
 	void SetPos(int x) { this->pos.x = x; }
 	POINT GetPos() { return this->pos; }
 
+	skillInfo GetSkillInfo() { return this->s_info; }
+
 	void SetIndex(int index) { this->index = index; }
+	
+	void Run() {};
+
 	Skill()
 	{
 		skillstate = SkillState::ON;
@@ -54,3 +74,61 @@ public:
 	virtual ~Skill() {};
 };
 
+class CombatAttack : public  Skill {
+private:
+
+public:
+	CombatAttack() {
+		s_info.skillRank = { 0,1 };
+		s_info.targetRank = { 0,1 };
+		s_info.range = 0;
+	}
+
+	void run(int x) {
+		//for (int i = 0; i < UiDataManager::GetSingleton()->GetTarGet().size(); i++) {
+		//	//UiDataManager::GetSingleton()->GetTarGet()[i].setHp(gethp - 1);
+		//}
+		//
+	}
+
+};
+
+class ArangeAttack : public  Skill {
+private:
+
+public:
+	ArangeAttack() {
+		s_info.skillRank = { 0,1 };
+		s_info.targetRank = { 1,3 };
+		s_info.range = 2;
+	}
+
+	void run(int x) {
+		//if(hClass==)
+		//for (int i = 0; i < UiDataManager::GetSingleton()->GetTarGet().size(); i++) {
+		//	//UiDataManager::GetSingleton()->GetTarGet()[i].setHp(gethp - 1);
+		//}
+		//
+	}
+
+};
+
+class ChargeAttack : public  Skill {
+private:
+
+public:
+	ChargeAttack() {
+		s_info.skillRank = { 2,3 };
+		s_info.targetRank = { 2,3 };
+		s_info.range = 2;
+	}
+
+	void run(int x) {
+		//if(hClass==)
+		//for (int i = 0; i < UiDataManager::GetSingleton()->GetTarGet().size(); i++) {
+		//	//UiDataManager::GetSingleton()->GetTarGet()[i].setHp(gethp - 1);
+		//}
+		//
+	}
+
+};

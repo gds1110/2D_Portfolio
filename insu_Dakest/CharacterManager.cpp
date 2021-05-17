@@ -2,11 +2,6 @@
 #include "Image.h"
 #include "Character.h"
 #include "CommonFunction.h"
-#include "H_BountyHunter.h"
-#include "H_Crusader.h"
-#include "H_HighWayMan.h"
-#include "H_Leaper.h"
-#include "H_Vestel.h"
 #include <algorithm>
 
 HRESULT CharacterManager::Init()
@@ -24,63 +19,69 @@ HRESULT CharacterManager::Init()
 
 HRESULT CharacterManager::Init(int num)
 {
-    v_Heros.resize(num);
-    for (int i = 0; i < v_Heros.size(); i++)
-    {
-        v_Heros[i] = new Character();
-        v_Heros[i]->Init();
-        v_Heros[i]->SetPos(WINSIZE_X/2-(i*200));
-        v_Heros[i]->SetIndex(i);
-    }
+   
 
     return S_OK;
 }
 
-void CharacterManager::AddHero(Character* chr)
+
+void CharacterManager::AddCharacter(Character* chr, UnitType type)
 {
 
-    vector<Character*>::iterator it;
-    if (v_Heros.size() > 3)
+    if (v_Characters.size() > 3)
     {
         return;
     }
     else
     {
-
-        v_Heros.push_back(chr);
-      /*  (*it) = v_Heros.back();
-        (*it)->Init();
-        (*it)->SetPos(WINSIZE_X / 2 - (index * 200));*/
-        v_Heros[index]->Init();
-        //v_Heros[index]->SetPos(WINSIZE_X / 2-(index * 100));
-        //v_Heros[index]->SetPos(WINSIZE_X / 2-(posarray[index]));
-        v_Heros[index]->SetPos((WINSIZE_X / 2-100)-(index*150));
-        v_Heros[index]->SetIndex(index);
-        index++;
+        if (type == UnitType::HERO) {
+            v_Characters.push_back(chr);
+            v_Characters[index]->SetType(type);
+            v_Characters[index]->Init();
+            v_Characters[index]->SetPos((WINSIZE_X / 2 - 100) - (index * 150));
+            v_Characters[index]->SetIndex(index);
+            index++;
+        }
+        else if(type == UnitType::MONSTER)
+        {
+            v_Characters.push_back(chr);
+            v_Characters[index]->SetType(type);
+            v_Characters[index]->Init();
+         
+            v_Characters[index]->SetPos((WINSIZE_X / 2 + 100) + (index * 150));
+            v_Characters[index]->SetIndex(index);
+            index++;
+        }
 
     }
-
 }
 
-int CharacterManager::GetHeroPos()
+int CharacterManager::GetCharPos()
 {
-    if (!v_Heros.empty())
+    if (!v_Characters.empty())
     {
-        return v_Heros[0]->GetPosx();
+        return v_Characters[0]->GetPosx();
     }
 }
+
 
 void CharacterManager::Release()
 {
-    for (int i = 0; i < v_Heros.size(); i++)
+    for (int i = 0; i < v_Characters.size(); i++)
     {
-        SAFE_RELEASE(v_Heros[i]);
+        SAFE_RELEASE(v_Characters[i]);
     }
-    v_Heros.clear();
+    v_Characters.clear();
 }
 
 void CharacterManager::Update()
 {
+    for (int i = 0; i < v_Characters.size(); i++)
+    {
+        v_Characters[i]->Update();
+    }
+
+
     if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_UP)) {
       /*  if (UiDataManager::GetSingleton()->GetSelectedChar())
         {
@@ -93,36 +94,32 @@ void CharacterManager::Update()
                }
             }
         }*/
-        swap(v_Heros[0], v_Heros[1]);
-        v_Heros[0]->SetPos((WINSIZE_X / 2 - 100) - (0 * 150));
-        v_Heros[1]->SetPos((WINSIZE_X / 2 - 100) - (1 * 150));
+        swap(v_Characters[0], v_Characters[1]);
+        v_Characters[0]->SetPos((WINSIZE_X / 2 - 100) - (0 * 150));
+        v_Characters[1]->SetPos((WINSIZE_X / 2 - 100) - (1 * 150));
     }
 
-    for (int i = 0; i < v_Heros.size(); i++)
-    {
-        v_Heros[i]->Update();
-    }
-
+    
 
  
 }
 
 void CharacterManager::Render(HDC hdc)
 {
-    for (int i = 0; i < v_Heros.size(); i++)
+    for (int i = 0; i < v_Characters.size(); i++)
     {
-        v_Heros[i]->Render(hdc);
+        v_Characters[i]->Render(hdc);
     }
    
-    if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RETURN))
+ /*   if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RETURN))
     {
-        for (int i = 0; i < v_Heros.size(); i++)
+        for (int i = 0; i < v_Characters.size(); i++)
           {
-                 v_Heros[i]->Render2(hdc);
+            v_Characters[i]->Render2(hdc);
          }
     }
     else {
   
-    }
+    }*/
   /*  }*/
 }

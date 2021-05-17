@@ -8,7 +8,6 @@ class Character;
 class Skill;
 class SkillManager;
 class CharacterManager;
-class MonsterManager;
 class UiDataManager : public Singleton<UiDataManager>
 {
 private:
@@ -19,7 +18,7 @@ private:
 	string* arrClass;
 	SkillManager* SS_MGR;
 	CharacterManager* SC_MGR;
-	MonsterManager* SM_MGR;
+	CharacterManager* SM_MGR;
 public:
 	HRESULT Init();
 	void Release();
@@ -30,7 +29,7 @@ public:
 
 	void SetSS_MGR(SkillManager* s_mgr) { this->SS_MGR = s_mgr; }
 	void SetSC_MGR(CharacterManager* c_mgr) { this->SC_MGR = c_mgr; }
-	void SetSM_MGR(MonsterManager* m_mgr) { this->SM_MGR = m_mgr; }
+	void SetSM_MGR(CharacterManager* m_mgr) { this->SM_MGR = m_mgr; }
 
 	void SetselCheck(bool check) { this->selCheck = check; }
 	bool GetselCheck() { return this->selCheck; }
@@ -41,9 +40,11 @@ public:
 
 	SkillManager* GetSS_MGR() { if (SS_MGR) { return this->SS_MGR; } };
 	CharacterManager* GetSC_MGR() { if (SC_MGR) { return this->SC_MGR; } };
-	MonsterManager* GetSM_MGR() { if (SM_MGR) { return this->SM_MGR; } };
+	CharacterManager* GetSM_MGR() { if (SM_MGR) { return this->SM_MGR; } };
 
 	void SetClassArr(string* arr) { this->arrClass = arr; }
 	string* GetClassArr() { if(arrClass)return this->arrClass; }
+
+	void AddTarget(Character* target);
 };
 

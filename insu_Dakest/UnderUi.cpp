@@ -5,7 +5,6 @@
 #include "Skill.h"
 #include "SkillManager.h"
 #include "CommonFunction.h"
-#include "MonsterManager.h"
 HRESULT UnderUi::Init()
 {
 	underUi = ImageManager::GetSingleton()->AddImage("유아이", "resource/dungeon/UI/D_under_ui2.BMP", 1280, 240, false);
@@ -14,6 +13,7 @@ HRESULT UnderUi::Init()
 	selSkill = nullptr;
 	selSkillmgr = nullptr;
 	c_mgr = nullptr;
+	m_mgr = nullptr;
 	return S_OK;
 }
 
@@ -34,6 +34,12 @@ void UnderUi::Update()
 		iconKey = selChr->GetClassArr()[selChr->GetClass()] + "아이콘";
 		underIcon = ImageManager::GetSingleton()->FindImage(iconKey);
 		selSkillmgr = selChr->getSkillMgr();
+		for (int i = 0; i < selSkillmgr->GetSkillSlot().size(); i++) {
+			if (selChr->GetIndex() < selSkillmgr->GetSkillSlot()[i]->GetSkillInfo().skillRank.x || selChr->GetIndex() > selSkillmgr->GetSkillSlot()[i]->GetSkillInfo().skillRank.y)
+			{
+				selSkillmgr->GetSkillSlot()[i]->SetSkillState(Skill::SkillState::OFF);
+			}
+		}
 		//selChr->getSkillMgr()->Update();
 
 		/*iconKey = UiDataManager::GetSingleton()->GetSelectedChar()->GetClassArr()[UiDataManager::GetSingleton()->GetSelectedChar()->GetClass()] + "아이콘";
@@ -47,11 +53,11 @@ void UnderUi::Update()
 	{
 
 		
-		for (int i = 0; i < c_mgr->GetVHeros().size(); i++)
+		for (int i = 0; i < c_mgr->GetCharacters().size(); i++)
 		{
-			if (PointInRect(g_ptMouse, c_mgr->GetVHeros()[i]->GetRect())) {
-				UiDataManager::GetSingleton()->SelectChar(c_mgr->GetVHeros()[i]);
-				if (selChr != c_mgr->GetVHeros()[i])
+			if (PointInRect(g_ptMouse, c_mgr->GetCharacters()[i]->GetRect())) {
+				UiDataManager::GetSingleton()->SelectChar(c_mgr->GetCharacters()[i]);
+				if (selChr != c_mgr->GetCharacters()[i])
 				{
 					UiDataManager::GetSingleton()->SetselCheck(false);
 					selSkill = nullptr;
@@ -62,10 +68,11 @@ void UnderUi::Update()
 		for (int i = 0; i < selSkillmgr->GetSkillSlot().size(); i++)
 		{
 			if (PointInRect(g_ptMouse, selSkillmgr->GetSkillSlot()[i]->GetRect())) {
-
-				UiDataManager::GetSingleton()->selectSkill(selSkillmgr->GetSkillSlot()[i]);
-				selSkill = UiDataManager::GetSingleton()->GetSelectedSkill();
-				UiDataManager::GetSingleton()->SetselCheck(true);
+				if (selSkillmgr->GetSkillSlot()[i]->GetSkillState() == Skill::SkillState::ON()) {
+					UiDataManager::GetSingleton()->selectSkill(selSkillmgr->GetSkillSlot()[i]);
+					selSkill = UiDataManager::GetSingleton()->GetSelectedSkill();
+					UiDataManager::GetSingleton()->SetselCheck(true);
+				}
 			}
 		}
 

@@ -23,11 +23,12 @@ protected:
 	int CharArrPos[4] = { 540,390,240,40 };
 	Image* img;
 	POINT pos;
-	HCLASS hClass;
 	State currstate;
-	MonsterKinds mkinds;
-
 	RECT body; 
+	UnitType uType;
+	
+	HCLASS hClass;
+	MonsterKinds mkinds;
 	SkillManager* S_MGR;
 	string classArr[5] = { "크루세이더 ","바운티헌터 ","노상강도 ","나병환자 ","성녀 " };
 
@@ -48,6 +49,10 @@ public:
 	virtual void Render(HDC hdc);
 	virtual void Render2(HDC hdc);
 	
+	//type
+	void SetType(UnitType uType) { this->uType = uType; }
+	
+
 	//Set pos
 	virtual void SetPos(int x) { this->pos.x = x; };
 	virtual int GetPosx() { return this->pos.x; }

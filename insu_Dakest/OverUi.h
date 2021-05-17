@@ -10,6 +10,8 @@ private:
 	int sIconCurrFrame;
 	float eltimes;
 
+
+
 	//tets
 	int ePos;
 public:

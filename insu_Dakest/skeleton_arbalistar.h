@@ -1,7 +1,7 @@
 #pragma once
-#include "Monster.h"
+#include "Character.h"
 class Image;
-class skeleton_arbalistar : public Monster
+class skeleton_arbalistar : public Character
 {
 
 private:

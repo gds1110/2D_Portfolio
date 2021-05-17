@@ -118,11 +118,12 @@ void Character::skillSeting()
     S_MGR = new SkillManager();
     S_MGR->Init();
     S_MGR->SetHClass(hClass);
-    S_MGR->AddSkill(new Skill);
-    S_MGR->AddSkill(new Skill);
-    S_MGR->AddSkill(new Skill);
-    S_MGR->AddSkill(new Skill);
-    S_MGR->AddSkill(new Skill);
+    //S_MGR->AddSkill(new CombatAttack);
+    //S_MGR->AddSkill(new Skill);
+    //S_MGR->AddSkill(new Skill);
+    //S_MGR->AddSkill(new Skill);
+    //S_MGR->AddSkill(new Skill);
+
 }
 
 Character::Character()
@@ -131,12 +132,23 @@ Character::Character()
     index = -1;
     img = nullptr;
     pos = { 0,WINSIZE_Y / 3 };
+    uType = NONETYPE;
     hClass = NONEHCLASS;
     currstate = NONESTATE;
+    mkinds = NONEKINDS;
     currFrameX = 0;
     elapsed = 0.0f;
     walkElapsed = 0;
     SetRect(&body, pos.x - 45, pos.y - 40, pos.x + 45, pos.y + 40);
 
+    //Monster() {
+    //    pos.x = 0;
+    //    pos.y = WINSIZE_Y / 3;
+    //    img = nullptr;
+    //    currstate = NONESTATE;
+    //    mkinds = NONEKINDS;
+    //    index = 0;
+    //    SetRect(&body, pos.x - 50, pos.y - 50, pos.x + 50, pos.y + 50);
 
+    //};
 }

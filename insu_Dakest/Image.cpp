@@ -14,6 +14,12 @@ HRESULT Image::Init(int width, int height)
     imageInfo->height = height;
     imageInfo->loadType = IMAGE_LOAD_KIND::EMPTY;
 
+
+    imageInfo->hAlphaDC = CreateCompatibleDC(hdc);
+    imageInfo->hAlphamap = CreateCompatibleBitmap(hdc, imageInfo->width, imageInfo->height);
+    imageInfo->hOldAlpha = (HBITMAP)(SelectObject(imageInfo->hAlphaDC, imageInfo->hAlphamap));
+
+
     ReleaseDC(g_hWnd, hdc);
 
     if (imageInfo->hBitmap == NULL)
@@ -24,6 +30,11 @@ HRESULT Image::Init(int width, int height)
 
     this->isTransparent = FALSE;
     this->transColor = FALSE;
+
+    this->blendFunc.AlphaFormat = 0;
+    this->blendFunc.BlendFlags = 0;
+    this->blendFunc.BlendOp = AC_SRC_OVER;
+    this->blendFunc.SourceConstantAlpha = 255;
 
     return S_OK;
 }
@@ -50,6 +61,12 @@ HRESULT Image::Init(const char* fileName, int width, int height,
         imageInfo->width, imageInfo->height);
     imageInfo->hOldBlendBit = (HBITMAP)SelectObject(imageInfo->hBlendDC, 
         imageInfo->hBlendBit);
+
+    imageInfo->hAlphaDC = CreateCompatibleDC(hdc);
+    imageInfo->hAlphamap = CreateCompatibleBitmap(hdc, imageInfo->width, imageInfo->height);
+    imageInfo->hOldAlpha = (HBITMAP)(SelectObject(imageInfo->hAlphaDC, imageInfo->hAlphamap));
+
+
 
     ReleaseDC(g_hWnd, hdc);
 
@@ -92,6 +109,12 @@ HRESULT Image::Init(const char* fileName, int width, int height, int maxFrameX, 
     imageInfo->currFrameX = 0;
     imageInfo->currFrameY = 0;
 
+
+    imageInfo->hAlphaDC = CreateCompatibleDC(hdc);
+    imageInfo->hAlphamap = CreateCompatibleBitmap(hdc, imageInfo->width, imageInfo->height);
+    imageInfo->hOldAlpha = (HBITMAP)(SelectObject(imageInfo->hAlphaDC, imageInfo->hAlphamap));
+
+
     ReleaseDC(g_hWnd, hdc);
 
     if (imageInfo->hBitmap == NULL)
@@ -102,6 +125,13 @@ HRESULT Image::Init(const char* fileName, int width, int height, int maxFrameX, 
 
     this->isTransparent = isTransparent;
     this->transColor = transColor;
+
+
+    this->blendFunc.AlphaFormat = 0;
+    this->blendFunc.BlendFlags = 0;
+    this->blendFunc.BlendOp = AC_SRC_OVER;
+    this->blendFunc.SourceConstantAlpha = 255;
+
 
     return S_OK;
 }
@@ -286,6 +316,49 @@ void Image::AlphaRender(HDC hdc, int destX, int destY, bool isCenterRenderring)
     // 3.
     AlphaBlend(hdc, x, y, imageInfo->width, imageInfo->height,
         imageInfo->hBlendDC, 0, 0, imageInfo->width, imageInfo->height, blendFunc);
+
+
+
+}
+
+void Image::AlphaFrameRender(HDC hdc, int destX, int destY, int currFrameX, int currFrameY, bool isCenterRenderring, float size)
+{
+    int x = destX;
+    int y = destY;
+    if (isCenterRenderring)
+    {
+        x = destX - (imageInfo->width / 2);
+        y = destY - (imageInfo->height / 2);
+    }
+
+        // 1. 목적지 DC에 있는 내용을 blendDC에 복사
+  
+    if (size > 1)
+    {
+        StretchBlt(imageInfo->hAlphaDC,
+            0, 0,
+            imageInfo->frameWidth * size,
+            imageInfo->frameHeight * size,
+            imageInfo->hMemDC,
+            imageInfo->frameWidth * imageInfo->currFrameX,
+            imageInfo->frameHeight * imageInfo->currFrameY,
+            imageInfo->frameWidth,
+            imageInfo->frameHeight,
+            SRCCOPY);
+    }
+    else
+    {
+        BitBlt(imageInfo->hAlphaDC, 0, 0, imageInfo->frameWidth, imageInfo->frameHeight, hdc, x, y, SRCCOPY);
+
+    }
+
+
+
+    //2. 출력할 이미지 DC에 있는 내용을 BlendDC에 지정한 색상을 제외하면서 복사
+    GdiTransparentBlt(imageInfo->hAlphaDC, 0, 0, imageInfo->frameWidth, imageInfo->frameHeight, imageInfo->hMemDC, imageInfo->frameWidth * imageInfo->currFrameX, imageInfo->frameHeight * imageInfo->currFrameY, imageInfo->frameWidth, imageInfo->frameHeight, transColor);
+    // 3. 출력
+    AlphaBlend(hdc, x, y, imageInfo->frameWidth, imageInfo->frameHeight, imageInfo->hAlphaDC, 0, 0, imageInfo->frameWidth, imageInfo->frameHeight, blendFunc);
+
 }
 
 void Image::Release()

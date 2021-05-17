@@ -14,7 +14,7 @@ HRESULT H_Vestel::Init()
     ImageManager::GetSingleton()->AddImage("¼º³à ½ºÅ³", "resource/hero/Vestel/skill/skillset.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
 
 
-    currstate = State::COMBAT;
+    currstate = State::IDLE;
     hClass = HCLASS::VESTEL;
     skillSeting();
 

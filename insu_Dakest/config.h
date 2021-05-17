@@ -45,6 +45,14 @@ extern enum State
 	ATTACK1,
 	NONESTATE
 };
+
+extern enum UnitType
+{
+	HERO,
+	MONSTER,
+	NONETYPE
+};
+
 extern enum HCLASS
 {
 	CRUSADER,

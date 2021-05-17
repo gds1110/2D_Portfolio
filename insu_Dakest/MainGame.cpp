@@ -1,7 +1,7 @@
 #include "MainGame.h"
 #include "Image.h"
 #include "Dungeon_1_1.h"
-
+#include <ctime>
 HRESULT MainGame::Init()
 {
 	hdc = GetDC(g_hWnd);
@@ -11,6 +11,7 @@ HRESULT MainGame::Init()
 	ImageManager::GetSingleton()->Init();
 	SceneManager::GetSingleton()->Init();
 	UiDataManager::GetSingleton()->Init();
+	TimerManager::GetSingleton()->Init();
 	// 이미지를 미리 로드한다
 
 
@@ -30,7 +31,8 @@ HRESULT MainGame::Init()
 	SceneManager::GetSingleton()->ChangeScene("스테이지1");
 
 	isInited = true;
-
+	//srand(time(NULL));
+	srand(TimerManager::GetSingleton()->GetElapsedTime());
 	return S_OK;
 }
 

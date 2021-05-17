@@ -37,3 +37,9 @@ void UiDataManager::Update()
 	}*/
 }
 
+void UiDataManager::AddTarget(Character* target)
+{
+	targetChr.push_back(target);
+
+}
+

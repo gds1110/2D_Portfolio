@@ -3,7 +3,6 @@
 #include "CommonFunction.h"
 #include "Character.h"
 #include "CharacterManager.h"
-#include "MonsterManager.h"
 #include "H_Crusader.h"
 #include "H_BountyHunter.h"
 #include "H_Leaper.h"
@@ -34,25 +33,27 @@ HRESULT Dungeon_1_1::Init()
 
 	C_MGR = new CharacterManager;
 	C_MGR->Init();
-	C_MGR->AddHero(new H_Leaper);
-	C_MGR->AddHero(new H_BountyHunter);
-	C_MGR->AddHero(new H_HighWayMan);
-	C_MGR->AddHero(new H_Vestel);
+	C_MGR->AddCharacter(new H_Leaper,UnitType::HERO);
+	C_MGR->AddCharacter(new H_BountyHunter, UnitType::HERO);
+	C_MGR->AddCharacter(new H_HighWayMan, UnitType::HERO);
+	C_MGR->AddCharacter(new H_Vestel, UnitType::HERO);
 
-	M_MGR = new MonsterManager;
+	M_MGR = new CharacterManager;
 	M_MGR->Init();
-	M_MGR->AddMonster(new skeleton_arbalistar);
-	M_MGR->AddMonster(new skeleton_arbalistar);
-	M_MGR->AddMonster(new skeleton_arbalistar);
-	M_MGR->AddMonster(new skeleton_arbalistar);
+	M_MGR->AddCharacter(new skeleton_arbalistar, UnitType::MONSTER);
+	M_MGR->AddCharacter(new skeleton_arbalistar, UnitType::MONSTER);
+	M_MGR->AddCharacter(new skeleton_arbalistar, UnitType::MONSTER);
+	M_MGR->AddCharacter(new skeleton_arbalistar, UnitType::MONSTER);
 
 	
 
 	overUi = new OverUi;
 	overUi->Init();
 
+	UiDataManager::GetSingleton()->SetSC_MGR(C_MGR);
+	UiDataManager::GetSingleton()->SetSM_MGR(M_MGR);
 
-	UiDataManager::GetSingleton()->SelectChar(C_MGR->GetVHeros()[0]);
+	UiDataManager::GetSingleton()->SelectChar(C_MGR->GetCharacters()[0]);
 
 	underUI = new UnderUi;
 	underUI->Init();
@@ -72,15 +73,14 @@ void Dungeon_1_1::Update()
 	if (C_MGR)
 	{
 		C_MGR->Update();
-		UiDataManager::GetSingleton()->SetSC_MGR(C_MGR);
 
 	}
 	if (M_MGR)
 	{
 		M_MGR->Update();
-		UiDataManager::GetSingleton()->SetSM_MGR(M_MGR);
 
 	}
+
 
 
 	if (underUI)

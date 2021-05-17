@@ -27,6 +27,10 @@ public:
 		HBITMAP hBlendBit;
 		HBITMAP hOldBlendBit;
 
+		HDC hAlphaDC;		// 알파 블랜더 DC
+		HBITMAP hAlphamap;	// 이미지 정보
+		HBITMAP hOldAlpha;	// 기존 이미지 정보
+
 		// 애니메이션 관련 (프레임데이터)
 		int maxFrameX;
 		int maxFrameY;
@@ -87,7 +91,7 @@ public:
 		int currFrameX, int currFrameY, bool isCenterRenderring = false, float size = 1);
 	void AlphaRender(HDC hdc, int destX, int destY,
 		bool isCenterRenderring = false);
-
+	void AlphaFrameRender(HDC hdc, int destX, int destY, int currFrameX, int currFrameY, bool isCenterRenderring = true, float size=1);
 
 	void Release();
 

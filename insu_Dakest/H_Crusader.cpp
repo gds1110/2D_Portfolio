@@ -15,7 +15,7 @@ HRESULT H_Crusader::Init()
     ImageManager::GetSingleton()->AddImage("크루세이더 기본공격", "resource/hero/crusader/attack.BMP", 295, 295,1,1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("크루세이더 스킬", "resource/hero/crusader/skill/skillset.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
 
-    currstate = State::COMBAT;
+    currstate = State::IDLE;
     hClass = HCLASS::CRUSADER;
     skillSeting();
 
@@ -70,13 +70,13 @@ void H_Crusader::Update()
 void H_Crusader::Render(HDC hdc)
 {
   
-        img->FrameRender(hdc, pos.x, pos.y+80, currFrameX, 0, true, 1);
+        //img->FrameRender(hdc, pos.x, pos.y+80, currFrameX, 0, true, 1);
         //Rectangle(hdc, body.left, body.top, body.right, body.bottom);
 
        // RenderRectToCenter(hdc, pos.x, pos.y + 50, 80, 300);
 }
 void H_Crusader::Render2(HDC hdc)
 {
-    img->FrameRender(hdc, pos.x-300+speed, pos.y + 50, currFrameX, 0, true, 1.5);
+    //img->FrameRender(hdc, pos.x-300+speed, pos.y + 50, currFrameX, 0, true, 1.5);
     //img->Render(hdc, pos.x, pos.y);
 }
