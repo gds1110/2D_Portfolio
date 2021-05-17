@@ -27,6 +27,7 @@ void H_Vestel::Release()
 
 void H_Vestel::Update()
 {
+   
     SetRect(&body, pos.x - 20, pos.y - 50, pos.x + 80, pos.y + 200);
     SharedUpdate();   
     IdleCombatUpdate();
@@ -41,6 +42,6 @@ void H_Vestel::Update()
 void H_Vestel::Render(HDC hdc)
 {
     img->FrameRender(hdc, pos.x+30, pos.y + 110, currFrameX, 0, true, 0.9);
-    
+   
    // Rectangle(hdc, body.left, body.top, body.right, body.bottom);
 }

@@ -92,6 +92,7 @@ public:
 	void AlphaRender(HDC hdc, int destX, int destY,
 		bool isCenterRenderring = false);
 	void AlphaFrameRender(HDC hdc, int destX, int destY, int currFrameX, int currFrameY, bool isCenterRenderring = true, float size=1);
+	void AlphaFrameRenders(HDC hdc, int destX, int destY, int currFrameX, int currFrameY, bool isCenterRenderring = true, float size = 1,int Alphas=255);
 
 	void Release();
 

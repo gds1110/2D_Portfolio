@@ -361,6 +361,48 @@ void Image::AlphaFrameRender(HDC hdc, int destX, int destY, int currFrameX, int 
 
 }
 
+void Image::AlphaFrameRenders(HDC hdc, int destX, int destY, int currFrameX, int currFrameY, bool isCenterRenderring, float size, int Alphas)
+{
+
+    int x = destX;
+    int y = destY;
+    if (isCenterRenderring)
+    {
+        x = destX - (imageInfo->width / 2);
+        y = destY - (imageInfo->height / 2);
+    }
+
+    // 1. 목적지 DC에 있는 내용을 blendDC에 복사
+
+    if (size > 1)
+    {
+        StretchBlt(imageInfo->hAlphaDC,
+            0, 0,
+            imageInfo->frameWidth * size,
+            imageInfo->frameHeight * size,
+            imageInfo->hMemDC,
+            imageInfo->frameWidth * imageInfo->currFrameX,
+            imageInfo->frameHeight * imageInfo->currFrameY,
+            imageInfo->frameWidth,
+            imageInfo->frameHeight,
+            SRCCOPY);
+    }
+    else
+    {
+        BitBlt(imageInfo->hAlphaDC, 0, 0, imageInfo->frameWidth, imageInfo->frameHeight, hdc, x, y, SRCCOPY);
+
+    }
+
+
+
+    //2. 출력할 이미지 DC에 있는 내용을 BlendDC에 지정한 색상을 제외하면서 복사
+    GdiTransparentBlt(imageInfo->hAlphaDC, 0, 0, imageInfo->frameWidth, imageInfo->frameHeight, imageInfo->hMemDC, imageInfo->frameWidth * imageInfo->currFrameX, imageInfo->frameHeight * imageInfo->currFrameY, imageInfo->frameWidth, imageInfo->frameHeight, transColor);
+    // 3. 출력
+
+    blendFunc.SourceConstantAlpha = Alphas;
+    AlphaBlend(hdc, x, y, imageInfo->frameWidth, imageInfo->frameHeight, imageInfo->hAlphaDC, 0, 0, imageInfo->frameWidth, imageInfo->frameHeight, blendFunc);
+}
+
 void Image::Release()
 {
     if (imageInfo)

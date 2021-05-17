@@ -9,7 +9,7 @@ class CharacterManager : public GameNode
 private:
 	vector<Character*> v_Characters;
 	vector<Character*>::iterator itHero;
-
+	
 	int index;
 	int CharArrPos[4] = { 640,440,240,40 };
 public:

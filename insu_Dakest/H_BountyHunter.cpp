@@ -40,6 +40,7 @@ void H_BountyHunter::Update()
 void H_BountyHunter::Render(HDC hdc)
 {
     img->FrameRender(hdc, pos.x+30, pos.y+110, currFrameX, 0,true,0.9);
+  
     //Rectangle(hdc, body.left, body.top, body.right, body.bottom);
 }
 

@@ -21,7 +21,7 @@ protected:
 
 protected:
 	int CharArrPos[4] = { 540,390,240,40 };
-	Image* img;
+
 	POINT pos;
 	State currstate;
 	RECT body; 
@@ -32,14 +32,27 @@ protected:
 	SkillManager* S_MGR;
 	string classArr[5] = { "크루세이더 ","바운티헌터 ","노상강도 ","나병환자 ","성녀 " };
 
+	//SelectCheck
+	bool selected;
+	bool target;
+
+	//UI
+	Image* img;
+	Image* targetIcon;
+	Image* selecetedIcon;
+	int sIconCurrFrame;
+	float eltimes;
+	int alpha;
+	
+	//Frame
 	int currFrameX;
 	int maxFrameX;
 	int maxFrameArr[State::NONESTATE] = { 0 };
-
 	float elapsed;
 	int walkElapsed;
-	
 	int speed = 100;
+	
+	//INDEX
 	int index;
 	
 public:
@@ -48,7 +61,17 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 	virtual void Render2(HDC hdc);
-	
+
+	//Render
+	void ShareRender(HDC hdc);
+
+	//selected
+	void SetSelected(bool sel) { this->selected = sel; }
+	bool GetSelected() { return this->selected; }
+	void SetTargeted(bool target) { this->target = target; }
+	bool GetTargeted() { return this->target; }
+
+
 	//type
 	void SetType(UnitType uType) { this->uType = uType; }
 	

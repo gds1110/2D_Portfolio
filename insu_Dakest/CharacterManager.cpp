@@ -5,14 +5,9 @@
 #include <algorithm>
 
 HRESULT CharacterManager::Init()
-{/*
-    v_Heros.resize(4);*/
+{
     index = 0;
-    /*for (int i = 0; i < v_Heros.size(); i++)
-    {
-        v_Heros[i] = new Character();
-        v_Heros[i]->Init();
-    }*/
+ 
  
     return S_OK;
 }
@@ -82,6 +77,8 @@ void CharacterManager::Update()
     }
 
 
+
+
     if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_UP)) {
       /*  if (UiDataManager::GetSingleton()->GetSelectedChar())
         {
@@ -109,6 +106,7 @@ void CharacterManager::Render(HDC hdc)
     for (int i = 0; i < v_Characters.size(); i++)
     {
         v_Characters[i]->Render(hdc);
+        v_Characters[i]->ShareRender(hdc);
     }
    
  /*   if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RETURN))

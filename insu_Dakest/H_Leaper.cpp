@@ -48,4 +48,5 @@ void H_Leaper::Update()
 void H_Leaper::Render(HDC hdc)
 {
     img->FrameRender(hdc, pos.x, pos.y + 80, currFrameX, 0, true, 1);
+
 }

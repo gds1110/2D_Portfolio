@@ -70,6 +70,7 @@ void H_Crusader::Update()
 void H_Crusader::Render(HDC hdc)
 {
   
+
         //img->FrameRender(hdc, pos.x, pos.y+80, currFrameX, 0, true, 1);
         //Rectangle(hdc, body.left, body.top, body.right, body.bottom);
 

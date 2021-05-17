@@ -1,6 +1,7 @@
 #include "Character.h"
 #include "Skill.h"
 #include "SkillManager.h"
+#include "Image.h"
 HRESULT Character::Init()
 {
 	return S_OK;
@@ -22,15 +23,25 @@ void Character::Render2(HDC hdc)
 {
 }
 
+void Character::ShareRender(HDC hdc)
+{
+    if (target)
+    {
+        targetIcon->AlphaFrameRenders(hdc, pos.x + 30, 500, 0, 0, true, 0.8, alpha);
+    }
+    if (selected) {
+        selecetedIcon->FrameRender(hdc, UiDataManager::GetSingleton()->GetSelectedChar()->GetPosx() + 50, 430, 0, sIconCurrFrame, true, 0.8);
+    }
+}
+
 void Character::SharedUpdate()
 {
 
+
     switchSprite();
     Move();
-    //IdleCombatUpdate();
     S_MGR->SetHClass(hClass);
     S_MGR->Update();
-    //UiDataManager::GetSingleton()->SetSS_MGR(S_MGR);
 }
 
 void Character::switchSprite()
@@ -95,6 +106,20 @@ void Character::Move()
 
 void Character::IdleCombatUpdate()
 {
+    //if selected
+    if (selected)
+    {
+        if (eltimes > 0.3)
+        {
+            sIconCurrFrame++;
+            if (sIconCurrFrame > 1) {
+                sIconCurrFrame = 0;
+            }
+            eltimes = 0;
+        }
+    }
+
+    //idle or combat
     if (currstate == State::IDLE || currstate == State::COMBAT) {
         elapsed += TimerManager::GetSingleton()->GetElapsedTime();
 
@@ -128,6 +153,8 @@ void Character::skillSeting()
 
 Character::Character()
 {
+    selecetedIcon = ImageManager::GetSingleton()->AddImage("선택아이콘", "resource/sharedUi/selected_2-down.BMP", 236, 412, 1, 2, true, RGB(88, 88, 88));
+    targetIcon = ImageManager::GetSingleton()->AddImage("타겟아이콘", "resource/sharedUi/target.BMP", 197, 412, 1, 2, true, RGB(88, 88, 88));
     UiDataManager::GetSingleton()->SetClassArr(this->classArr);
     index = -1;
     img = nullptr;
@@ -139,16 +166,9 @@ Character::Character()
     currFrameX = 0;
     elapsed = 0.0f;
     walkElapsed = 0;
+    target = false;
+    selected = false;
+    alpha = 150;
     SetRect(&body, pos.x - 45, pos.y - 40, pos.x + 45, pos.y + 40);
 
-    //Monster() {
-    //    pos.x = 0;
-    //    pos.y = WINSIZE_Y / 3;
-    //    img = nullptr;
-    //    currstate = NONESTATE;
-    //    mkinds = NONEKINDS;
-    //    index = 0;
-    //    SetRect(&body, pos.x - 50, pos.y - 50, pos.x + 50, pos.y + 50);
-
-    //};
 }

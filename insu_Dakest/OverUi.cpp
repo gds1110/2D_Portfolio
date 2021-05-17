@@ -23,19 +23,19 @@ void OverUi::Release()
 
 void OverUi::Update()
 {
-	vector<Character*> temp_vm = UiDataManager::GetSingleton()->GetSM_MGR()->GetCharacters();
-	BLENDFUNCTION* blendFunc = targetIcon->GetBlendFunc();
+	//vector<Character*> temp_vm = UiDataManager::GetSingleton()->GetSM_MGR()->GetCharacters();
+	//BLENDFUNCTION* blendFunc = targetIcon->GetBlendFunc();
 
-	eltimes += TimerManager::GetSingleton()->GetElapsedTime();
-	if (eltimes > 0.3)
-	{
-		sIconCurrFrame++;
-		if (sIconCurrFrame > 1) {
-			sIconCurrFrame = 0;
-		}
-		eltimes = 0;
-	}
-	if (UiDataManager::GetSingleton()->GetselCheck())
+	//eltimes += TimerManager::GetSingleton()->GetElapsedTime();
+	//if (eltimes > 0.3)
+	//{
+	//	sIconCurrFrame++;
+	//	if (sIconCurrFrame > 1) {
+	//		sIconCurrFrame = 0;
+	//	}
+	//	eltimes = 0;
+	//}
+	/*if (UiDataManager::GetSingleton()->GetselCheck())
 	{
 		for (int i = 0; i < temp_vm.size(); i++)
 		{
@@ -58,16 +58,17 @@ void OverUi::Update()
 	else
 	{
 		ePos = -200;
-	}
+	}*/
 }
 
 void OverUi::Render(HDC hdc)
-{
-	selecetedIcon->FrameRender(hdc, UiDataManager::GetSingleton()->GetSelectedChar()->GetPosx()+50, 430, 0, sIconCurrFrame, true,0.8);
+{/*
+	selecetedIcon->FrameRender(hdc, UiDataManager::GetSingleton()->GetSelectedChar()->GetPosx() + 50, 430, 0, sIconCurrFrame, true, 0.8);
+	
 	if (UiDataManager::GetSingleton()->GetselCheck() == true) {
 		for (int i = UiDataManager::GetSingleton()->GetSelectedSkill()->GetSkillInfo().targetRank.x; i <= UiDataManager::GetSingleton()->GetSelectedSkill()->GetSkillInfo().targetRank.y; i++) {
 			targetIcon->AlphaFrameRender(hdc, (WINSIZE_X / 2 + 120) + (i * 150), 500, 0, 0, true, 0.8);
 
 		}
-	}
+	}*/
 }
