@@ -7,6 +7,9 @@ class OverUi:public UI
 private:
 	Image* selecetedIcon;
 	Image* targetIcon;
+	Image* torchFireUI;
+	Image* flame;
+
 	int sIconCurrFrame;
 	float eltimes;
 

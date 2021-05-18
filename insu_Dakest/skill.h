@@ -60,7 +60,7 @@ public:
 	skillInfo GetSkillInfo() { return this->s_info; }
 
 	void SetIndex(int index) { this->index = index; }
-	
+	virtual void run(int x, Character* target) {};
 	void Run() {};
 
 	Skill()
@@ -81,10 +81,10 @@ public:
 	CombatAttack() {
 		s_info.skillRank = { 0,1 };
 		s_info.targetRank = { 0,1 };
-		s_info.range = 0;
+		s_info.range = 1;
 	}
 
-	void run(int x) {
+	void run(int x, Character* target) {
 		//for (int i = 0; i < UiDataManager::GetSingleton()->GetTarGet().size(); i++) {
 		//	//UiDataManager::GetSingleton()->GetTarGet()[i].setHp(gethp - 1);
 		//}
@@ -103,7 +103,7 @@ public:
 		s_info.range = 2;
 	}
 
-	void run(int x) {
+	void run(int x, Character* target) {
 		//if(hClass==)
 		//for (int i = 0; i < UiDataManager::GetSingleton()->GetTarGet().size(); i++) {
 		//	//UiDataManager::GetSingleton()->GetTarGet()[i].setHp(gethp - 1);
@@ -123,7 +123,7 @@ public:
 		s_info.range = 2;
 	}
 
-	void run(int x) {
+	void run(int x, Character* target) {
 		//if(hClass==)
 		//for (int i = 0; i < UiDataManager::GetSingleton()->GetTarGet().size(); i++) {
 		//	//UiDataManager::GetSingleton()->GetTarGet()[i].setHp(gethp - 1);

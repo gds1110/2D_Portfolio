@@ -27,17 +27,38 @@ void Character::ShareRender(HDC hdc)
 {
     if (target)
     {
+        if (fixedTarget)
+        {
+            alpha = 255;
+        }
+        else
+        {
+            alpha = 150;
+        }
         targetIcon->AlphaFrameRenders(hdc, pos.x + 30, 500, 0, 0, true, 0.8, alpha);
     }
     if (selected) {
-        selecetedIcon->FrameRender(hdc, UiDataManager::GetSingleton()->GetSelectedChar()->GetPosx() + 50, 430, 0, sIconCurrFrame, true, 0.8);
+        selecetedIcon->FrameRender(hdc,pos.x + 50, 430, 0, sIconCurrFrame, true, 0.8);
     }
 }
 
 void Character::SharedUpdate()
 {
+    //if selected
+    eltimes += TimerManager::GetSingleton()->GetElapsedTime();
+    if (selected)
+    {
+        if (eltimes > 0.3)
+        {
+            sIconCurrFrame++;
+            if (sIconCurrFrame > 1) {
+                sIconCurrFrame = 0;
+            }
+            eltimes = 0;
+        }
+    }
 
-
+    IdleCombatUpdate();
     switchSprite();
     Move();
     S_MGR->SetHClass(hClass);
@@ -106,22 +127,10 @@ void Character::Move()
 
 void Character::IdleCombatUpdate()
 {
-    //if selected
-    if (selected)
-    {
-        if (eltimes > 0.3)
-        {
-            sIconCurrFrame++;
-            if (sIconCurrFrame > 1) {
-                sIconCurrFrame = 0;
-            }
-            eltimes = 0;
-        }
-    }
-
+    elapsed += TimerManager::GetSingleton()->GetElapsedTime();
     //idle or combat
     if (currstate == State::IDLE || currstate == State::COMBAT) {
-        elapsed += TimerManager::GetSingleton()->GetElapsedTime();
+       
 
         if (elapsed > 0.07f)
         {
@@ -168,6 +177,7 @@ Character::Character()
     walkElapsed = 0;
     target = false;
     selected = false;
+    fixedTarget = false;
     alpha = 150;
     SetRect(&body, pos.x - 45, pos.y - 40, pos.x + 45, pos.y + 40);
 

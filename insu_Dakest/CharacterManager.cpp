@@ -77,6 +77,52 @@ void CharacterManager::Update()
     }
 
 
+    //if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
+    //{
+    //    for (int i = 0; i < v_Characters.size(); i++)
+    //    {
+    //        if (PointInRect(g_ptMouse, v_Characters[i]->GetRect()))
+    //        {
+    //            UiDataManager::GetSingleton()->SelectChar(v_Characters[i]);
+    //            v_Characters[i]->SetSelected(true);
+    //            if (!UiDataManager::GetSingleton()->GetSelectedChar())
+    //            {
+    //                UiDataManager::GetSingleton()->SetselCheck(false);                
+    //            }
+    //        }
+    //    }
+
+    /*    if (UiDataManager::GetSingleton()->GetSelectedChar()) 
+        {
+           
+        }*/
+
+        //for (int i = 0; i < c_mgr->GetCharacters().size(); i++)
+        //{
+        //    if (PointInRect(g_ptMouse, c_mgr->GetCharacters()[i]->GetRect())) {
+        //        UiDataManager::GetSingleton()->SelectChar(c_mgr->GetCharacters()[i]);
+        //        if (selChr != c_mgr->GetCharacters()[i])
+        //        {
+        //            UiDataManager::GetSingleton()->SetselCheck(false);
+        //            selSkill = nullptr;
+        //        }
+        //    }
+        //}
+
+        //for (int i = 0; i < selSkillmgr->GetSkillSlot().size(); i++)
+        //{
+        //    if (PointInRect(g_ptMouse, selSkillmgr->GetSkillSlot()[i]->GetRect())) {
+        //        if (selSkillmgr->GetSkillSlot()[i]->GetSkillState() == Skill::SkillState::ON()) {
+        //            UiDataManager::GetSingleton()->selectSkill(selSkillmgr->GetSkillSlot()[i]);
+        //            selSkill = UiDataManager::GetSingleton()->GetSelectedSkill();
+        //            UiDataManager::GetSingleton()->SetselCheck(true);
+        //        }
+        //    }
+        //}
+
+    //}
+
+
 
 
     if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_UP)) {

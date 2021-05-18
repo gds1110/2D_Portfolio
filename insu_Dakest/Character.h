@@ -10,6 +10,7 @@ public:
 protected:
 	struct Status
 	{
+		int maxHp;
 		int hp;
 		int atkSpeed;
 		int avd; //회피율
@@ -17,10 +18,25 @@ protected:
 		POINT damage; //데미지 x <- low y <- high
 		int acc; //명중률
 		int stress;
+
+		Status()
+		{
+			int maxHp = 30;
+			int hp=maxHp;
+			int atkSpeed = 5;
+			int avd=1; //회피율
+			int defense=1;
+			POINT damage = {5,10}; //데미지 x <- low y <- high
+			int acc = 5;; //명중률
+			int stress=0;
+		}
 	};
 
 protected:
 	int CharArrPos[4] = { 540,390,240,40 };
+
+	Status stat;
+
 
 	POINT pos;
 	State currstate;
@@ -35,6 +51,7 @@ protected:
 	//SelectCheck
 	bool selected;
 	bool target;
+	bool fixedTarget;
 
 	//UI
 	Image* img;
@@ -64,12 +81,15 @@ public:
 
 	//Render
 	void ShareRender(HDC hdc);
-
+	void SetAlpha(int alpha) { this->alpha = alpha; }
+	int GetAlpha() { return this->alpha; }
 	//selected
 	void SetSelected(bool sel) { this->selected = sel; }
 	bool GetSelected() { return this->selected; }
 	void SetTargeted(bool target) { this->target = target; }
 	bool GetTargeted() { return this->target; }
+	void SetFixed(bool fix) { this->fixedTarget = fix; }
+	bool GetFixed() { return this->fixedTarget; }
 
 
 	//type

@@ -2,6 +2,7 @@
 #include "GameNode.h"
 
 class Image;
+class DataManager;
 class MainGame : public GameNode
 {
 private:
@@ -11,7 +12,7 @@ private:
 	PAINTSTRUCT ps;
 	HANDLE hTimer;
 	char szText[128] = "";
-
+	//DataManager* Main_DM;
 	Image* backBuffer;
 
 public:

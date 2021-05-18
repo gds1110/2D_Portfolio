@@ -12,6 +12,7 @@
 #include "OverUi.h"
 #include "skeleton_arbalistar.h"
 #include "SkillManager.h"
+#include "DataManager.h"
 
 HRESULT Dungeon_1_1::Init()
 {
@@ -21,7 +22,7 @@ HRESULT Dungeon_1_1::Init()
 	Ip_Bg_Second = ImageManager::GetSingleton()->AddImage("근거리", "resource/dungeon/Stage1/NearBG.BMP", 4320, 480, true, RGB(88, 88, 88));;
 	Ip_BG_Passage = ImageManager::GetSingleton()->AddImage("복도배경", "resource/dungeon/Stage1/PassageBG1.BMP", 4320, 480, true, RGB(88, 88, 88));;
 
-	CamPos = 0;
+	CamPos = WINSIZE_X/2;
 
 	CamBuffer = new Image;
 	CamBuffer->Init(WINSIZE_X,600);
@@ -47,6 +48,7 @@ HRESULT Dungeon_1_1::Init()
 
 	
 
+
 	overUi = new OverUi;
 	overUi->Init();
 
@@ -58,6 +60,8 @@ HRESULT Dungeon_1_1::Init()
 	underUI = new UnderUi;
 	underUI->Init();
 
+	DM = new DataManager();
+	DM->Init(C_MGR, M_MGR, underUI);
 	return S_OK;
 }
 
@@ -70,22 +74,10 @@ void Dungeon_1_1::Release()
 
 void Dungeon_1_1::Update()
 {
-	if (C_MGR)
+
+	if (DM)
 	{
-		C_MGR->Update();
-
-	}
-	if (M_MGR)
-	{
-		M_MGR->Update();
-
-	}
-
-
-
-	if (underUI)
-	{
-		underUI->Update();
+		DM->Update();
 	}
 	if (overUi)
 	{
@@ -94,24 +86,24 @@ void Dungeon_1_1::Update()
 
 	if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RIGHT)) {
 		//
-		if (CamPos > -WINSIZE_X * 2.3)
+		if (CamPos > -WINSIZE_X * 2)
 		{
 			CamPos -= 2;
-			if ((CamPos - 2) < -WINSIZE_X * 2.3)
+			if ((CamPos - 2) < -WINSIZE_X * 2)
 			{
-				CamPos = -WINSIZE_X * 2.3;
+				CamPos = -WINSIZE_X * 2;
 			}
 		}
 	}
 	else if (KeyManager::GetSingleton()->IsStayKeyDown(VK_LEFT))
 	{
 		//
-		if (CamPos < 0)
+		if (CamPos < WINSIZE_X / 2)
 		{
 			CamPos += 1;;
-			if (CamPos - 1 > 0)
+			if (CamPos - 1 > WINSIZE_X/2)
 			{
-				CamPos = 0;
+				CamPos = WINSIZE_X / 2;
 			}
 
 		}
@@ -125,13 +117,13 @@ void Dungeon_1_1::Render(HDC hdc)
 	HDC camDC = CamBuffer->GetMemDC();
 
 	if (Ip_Bg_First) {
-		Ip_Bg_First->Render(camDC, CamPos / 5, 0, false);
+		Ip_Bg_First->Render(camDC, CamPos / 5 , 0, false);
 	}
 	if (Ip_Bg_Second) {
 		Ip_Bg_Second->Render(camDC, CamPos / 2, 0, false);
 	}
 	if (Ip_BG_Passage) {
-		Ip_BG_Passage->Render(camDC, CamPos, 0, false);
+		Ip_BG_Passage->Render(camDC, CamPos-WINSIZE_X/2, 0, false);
 	}
 
 	CamBuffer->Render2(hdc, WINSIZE_X / 2, 300, true);
@@ -142,12 +134,24 @@ void Dungeon_1_1::Render(HDC hdc)
 		C_MGR->Render(hdc);
 		//C_MGR->Render(camDC);
 	}
-	if (M_MGR)
-	{
-		M_MGR->Render(hdc);
+	if (CamPos < -1500) {
+		if (M_MGR)
+		{
+			M_MGR->Render(hdc);
+		}
 	}
-
 	underUI->Render(hdc);
 	overUi->Render(hdc);
-
+	Rectangle(hdc, CamPos - 25, 50 - 25, CamPos + 25, 50 + 50);
+	// 인사
+	// 마우스 좌표
+	wsprintf(szText, "campos : %d",CamPos);
+	TextOut(hdc, WINSIZE_X/2, 100, szText, strlen(szText));
 }
+/*
+https://m.blog.naver.com/flqpfnrm/221279669215
+
+https://gall.dcinside.com/mgallery/board/view/?id=darkest&no=175483
+전투 구현할때 참고
+
+*/

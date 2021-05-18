@@ -2,10 +2,11 @@
 #include "Image.h"
 #include "Dungeon_1_1.h"
 #include <ctime>
+#include "DataManager.h"
 HRESULT MainGame::Init()
 {
 	hdc = GetDC(g_hWnd);
-
+	//Main_DM = new DataManager();
 
 	KeyManager::GetSingleton()->Init();
 	ImageManager::GetSingleton()->Init();

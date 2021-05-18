@@ -20,8 +20,7 @@ void SkillManager::Update()
 	{
 		skillSlot[i]->Update();
 	}
-
-
+			
 }
 
 void SkillManager::Render(HDC hdc)

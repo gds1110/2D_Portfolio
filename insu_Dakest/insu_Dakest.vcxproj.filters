@@ -135,6 +135,9 @@
     <ClCompile Include="Character.cpp">
       <Filter>소스 파일\UnitObject</Filter>
     </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>소스 파일\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h">
@@ -241,6 +244,9 @@
     </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>소스 파일\UnitObject</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>소스 파일\Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

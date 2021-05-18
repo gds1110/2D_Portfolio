@@ -8,7 +8,7 @@ class Image;
 class Character;
 class CharacterManager;
 class SkillManager;
-
+class DataManager;
 class Dungeon_1_1 : public GameNode
 {
 private:
@@ -19,8 +19,9 @@ private:
 	OverUi* overUi;
 
 	Image* CamBuffer;
-
+	DataManager* DM;
 	int battlePos[4];
+	char szText[128] = "";
 
 	float test = 0.0f;
 	int CamPos;

@@ -25,10 +25,6 @@ void UnderUi::Release()
 void UnderUi::Update()
 {
 
-	selChr = UiDataManager::GetSingleton()->GetSelectedChar();
-	c_mgr=UiDataManager::GetSingleton()->GetSC_MGR();
-
-
 	if (selChr)
 	{
 		iconKey = selChr->GetClassArr()[selChr->GetClass()] + "아이콘";
@@ -40,49 +36,10 @@ void UnderUi::Update()
 				selSkillmgr->GetSkillSlot()[i]->SetSkillState(Skill::SkillState::OFF);
 			}
 		}
-		//selChr->getSkillMgr()->Update();
-
-		/*iconKey = UiDataManager::GetSingleton()->GetSelectedChar()->GetClassArr()[UiDataManager::GetSingleton()->GetSelectedChar()->GetClass()] + "아이콘";
-		underIcon = ImageManager::GetSingleton()->FindImage(iconKey);*/
 		
 	}
 
 
-
-	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
-	{
-
-		
-		for (int i = 0; i < c_mgr->GetCharacters().size(); i++)
-		{
-			if (PointInRect(g_ptMouse, c_mgr->GetCharacters()[i]->GetRect())) {
-				UiDataManager::GetSingleton()->SelectChar(c_mgr->GetCharacters()[i]);
-				if (selChr != c_mgr->GetCharacters()[i])
-				{
-					UiDataManager::GetSingleton()->SetselCheck(false);
-					selSkill = nullptr;
-				}
-			}
-		}
-		
-		for (int i = 0; i < selSkillmgr->GetSkillSlot().size(); i++)
-		{
-			if (PointInRect(g_ptMouse, selSkillmgr->GetSkillSlot()[i]->GetRect())) {
-				if (selSkillmgr->GetSkillSlot()[i]->GetSkillState() == Skill::SkillState::ON()) {
-					UiDataManager::GetSingleton()->selectSkill(selSkillmgr->GetSkillSlot()[i]);
-					selSkill = UiDataManager::GetSingleton()->GetSelectedSkill();
-					UiDataManager::GetSingleton()->SetselCheck(true);
-				}
-			}
-		}
-
-	}
-
-
-	//if (selSkill)
-	//{
-	//	
-	//}
 }
 
 void UnderUi::Render(HDC hdc)
@@ -93,9 +50,7 @@ void UnderUi::Render(HDC hdc)
 	}
 	if (selChr) {
 		
-		selSkillmgr->Render(hdc);
-			//selChr->getSkillMgr()->Render(hdc);
-		
+		selSkillmgr->Render(hdc);		
 	}
 	if (selSkill)
 	{

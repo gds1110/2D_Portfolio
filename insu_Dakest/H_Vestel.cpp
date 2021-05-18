@@ -7,7 +7,7 @@ HRESULT H_Vestel::Init()
     maxFrameArr[State::COMBAT] = 15;
     maxFrameArr[State::WALK] = 16;
     maxFrameArr[State::ATTACK1] = 1;
-    ImageManager::GetSingleton()->AddImage("己赤 酒捞甸", "resource/hero/Vestel/idle/idle.BMP", 2745, 300, maxFrameArr[State::IDLE], 1, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("己赤 酒捞甸", "resource/hero/Vestel/idle/idle.BMP", 3420, 300, maxFrameArr[State::IDLE], 1, true, RGB(88, 88, 88));
     img = ImageManager::GetSingleton()->AddImage("己赤 哪诡", "resource/hero/Vestel/combat/combat.BMP", 2565, 300, maxFrameArr[State::COMBAT], 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("己赤 况农", "resource/hero/Vestel/walk/walk.BMP", 3072, 300, maxFrameArr[State::WALK], 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("己赤 酒捞能", "resource/hero/Vestel/icon.BMP", 65, 65, true, RGB(88, 88, 88));
