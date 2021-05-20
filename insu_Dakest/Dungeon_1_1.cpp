@@ -78,6 +78,7 @@ void Dungeon_1_1::Update()
 	if (DM)
 	{
 		DM->Update();
+		DM->SetCampos(CamPos);
 	}
 	if (overUi)
 	{
@@ -134,7 +135,7 @@ void Dungeon_1_1::Render(HDC hdc)
 		C_MGR->Render(hdc);
 		//C_MGR->Render(camDC);
 	}
-	if (CamPos < -1500) {
+	if (CamPos < 300) {
 		if (M_MGR)
 		{
 			M_MGR->Render(hdc);

@@ -5,7 +5,7 @@ HRESULT H_HighWayMan::Init()
     maxFrameArr[State::IDLE] = 15;
     maxFrameArr[State::COMBAT] = 14;
     maxFrameArr[State::WALK] = 16;
-    maxFrameArr[State::ATTACK1] = 1;
+    maxFrameArr[State::SKILL1] = 1;
     ImageManager::GetSingleton()->AddImage("노상강도 아이들", "resource/hero/highwayman/idle/idle.BMP", 2745, 300, 15, 1, true, RGB(88, 88, 88));
     img = ImageManager::GetSingleton()->AddImage("노상강도 컴뱃", "resource/hero/highwayman/combat/combat.BMP", 2646, 300, 14, 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("노상강도 워크", "resource/hero/highwayman/walk/walk.BMP", 2848, 300, 16, 1, true, RGB(88, 88, 88));

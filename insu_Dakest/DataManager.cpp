@@ -15,7 +15,7 @@ HRESULT DataManager::Init(CharacterManager* C_MGR, CharacterManager* M_MGR, Unde
 {
     ImageManager::GetSingleton()->AddImage("선택아이콘", "resource/sharedUi/selected_2-down.BMP", 236, 412, 1, 2, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("타겟아이콘", "resource/sharedUi/target.BMP", 197, 412, 1, 2, true, RGB(88, 88, 88));
-
+	camPos = 0;
 	this->C_MGR = C_MGR;
 	this->M_MGR = M_MGR;
 	this->underUI = ui;
@@ -56,6 +56,7 @@ void DataManager::Update()
 
 		for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
 		{
+		
 			
 			if (PointInRect(g_ptMouse, M_MGR->GetCharacters()[i]->GetRect())) {
 				if (M_MGR->GetCharacters()[i]->GetTargeted() == true && selctedSkill->GetSkillInfo().range > 1)
@@ -85,15 +86,12 @@ void DataManager::Update()
 					targeton = true;
 
 				}
-
 				else
 				{
 					targeton = false;
 				}
-			
-
 			}
-		
+			
 			
 		}
 
@@ -135,16 +133,17 @@ void DataManager::Update()
 
 		if (selectedChr && selctedSkill)
 		{
-			if (targeton == true) {
-				selectedChr->SetPos(WINSIZE_X / 2);
 				for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
 				{
 					if (M_MGR->GetCharacters()[i]->GetFixed() == true)
 					{
 						M_MGR->GetCharacters()[i]->SetPos(WINSIZE_X / 2 + 100 * i);
+						selectedChr->SetPos(WINSIZE_X / 2);
+						//selectedChr->SetCurrState(State::SKILL1);
 					}
 				}
-			}
+
+			
 		}
     }
 	
@@ -153,6 +152,13 @@ void DataManager::Update()
 	if (C_MGR)
 	{
 		C_MGR->Update();
+		if (camPos < 300)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				C_MGR->GetCharacters()[i]->SetCurrState(State::COMBAT);
+			}
+		}
 
 	}
 	if (M_MGR)

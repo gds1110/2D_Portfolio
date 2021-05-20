@@ -9,6 +9,7 @@ class UnderUi;
 class DataManager : public GameNode
 {
 private:
+	int camPos;
 	Character* selectedChr;
 	Character* cursorChar;
 	vector<Character*> targetChr;
@@ -26,6 +27,9 @@ public:
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
+
+	int GetCampos() { return this->camPos; }
+	void SetCampos(int cam) { this->camPos = cam; }
 
 	void SetCursorChar(Character* chr) { this->cursorChar = chr; }
 	Character* GetCursorChar() { return this->cursorChar; }

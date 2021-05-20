@@ -63,6 +63,16 @@ void Character::SharedUpdate()
     Move();
     S_MGR->SetHClass(hClass);
     S_MGR->Update();
+  
+    if (pos.x < CharArrPos[index])
+    {
+        pos.x += eltimes * 1;
+    }
+    else if(pos.x>CharArrPos[index])
+    {
+        pos.x -= eltimes * 1;
+    }
+       
 }
 
 void Character::switchSprite()
@@ -83,7 +93,7 @@ void Character::switchSprite()
 
         img = ImageManager::GetSingleton()->FindImage(classArr[hClass]+"컴뱃");
         break;
-    case ATTACK1:
+    case SKILL1:
         currFrameX = 0;
         img = ImageManager::GetSingleton()->FindImage(classArr[hClass] + "기본공격");
         break;

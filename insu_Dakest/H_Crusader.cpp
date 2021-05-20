@@ -7,7 +7,7 @@ HRESULT H_Crusader::Init()
     maxFrameArr[State::IDLE] = 33;
     maxFrameArr[State::COMBAT] = 15;
     maxFrameArr[State::WALK] = 16;
-    maxFrameArr[State::ATTACK1] = 1;
+    maxFrameArr[State::SKILL1] = 1;
     img = ImageManager::GetSingleton()->AddImage("农风技捞歹 哪诡", "resource/hero/crusader/combat/combat.BMP", 2115, 300,15,1,true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("农风技捞歹 况农", "resource/hero/crusader/walk/walk.BMP", 2896, 300, 16, 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("农风技捞歹 酒捞甸", "resource/hero/crusader/idle/idle.BMP", 5808, 300, 33, 1, true, RGB(88, 88, 88));
@@ -38,7 +38,7 @@ void H_Crusader::Update()
             v_Heros[i]->SetState(Character::State::IDLE);
         }*/
         speed += 500 * TimerManager::GetSingleton()->GetElapsedTime();
-        SetCurrState(State::ATTACK1);
+        SetCurrState(State::SKILL1);
       
     }
    if (KeyManager::GetSingleton()->IsOnceKeyUp(VK_RETURN))

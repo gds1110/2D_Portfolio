@@ -6,7 +6,7 @@ HRESULT H_BountyHunter::Init()
     maxFrameArr[State::IDLE] = 18;
     maxFrameArr[State::COMBAT] = 16;
     maxFrameArr[State::WALK] = 16;
-    maxFrameArr[State::ATTACK1] = 1;
+    maxFrameArr[State::SKILL1] = 1;
     img = ImageManager::GetSingleton()->AddImage("바운티헌터 컴뱃", "resource/hero/bountyhunter/combat/combat.BMP", 3152, 300, maxFrameArr[State::COMBAT], 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("바운티헌터 워크", "resource/hero/bountyhunter/walk/walk.BMP", 2688, 300, maxFrameArr[State::WALK], 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("바운티헌터 아이들", "resource/hero/bountyhunter/idle/idle.BMP", 2880, 300, maxFrameArr[State::IDLE], 1, true, RGB(88, 88, 88));

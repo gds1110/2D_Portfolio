@@ -7,7 +7,7 @@ HRESULT H_Leaper::Init()
     maxFrameArr[State::IDLE] = 18;
     maxFrameArr[State::COMBAT] = 16;
     maxFrameArr[State::WALK] = 16;
-    maxFrameArr[State::ATTACK1] = 1;
+    maxFrameArr[State::SKILL1] = 1;
     ImageManager::GetSingleton()->AddImage("나병환자 아이들", "resource/hero/Leaper/idle/idle.BMP", 3600, 300, maxFrameArr[State::IDLE], 1, true, RGB(88, 88, 88));
     img = ImageManager::GetSingleton()->AddImage("나병환자 컴뱃", "resource/hero/Leaper/combat/combat.BMP", 3248, 300, maxFrameArr[State::COMBAT], 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("나병환자 워크", "resource/hero/Leaper/walk/walk.BMP", 3232, 300, maxFrameArr[State::WALK], 1, true, RGB(88, 88, 88));

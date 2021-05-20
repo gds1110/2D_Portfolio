@@ -33,7 +33,7 @@ protected:
 	};
 
 protected:
-	int CharArrPos[4] = { 540,390,240,40 };
+	int CharArrPos[4] = { 540,390,240,90 };
 
 	Status stat;
 

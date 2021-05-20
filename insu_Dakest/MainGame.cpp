@@ -1,6 +1,7 @@
 #include "MainGame.h"
 #include "Image.h"
 #include "Dungeon_1_1.h"
+#include "MapGenManager.h"
 #include <ctime>
 #include "DataManager.h"
 HRESULT MainGame::Init()
@@ -26,14 +27,17 @@ HRESULT MainGame::Init()
 
 	backBuffer = new Image(); 
 	backBuffer->Init(maxWidth, maxHeight);
+	SceneManager::GetSingleton()->AddScene("맵생성", new MapGenManager());
 
 	SceneManager::GetSingleton()->AddScene("스테이지1", new Dungeon_1_1());
 
+	//SceneManager::GetSingleton()->ChangeScene("맵생성");
 	SceneManager::GetSingleton()->ChangeScene("스테이지1");
 
 	isInited = true;
 	//srand(time(NULL));
-	srand(TimerManager::GetSingleton()->GetElapsedTime());
+	srand(time(NULL));
+
 	return S_OK;
 }
 
@@ -44,7 +48,7 @@ void MainGame::Release()
 	SceneManager::GetSingleton()->Release();
 
 	SAFE_RELEASE(backBuffer);
-
+	 
 	ReleaseDC(g_hWnd, hdc);
 }
 

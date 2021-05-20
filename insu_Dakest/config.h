@@ -42,7 +42,15 @@ extern enum State
 	IDLE,
 	WALK,
 	COMBAT,
-	ATTACK1,
+	SKILL1,
+	SKILL2,
+	SKILL3,
+	SKILL4,
+	SKILL5,
+	SKILL6,
+	SKILL7,
+	HURT,
+	DEAD,
 	NONESTATE
 };
 
