@@ -65,8 +65,8 @@ void Tile::Render(HDC hdc)
 	//SelectObject(hdc, hOldBrush);
 	if (tileImg) {
 		tileImg->Render(hdc, center.x, center.y,true);
-		//wsprintf(szText, "%d", index);
-		//TextOut(hdc, center.x, center.y, szText, strlen(szText));
+		wsprintf(szText, "%d", index);
+		TextOut(hdc, center.x, center.y, szText, strlen(szText));
 	}
 }
 
@@ -206,28 +206,28 @@ void MapGenManager::Update()
 
 void MapGenManager::Render(HDC hdc)
 {
-	//for (int i = 0; i < TILE_COUNT; i++)	// 세로반복 (y)
-	//{
-	//	for (int j = 0; j < TILE_COUNT; j++)	// 가로반복 (x)
-	//	{
-	//		map[i][j].Render(hdc);
-	//	}
-	//}
+	for (int i = 0; i < TILE_COUNT; i++)	// 세로반복 (y)
+	{
+		for (int j = 0; j < TILE_COUNT; j++)	// 가로반복 (x)
+		{
+			map[i][j].Render(hdc);
+		}
+	}
 	Rectangle(hdc, 1000, 0, 2000, 1000);
 	for (int i = 0; i < openList.size(); i++)
 	{
 		openList[i]->Render(hdc);
 	}
 	for (int i = 0; i < openList.size(); i++) {
-		//wsprintf(szText, "X : %d, Y : %d",openList.size()), openList[i]->GetParentTile()->getindex());
-		//TextOut(hdc, 1000, 50*i, szText, strlen(szText));
-	/*	for (int j = 0; j < openList[i]->GetWay().size();j++)
+		/*wsprintf(szText, "X : %d, Y : %d",openList.size()), openList[i]->GetParentTile()->getindex());
+		TextOut(hdc, 1000, 50*i, szText, strlen(szText));*/
+		for (int j = 0; j < openList[i]->GetWay().size();j++)
 		{
-			if (!openList[i]->GetWay().empty()) {
+	/*		if (!openList[i]->GetWay().empty()) {
 				wsprintf(szText, "r : %d, w : %d",i ,openList[i]->GetWay()[j]);
 				TextOut(hdc,1000+90*j, 80 * i, szText, strlen(szText));
-			}
-		}*/
+			}*/
+		}
 		for (int j = 0; j < 4; j++)
 		{
 			wsprintf(szText, "r : %d, w : %d", i, openList[i]->GetFourDir()[j]);
@@ -252,7 +252,6 @@ void MapGenManager::MakePath(Tile& tile)
 	if (&tile == startTile)
 	{
 		currTile = &tile;
-		currTile->SetParentTile(startTile);
 		currTile->SetType(TileType::Room);
 
 		(currTile)->setindex(index);

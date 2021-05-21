@@ -76,7 +76,12 @@ void CharacterManager::Update()
     {
         v_Characters[i]->Update();
     }
+   
 
+  /*  for (int i = 0; i < v_Characters.size(); i++)
+    {
+        (*v_Characters.begin()+i)->SetIndex(i);
+    }*/
 
     //if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
     //{
@@ -139,8 +144,9 @@ void CharacterManager::Update()
             }
         }*/
         swap(v_Characters[0], v_Characters[1]);
-        v_Characters[0]->SetPos((WINSIZE_X / 2 - 100) - (0 * 150));
-        v_Characters[1]->SetPos((WINSIZE_X / 2 - 100) - (1 * 150));
+    /*    v_Characters[0]->SetIndex(v_Characters[1]->GetIndex());
+        v_Characters[1]->SetIndex(v_Characters[0]->GetIndex());*/
+    
     }
 
     

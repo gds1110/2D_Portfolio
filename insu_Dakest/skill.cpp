@@ -45,3 +45,13 @@ void CombatAttack::run()
 {
 	owner->SetCurrState(State::SKILL1);
 }
+
+void CombatAttack::run(int x, Character* target)
+{
+	owner->SetCurrState(State::SKILL1);
+	target->SetCurrState(State::HURT);
+	//for (int i = 0; i < UiDataManager::GetSingleton()->GetTarGet().size(); i++) {
+	//	//UiDataManager::GetSingleton()->GetTarGet()[i].setHp(gethp - 1);
+	//}
+	//
+}

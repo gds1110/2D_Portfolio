@@ -48,6 +48,17 @@ void Character::HUpdate()
 
 void Character::MUpdate()
 {
+    eltimes += TimerManager::GetSingleton()->GetElapsedTime();
+
+    if (pos.x < MonArrPos[index])
+    {
+        pos.x += eltimes * 2 / 10;
+    }
+    else if (pos.x > MonArrPos[index])
+    {
+        pos.x -= eltimes * 2 / 10;
+    }
+
 }
 
 void Character::SharedUpdate()
@@ -74,6 +85,8 @@ void Character::SharedUpdate()
     S_MGR->Update();
   
     abliiltyUpdate();
+
+
     if (pos.x < CharArrPos[index])
     {
         pos.x += eltimes * 2/10;
@@ -114,6 +127,33 @@ void Character::switchSprite()
         break;
     }
   
+}
+
+void Character::MswitchSprite()
+{
+    switch (currstate)
+    {
+
+    case COMBAT:
+        //  currFrameX = 0;
+
+        img = ImageManager::GetSingleton()->FindImage(MonArr[mkinds] + "컴뱃");
+        break;
+    case SKILL1:
+        currFrameX = 0;
+        img = ImageManager::GetSingleton()->FindImage(MonArr[mkinds] + "스킬1");
+        AbilOn = true;
+        break;
+    case HURT:
+        currFrameX = 0;
+        img = ImageManager::GetSingleton()->FindImage(MonArr[mkinds] + "허트");
+        AbilOn = true;
+        break;
+    case NONESTATE:
+        break;
+    default:
+        break;
+    }
 }
 
 void Character::Move()

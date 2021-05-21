@@ -34,8 +34,8 @@ HRESULT Dungeon_1_1::Init()
 
 	C_MGR = new CharacterManager;
 	C_MGR->Init();
-	C_MGR->AddCharacter(new H_Leaper,UnitType::HERO);
 	C_MGR->AddCharacter(new H_BountyHunter, UnitType::HERO);
+	C_MGR->AddCharacter(new H_Leaper,UnitType::HERO);
 	C_MGR->AddCharacter(new H_HighWayMan, UnitType::HERO);
 	C_MGR->AddCharacter(new H_Vestel, UnitType::HERO);
 

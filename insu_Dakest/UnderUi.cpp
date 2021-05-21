@@ -11,7 +11,7 @@ HRESULT UnderUi::Init()
 	underUi = ImageManager::GetSingleton()->AddImage("유아이", "resource/dungeon/UI/D_under_ui2.BMP", 1280, 240, false);
 	underIcon = nullptr;
 	selSkillIcon = ImageManager::GetSingleton()->AddImage("스킬선택", "resource/sharedUi/sel_skill.BMP",60,60,true,RGB(88,88,88));
-	MapBG = ImageManager::GetSingleton()->AddImage("미니맵배경", "resource/sharedUi/downpanelmap.BMP", 640, 240, false);
+	MapBG = ImageManager::GetSingleton()->AddImage("미니맵배경", "resource/sharedUi/downpanelmap.BMP", 480, 240, false);
 	selSkill = nullptr;
 	selSkillmgr = nullptr;
 	c_mgr = nullptr;
@@ -47,7 +47,7 @@ void UnderUi::Update()
 
 		for (int i = 0; i < minmap.size(); i++)
 		{
-			minmap[i]->SetPos( minmap[i]->GetIdX() * TILE_SIZE + (TILE_SIZE / 2),WINSIZE_Y/4+minmap[i]->GetIdY() *  (TILE_SIZE));
+			minmap[i]->SetPos( minmap[i]->GetIdX() * TILE_SIZE ,WINSIZE_Y/4+minmap[i]->GetIdY() *  (TILE_SIZE));
 			minmap[i]->Update();
 		}
 	}

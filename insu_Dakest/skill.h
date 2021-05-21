@@ -1,6 +1,7 @@
 #pragma once
 #include "GameNode.h"
 
+
 class Image;
 class Character;
 class Skill :public GameNode
@@ -62,7 +63,7 @@ public:
 	skillInfo GetSkillInfo() { return this->s_info; }
 
 	void SetIndex(int index) { this->index = index; }
-	virtual void run() {};
+	virtual void run(int x, Character* target) {};
 	virtual void MotionRun();
 
 	Skill()
@@ -89,13 +90,7 @@ public:
 	void run();
 	
 
-	void run(int x, Character* target) {
-		
-		//for (int i = 0; i < UiDataManager::GetSingleton()->GetTarGet().size(); i++) {
-		//	//UiDataManager::GetSingleton()->GetTarGet()[i].setHp(gethp - 1);
-		//}
-		//
-	}
+	virtual void run(int x, Character* target);
 
 };
 

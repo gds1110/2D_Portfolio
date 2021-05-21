@@ -137,7 +137,7 @@ void DataManager::Update()
 				{
 					if (M_MGR->GetCharacters()[i]->GetFixed() == true)
 					{
-						selctedSkill->run();
+						selctedSkill->run(0, M_MGR->GetCharacters()[i]);
 						M_MGR->GetCharacters()[i]->SetPos(WINSIZE_X / 2 + 100 * i);
 						selectedChr->SetPos(WINSIZE_X / 2);
 						//selectedChr->SetCurrState(State::SKILL1);
