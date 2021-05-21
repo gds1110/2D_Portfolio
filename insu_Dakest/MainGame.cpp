@@ -31,8 +31,8 @@ HRESULT MainGame::Init()
 
 	SceneManager::GetSingleton()->AddScene("스테이지1", new Dungeon_1_1());
 
-	//SceneManager::GetSingleton()->ChangeScene("맵생성");
-	SceneManager::GetSingleton()->ChangeScene("스테이지1");
+	SceneManager::GetSingleton()->ChangeScene("맵생성");
+	//SceneManager::GetSingleton()->ChangeScene("스테이지1");
 
 	isInited = true;
 	//srand(time(NULL));

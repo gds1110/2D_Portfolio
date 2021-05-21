@@ -42,6 +42,14 @@ void Character::ShareRender(HDC hdc)
     }
 }
 
+void Character::HUpdate()
+{
+}
+
+void Character::MUpdate()
+{
+}
+
 void Character::SharedUpdate()
 {
     //if selected
@@ -57,20 +65,22 @@ void Character::SharedUpdate()
             eltimes = 0;
         }
     }
-
-    IdleCombatUpdate();
-    switchSprite();
-    Move();
     S_MGR->SetHClass(hClass);
+    if (AbilOn == false) {
+        IdleCombatUpdate();
+        switchSprite();
+        Move();
+    }
     S_MGR->Update();
   
+    abliiltyUpdate();
     if (pos.x < CharArrPos[index])
     {
-        pos.x += eltimes * 1;
+        pos.x += eltimes * 2/10;
     }
     else if(pos.x>CharArrPos[index])
     {
-        pos.x -= eltimes * 1;
+        pos.x -= eltimes * 2/10;
     }
        
 }
@@ -90,12 +100,13 @@ void Character::switchSprite()
         break;
     case COMBAT:
       //  currFrameX = 0;
-
+        
         img = ImageManager::GetSingleton()->FindImage(classArr[hClass]+"컴뱃");
         break;
     case SKILL1:
         currFrameX = 0;
-        img = ImageManager::GetSingleton()->FindImage(classArr[hClass] + "기본공격");
+        img = ImageManager::GetSingleton()->FindImage(classArr[hClass] + "스킬1");
+        AbilOn = true;
         break;
     case NONESTATE:
         break;
@@ -109,7 +120,8 @@ void Character::Move()
 {
 
     //float walkElapsed = 0.0f;
-    if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RIGHT)|| KeyManager::GetSingleton()->IsStayKeyDown(VK_LEFT)) {
+    if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RIGHT)|| KeyManager::GetSingleton()->IsStayKeyDown(VK_LEFT)||
+        KeyManager::GetSingleton()->IsStayKeyDown('A')|| KeyManager::GetSingleton()->IsStayKeyDown('D')) {
         currstate = State::WALK;
 
         walkElapsed += 5;
@@ -125,7 +137,8 @@ void Character::Move()
         // pos.x += 1;
     }
 
-    if (KeyManager::GetSingleton()->IsOnceKeyUp(VK_LEFT) || KeyManager::GetSingleton()->IsOnceKeyUp(VK_RIGHT))
+    if (KeyManager::GetSingleton()->IsOnceKeyUp(VK_LEFT) || KeyManager::GetSingleton()->IsOnceKeyUp(VK_RIGHT)
+        || KeyManager::GetSingleton()->IsOnceKeyUp('A') || KeyManager::GetSingleton()->IsOnceKeyUp('D'))
     {
         currstate = State::IDLE;
         walkElapsed = 0;
@@ -160,7 +173,7 @@ void Character::IdleCombatUpdate()
 void Character::skillSeting()
 {
     S_MGR = new SkillManager();
-    S_MGR->Init();
+    S_MGR->Init(this);
     S_MGR->SetHClass(hClass);
     //S_MGR->AddSkill(new CombatAttack);
     //S_MGR->AddSkill(new Skill);
@@ -170,11 +183,26 @@ void Character::skillSeting()
 
 }
 
+void Character::abliiltyUpdate()
+{
+    if (AbilOn)
+    {
+        AbilTime += TimerManager::GetSingleton()->GetElapsedTime();
+
+        if (AbilTime > 5.0f)
+        {
+            AbilOn = false;
+            AbilTime = 0;
+        }
+    }
+}
+
 Character::Character()
 {
     selecetedIcon = ImageManager::GetSingleton()->AddImage("선택아이콘", "resource/sharedUi/selected_2-down.BMP", 236, 412, 1, 2, true, RGB(88, 88, 88));
     targetIcon = ImageManager::GetSingleton()->AddImage("타겟아이콘", "resource/sharedUi/target.BMP", 197, 412, 1, 2, true, RGB(88, 88, 88));
     UiDataManager::GetSingleton()->SetClassArr(this->classArr);
+
     index = -1;
     img = nullptr;
     pos = { 0,WINSIZE_Y / 3 };
@@ -182,6 +210,8 @@ Character::Character()
     hClass = NONEHCLASS;
     currstate = NONESTATE;
     mkinds = NONEKINDS;
+    AbilOn = false;
+    AbilTime = 0;
     currFrameX = 0;
     elapsed = 0.0f;
     walkElapsed = 0;

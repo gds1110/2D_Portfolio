@@ -1,8 +1,6 @@
 #pragma once
 #include "GameNode.h"
 
-#define TILE_SIZE		20
-#define TILE_COUNT	(ASTARSIZE_Y / TILE_SIZE)
 
 enum class TileType { Start, End, Path, Room, None };
 class Image;
@@ -25,6 +23,8 @@ private:
 	bool isInOpenlist;
 	bool isClosed;
 
+	int fourDir[4] = { -1,-1,-1,-1 };
+
 	COLORREF color;
 	HBRUSH hBrush;
 	HBRUSH hOldBrush;
@@ -40,6 +40,7 @@ public:
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
+	void Render2(HDC hdc,int x,int y);
 	void setindex(int i) { this->index = i; }
 	int getindex() { return this->index; }
 	void SetColor(COLORREF color);
@@ -47,6 +48,16 @@ public:
 	TileType GetType() { return this->type; }
 	int GetIdX() { return this->idX; }
 	int GetIdY() { return this->idY; }
+
+	POINT getPos() { return this->center; }
+	void SetPos(int x, int y)
+	{
+		center.x = x;
+		center.y = y;
+	}
+
+	int* GetFourDir() { return this->fourDir; }
+	void SetFourDir(int a, int b) { this->fourDir[a] = b; }
 
 	void addWay(int i) { way.push_back(i); }
 	vector<int> GetWay() { return this->way; }
@@ -89,13 +100,14 @@ class MapGenManager : public GameNode
 	vector<Tile*> closeList;
 	vector<Tile*> heap;
 	char szText[128];
-
+	int roomnum;
 
 public:
 	virtual HRESULT Init();
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
+	void Render2(HDC hdc);
 	void MakePath(Tile& tile);
 	void FindPath();
 	void AddOpenList(Tile* currTile);

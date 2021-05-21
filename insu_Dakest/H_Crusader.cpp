@@ -51,7 +51,6 @@ void H_Crusader::Update()
         SetCurrState(State::COMBAT);
 
     }
-   IdleCombatUpdate();
 
    SharedUpdate();
    /*  switchSprite();

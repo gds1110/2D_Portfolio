@@ -1,5 +1,6 @@
 #pragma once
 #include "GameNode.h"
+#include <vector>
 
 class Image;
 class SkillManager;
@@ -34,7 +35,7 @@ protected:
 
 protected:
 	int CharArrPos[4] = { 540,390,240,90 };
-
+	int MonArrPos[4] = { 740,890,1040,1190 };
 	Status stat;
 
 
@@ -46,12 +47,16 @@ protected:
 	HCLASS hClass;
 	MonsterKinds mkinds;
 	SkillManager* S_MGR;
-	string classArr[5] = { "크루세이더 ","바운티헌터 ","노상강도 ","나병환자 ","성녀 " };
+	string classArr[15] = { "크루세이더 ","바운티헌터 ","노상강도 ","나병환자 ","성녀 " };
 
 	//SelectCheck
 	bool selected;
 	bool target;
 	bool fixedTarget;
+
+	//skill
+	bool AbilOn;
+	float AbilTime;
 
 	//UI
 	Image* img;
@@ -68,6 +73,9 @@ protected:
 	float elapsed;
 	int walkElapsed;
 	int speed = 100;
+	int depth;
+
+	float size;
 	
 	//INDEX
 	int index;
@@ -83,6 +91,8 @@ public:
 	void ShareRender(HDC hdc);
 	void SetAlpha(int alpha) { this->alpha = alpha; }
 	int GetAlpha() { return this->alpha; }
+
+
 	//selected
 	void SetSelected(bool sel) { this->selected = sel; }
 	bool GetSelected() { return this->selected; }
@@ -91,6 +101,11 @@ public:
 	void SetFixed(bool fix) { this->fixedTarget = fix; }
 	bool GetFixed() { return this->fixedTarget; }
 
+
+	//HeroUpdate
+	void HUpdate();
+	//MonsterUpdate
+	void MUpdate();
 
 	//type
 	void SetType(UnitType uType) { this->uType = uType; }
@@ -128,6 +143,7 @@ public:
 	//skill
 	SkillManager* getSkillMgr() { return this->S_MGR; }
 	void skillSeting();
+	void abliiltyUpdate();
 
 	Character();
 	virtual ~Character() {};

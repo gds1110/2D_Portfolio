@@ -33,6 +33,8 @@ void CharacterManager::AddCharacter(Character* chr, UnitType type)
             v_Characters.push_back(chr);
             v_Characters[index]->SetType(type);
             v_Characters[index]->Init();
+            v_Characters[index]->SetCurrState(State::COMBAT);
+
             v_Characters[index]->SetIndex(index);
             v_Characters[index]->SetPos((WINSIZE_X / 2 - 100) - (index * 150));
             index++;
@@ -42,7 +44,6 @@ void CharacterManager::AddCharacter(Character* chr, UnitType type)
             v_Characters.push_back(chr);
             v_Characters[index]->SetType(type);
             v_Characters[index]->Init();
-         
             v_Characters[index]->SetIndex(index);
             v_Characters[index]->SetPos((WINSIZE_X / 2 + 100) + (index * 150));
             index++;

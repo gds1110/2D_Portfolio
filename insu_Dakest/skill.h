@@ -2,6 +2,7 @@
 #include "GameNode.h"
 
 class Image;
+class Character;
 class Skill :public GameNode
 {
 public:
@@ -26,7 +27,7 @@ protected:
 	RECT iconRC;
 	POINT pos;
 	SkillState skillstate;
-
+	Character* owner;
 
 
 	HCLASS hClass;
@@ -45,6 +46,7 @@ public:
 
 	void SetHClass(HCLASS hclass) { this->hClass = hclass; }
 	
+	void SetOwner(Character* owner) { this->owner = owner; }
 
 	void SetskillNum(int num) { skillNum = num; }
 	int GetskillNum() { return skillNum; }
@@ -60,12 +62,13 @@ public:
 	skillInfo GetSkillInfo() { return this->s_info; }
 
 	void SetIndex(int index) { this->index = index; }
-	virtual void run(int x, Character* target) {};
-	void Run() {};
+	virtual void run() {};
+	virtual void MotionRun();
 
 	Skill()
 	{
 		skillstate = SkillState::ON;
+		hClass = HCLASS::NONEHCLASS;
 		slotNum = 0;
 		skillNum = 0;
 		index = 0;
@@ -83,8 +86,11 @@ public:
 		s_info.targetRank = { 0,1 };
 		s_info.range = 1;
 	}
+	void run();
+	
 
 	void run(int x, Character* target) {
+		
 		//for (int i = 0; i < UiDataManager::GetSingleton()->GetTarGet().size(); i++) {
 		//	//UiDataManager::GetSingleton()->GetTarGet()[i].setHp(gethp - 1);
 		//}

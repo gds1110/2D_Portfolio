@@ -3,15 +3,18 @@
 #include "Singleton.h"
 #include <string>
 #include <vector>
+#include "config.h"
 
 class Character;
 class Skill;
 class SkillManager;
 class CharacterManager;
+class Tile;
 class UiDataManager : public Singleton<UiDataManager>
 {
 private:
 	Character* selectedChr;
+	vector<Tile*> minmap;
 	vector<Character*> targetChr;
 	bool selCheck;
 	Skill* selctedSkill;
@@ -19,6 +22,9 @@ private:
 	SkillManager* SS_MGR;
 	CharacterManager* SC_MGR;
 	CharacterManager* SM_MGR;
+
+	Tile** map;
+
 public:
 	HRESULT Init();
 	void Release();
@@ -33,6 +39,9 @@ public:
 
 	void SetselCheck(bool check) { this->selCheck = check; }
 	bool GetselCheck() { return this->selCheck; }
+
+	void SetMiniMap(vector<Tile*>  map) { this->minmap = map; }
+	vector<Tile*>  GetMiniMap() { return this->minmap; }
 
 	Character* GetSelectedChar() { if (selectedChr) { return this->selectedChr; } }
 	Skill* GetSelectedSkill() { if (selctedSkill) { return this->selctedSkill; }  }

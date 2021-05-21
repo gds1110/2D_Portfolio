@@ -6,12 +6,15 @@ class Skill;
 class SkillManager;
 class Character;
 class CharacterManager;
+class Tile;
 class UnderUi :public GameNode
 {
 private:
 	Image* underUi;
 	Image* underIcon;
 	Image* selSkillIcon;
+	Image* MapBG;
+	vector<Tile*> minmap;
 
 	Character* selChr;
 	Skill* selSkill;

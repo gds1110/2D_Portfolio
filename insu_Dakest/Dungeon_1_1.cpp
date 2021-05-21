@@ -85,7 +85,7 @@ void Dungeon_1_1::Update()
 		overUi->Update();
 	}
 
-	if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RIGHT)) {
+	if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RIGHT)|| KeyManager::GetSingleton()->IsStayKeyDown('D')) {
 		//
 		if (CamPos > -WINSIZE_X * 2)
 		{
@@ -96,7 +96,7 @@ void Dungeon_1_1::Update()
 			}
 		}
 	}
-	else if (KeyManager::GetSingleton()->IsStayKeyDown(VK_LEFT))
+	else if (KeyManager::GetSingleton()->IsStayKeyDown(VK_LEFT) || KeyManager::GetSingleton()->IsStayKeyDown('A'))
 	{
 		//
 		if (CamPos < WINSIZE_X / 2)
@@ -143,7 +143,7 @@ void Dungeon_1_1::Render(HDC hdc)
 	}
 	underUI->Render(hdc);
 	overUi->Render(hdc);
-	Rectangle(hdc, CamPos - 25, 50 - 25, CamPos + 25, 50 + 50);
+	//Rectangle(hdc, CamPos - 25, 50 - 25, CamPos + 25, 50 + 50);
 	// 인사
 	// 마우스 좌표
 	wsprintf(szText, "campos : %d",CamPos);

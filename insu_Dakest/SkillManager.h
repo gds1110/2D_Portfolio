@@ -3,6 +3,7 @@
 #include <vector>
 
 class Skill;
+class Character;
 class SkillManager : public GameNode
 {
 private:
@@ -10,12 +11,14 @@ private:
 
 	int index;
 	HCLASS hclass;
-
+	Character* owner;
 public:
 	virtual HRESULT Init();
+	virtual HRESULT Init(Character* owner);
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
+
 
 	void AddSkill(Skill* skill);
 	void AddSkill(HCLASS hclass, int skillNum, int index);

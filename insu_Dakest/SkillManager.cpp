@@ -9,6 +9,14 @@ HRESULT SkillManager::Init()
 	return S_OK;
 }
 
+HRESULT SkillManager::Init(Character* owner)
+{
+	index = 0;
+	this->owner = owner;
+
+	return S_OK;
+}
+
 void SkillManager::Release()
 {
 }
@@ -46,6 +54,7 @@ void SkillManager::AddSkill(Skill* skill)
 		  (*it)->Init();
 		  (*it)->SetPos(WINSIZE_X / 2 - (index * 200));*/
 		skillSlot[index]->Init();
+		skillSlot[index]->SetOwner(this->owner);
 		//skillSlot[index]->SetHClass();
 		//v_Heros[index]->SetPos(WINSIZE_X / 2-(index * 100));
 		//v_Heros[index]->SetPos(WINSIZE_X / 2-(posarray[index]));

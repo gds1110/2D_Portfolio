@@ -27,7 +27,7 @@ void H_HighWayMan::Update()
 {
 
     SetRect(&body, pos.x - 20, pos.y - 50, pos.x + 80, pos.y + 200);
-    SharedUpdate();    IdleCombatUpdate();
+    SharedUpdate();    
 
     /*  switchSprite();
 
