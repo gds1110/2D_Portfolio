@@ -9,6 +9,7 @@ class Character;
 class Skill;
 class SkillManager;
 class CharacterManager;
+class Image;
 class Tile;
 class UiDataManager : public Singleton<UiDataManager>
 {
@@ -22,6 +23,8 @@ private:
 	SkillManager* SS_MGR;
 	CharacterManager* SC_MGR;
 	CharacterManager* SM_MGR;
+
+	Image* RenderMinimap;
 
 	Tile** map;
 

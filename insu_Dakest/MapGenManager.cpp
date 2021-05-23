@@ -58,15 +58,18 @@ void Tile::Update()
 
 void Tile::Render(HDC hdc)
 {
-	//hOldBrush = (HBRUSH)SelectObject(hdc, hBrush);
-	//FillRect(hdc, &rc, hBrush);
-	//Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
-
-	//SelectObject(hdc, hOldBrush);
+	hOldBrush = (HBRUSH)SelectObject(hdc, hBrush);
+	FillRect(hdc, &rc, hBrush);
+	Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
+	wsprintf(szText, "%d", idX);
+	TextOut(hdc, center.x, center.y, szText, strlen(szText));
+	SelectObject(hdc, hOldBrush);
 	if (tileImg) {
-		tileImg->Render(hdc, center.x, center.y,true);
-		wsprintf(szText, "%d", index);
-		TextOut(hdc, center.x, center.y, szText, strlen(szText));
+		tileImg->Render(hdc, center.x, center.y, true);
+	/*	if (index > -1) {
+			wsprintf(szText, "%d", index);
+			TextOut(hdc, center.x, center.y, szText, strlen(szText));
+		}*/
 	}
 }
 
@@ -106,6 +109,8 @@ HRESULT MapGenManager::Init()
 	startTile->SetType(TileType::Start);
 	roomnum = 0;
 	currTile = startTile;
+	minimapdone = false;
+	MiniMap = new Image();
 
 	destTile = &(map[TILE_COUNT - 2][TILE_COUNT - 2]);
 	destTile->SetColor(RGB(0, 0, 255));
@@ -141,46 +146,56 @@ void MapGenManager::Update()
 			if (!openList.empty()) {
 				for (int i = 0; i < openList.size(); i++)
 				{
-					for (int j = 0; j < 4; j++)
-					{
+				
 						if (map[openList[i]->GetIdY()][openList[i]->GetIdX() - 5].getindex() != -1)
 						{
-							if (map[openList[i]->GetIdY()][openList[i]->GetIdX() - 4].GetType() == TileType::Path)
+							if (map[openList[i]->GetIdY()][openList[i]->GetIdX() - 1].GetType() == TileType::Path)
 							{
 								openList[i]->SetFourDir(0, map[openList[i]->GetIdY()][openList[i]->GetIdX() - 5].getindex());
 							}
 						}
 						if (map[openList[i]->GetIdY()][openList[i]->GetIdX() + 5].getindex() != -1)
 						{
-							if (map[openList[i]->GetIdY()][openList[i]->GetIdX() + 4].GetType() == TileType::Path)
+							if (map[openList[i]->GetIdY()][openList[i]->GetIdX() + 1].GetType() == TileType::Path)
 							{
 								openList[i]->SetFourDir(1, map[openList[i]->GetIdY()][openList[i]->GetIdX() + 5].getindex());
 							}
 						}
 						if (map[openList[i]->GetIdY() - 5][openList[i]->GetIdX()].getindex() != -1)
 						{
-							if (map[openList[i]->GetIdY() - 4][openList[i]->GetIdX()].GetType() == TileType::Path)
+							if (map[openList[i]->GetIdY() - 1][openList[i]->GetIdX()].GetType() == TileType::Path)
 							{
 								openList[i]->SetFourDir(2, map[openList[i]->GetIdY() - 5][openList[i]->GetIdX()].getindex());
 							}
 						}
 						if (map[openList[i]->GetIdY() + 5][openList[i]->GetIdX()].getindex() != -1)
 						{
-							if (map[openList[i]->GetIdY() + 4][openList[i]->GetIdX()].GetType() == TileType::Path)
+							if (map[openList[i]->GetIdY() + 1][openList[i]->GetIdX()].GetType() == TileType::Path)
 							{
 								openList[i]->SetFourDir(3, map[openList[i]->GetIdY() + 5][openList[i]->GetIdX()].getindex());
 							}
 						}
 
-					}
+					
 				}
 			}
 
 		}
 		UiDataManager::GetSingleton()->SetMiniMap(openList);
 
-		SceneManager::GetSingleton()->ChangeScene("스테이지1");
+			//SetRect(&mapview, minIndex.x, minIndex.y, maxIndex.x + 1, maxIndex.y + 1);
+			SetRect(&mapview, minIndex.x, minIndex.y, maxIndex.x + 1, maxIndex.y + 1);
+		//SceneManager::GetSingleton()->ChangeScene("스테이지1");
 	}
+
+		if (minimapdone == false)
+		{
+			minimapdone = true;
+			//MiniMap->Init(((maxIndex.x + 1) - minIndex.x)* TILE_SIZE, ((maxIndex.y + 1) - minIndex.y)* TILE_SIZE);
+			MiniMap->Init(((maxIndex.x + 1) - minIndex.x)* TILE_SIZE, ((maxIndex.y + 1) - minIndex.y)* TILE_SIZE);
+			//MiniMap->Init(2000,2000);
+		
+		}
 
 
 	//for (int i = 0; i < TILE_COUNT; i++)	// 세로반복 (y)
@@ -201,11 +216,11 @@ void MapGenManager::Update()
 	//FindPath();
 
 
-
 }
 
 void MapGenManager::Render(HDC hdc)
 {
+	HDC miniDC = MiniMap->GetMemDC();
 	for (int i = 0; i < TILE_COUNT; i++)	// 세로반복 (y)
 	{
 		for (int j = 0; j < TILE_COUNT; j++)	// 가로반복 (x)
@@ -213,7 +228,10 @@ void MapGenManager::Render(HDC hdc)
 			map[i][j].Render(hdc);
 		}
 	}
-	Rectangle(hdc, 1000, 0, 2000, 1000);
+
+
+	Rectangle(hdc, mapview.left*TILE_SIZE, mapview.top * TILE_SIZE, mapview.right * TILE_SIZE, mapview.bottom * TILE_SIZE);
+	//Rectangle(hdc, 1000, 0, 2000, 1000);
 	for (int i = 0; i < openList.size(); i++)
 	{
 		openList[i]->Render(hdc);
@@ -234,6 +252,12 @@ void MapGenManager::Render(HDC hdc)
 			TextOut(hdc, 1000 + 90 * j, 80 * i, szText, strlen(szText));
 		}
 	}
+	for (int i = 0; i < openList.size(); i++)
+	{
+		//openList[i]->Render(miniDC);
+	}
+	//Rectangle(miniDC, mapview.left * TILE_SIZE, mapview.top * TILE_SIZE, mapview.right * TILE_SIZE, mapview.bottom * TILE_SIZE);
+	MiniMap->Render(hdc, mapview.left* TILE_SIZE, mapview.top * TILE_SIZE);
 }
 
 void MapGenManager::Render2(HDC hdc)
@@ -276,16 +300,7 @@ void MapGenManager::MakePath(Tile& tile)
 						AddOpenList(&map[currIdY][currIdX + i]);
 					}
 				}
-				//if (map[currIdY][currIdX + 5].getindex() == -1)
-				//{						 
-				//	map[currIdY][currIdX + 5].SetType(TileType::Room);
-				//	map[currIdY][currIdX + 5].SetIsClosed(true);
-				//	map[currIdY][currIdX + 5].setindex(index);
-				//	index = map[currIdY][currIdX + 5].getindex();
-				//	index++;
-				//	AddOpenList(&map[currIdY][currIdX + 5]);
-
-				//}
+				
 				map[currIdY][currIdX].addWay(map[currIdY][currIdX + 5].getindex());
 				map[currIdY][currIdX + 5].SetColor(RGB(255, 255, 0));
 				currTile = &map[currIdY][currIdX + 5];
@@ -305,16 +320,7 @@ void MapGenManager::MakePath(Tile& tile)
 					}
 
 				}
-		/*		if (map[currIdY ][currIdX- 5].getindex() == -1)
-				{							
-					map[currIdY ][currIdX- 5].SetType(TileType::Room);
-					map[currIdY ][currIdX- 5].SetIsClosed(true);
-					map[currIdY ][currIdX- 5].setindex(index);
-					index = map[currIdY ][currIdX - 5].getindex();
-					index++;
-					AddOpenList(&map[currIdY ][currIdX - 5]);
-
-				}*/
+		
 				map[currIdY][currIdX].addWay(map[currIdY][currIdX-5].getindex());
 				map[currIdY][currIdX - 5].SetColor(RGB(255, 255, 0));
 				currTile = &map[currIdY][currIdX - 5];
@@ -334,16 +340,7 @@ void MapGenManager::MakePath(Tile& tile)
 					}
 
 				}
-	/*			if (map[currIdY + 5][currIdX].getindex() == -1)
-				{
-					map[currIdY + 5][currIdX].SetType(TileType::Room);
-					map[currIdY + 5][currIdX].SetIsClosed(true);
-					map[currIdY + 5][currIdX].setindex(index);
-					index = map[currIdY + 5][currIdX].getindex();
-					index++;
-					AddOpenList(&map[currIdY + 5][currIdX]);
-
-				}*/
+	
 				map[currIdY][currIdX].addWay(map[currIdY + 5][currIdX].getindex());
 				map[currIdY + 5][currIdX].SetColor(RGB(255, 255, 0));
 				currTile = &map[currIdY + 5][currIdX];
@@ -363,16 +360,7 @@ void MapGenManager::MakePath(Tile& tile)
 					}
 
 				}
-		/*		if (map[currIdY - 5][currIdX].getindex() == -1)
-				{
-					map[currIdY - 5][currIdX].SetType(TileType::Room);
-					map[currIdY - 5][currIdX].SetIsClosed(true);
-					map[currIdY - 5][currIdX].setindex(index);
-					index = map[currIdY - 5][currIdX].getindex();
-					index++;
-					AddOpenList(&map[currIdY - 5][currIdX]);
-
-				}*/
+		
 				map[currIdY][currIdX].addWay(map[currIdY - 5][currIdX].getindex());
 				map[currIdY - 5][currIdX].SetColor(RGB(255, 255, 0));
 				currTile = &map[currIdY - 5][currIdX];
@@ -387,7 +375,10 @@ void MapGenManager::MakePath(Tile& tile)
 			currTile->SetIsClosed(true);
 			currTile->setindex(index);
 			index = currTile->getindex();
-
+			minIndex.x = min(minIndex.x, currTile->GetIdX());
+			minIndex.y = min(minIndex.y, currTile->GetIdY());
+			maxIndex.x = max(maxIndex.x, currTile->GetIdX());
+			maxIndex.y = max(maxIndex.y, currTile->GetIdY());
 			AddOpenList(currTile);
 			index++;
 			roomnum = index;

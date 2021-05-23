@@ -86,6 +86,7 @@ public:
 
 };
 
+class Image;
 class MapGenManager : public GameNode
 {
 	// 이차원 배열 맵을 구성
@@ -101,6 +102,12 @@ class MapGenManager : public GameNode
 	vector<Tile*> heap;
 	char szText[128];
 	int roomnum;
+	POINT minIndex = { 99,99 };
+	POINT maxIndex = { -1,-1 };
+	RECT mapview;
+
+	Image* MiniMap;
+	bool minimapdone;
 
 public:
 	virtual HRESULT Init();
