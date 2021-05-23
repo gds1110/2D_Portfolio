@@ -69,12 +69,14 @@ void UnderUi::Render(HDC hdc)
 		//		}
 		//	}
 		//}
+		UiDataManager::GetSingleton()->GetMapimg()->Render4(hdc, WINSIZE_X / 2, WINSIZE_Y - WINSIZE_Y / 3, false, 1, 
+			UiDataManager::GetSingleton()->GetMin(), UiDataManager::GetSingleton()->GetMax());
 	}
 	if (!minmap.empty())
 	{
 		for (int i = 0; i < minmap.size(); i++)
 		{
-			minmap[i]->Render2(hdc,WINSIZE_X/2,WINSIZE_Y-WINSIZE_Y/3);
+			//minmap[i]->Render2(hdc,WINSIZE_X/2,WINSIZE_Y-WINSIZE_Y/3);
 		}
 	}
 	if (underIcon) {

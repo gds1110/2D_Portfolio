@@ -12,6 +12,7 @@ HRESULT UiDataManager::Init()
 	SC_MGR = nullptr;
 	selCheck = false;
 	map = nullptr;
+	Minimap = nullptr;
 
 	return S_OK;
 }

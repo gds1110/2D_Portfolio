@@ -57,19 +57,21 @@ void Tile::Update()
 }
 
 void Tile::Render(HDC hdc)
-{
+{/*
 	hOldBrush = (HBRUSH)SelectObject(hdc, hBrush);
 	FillRect(hdc, &rc, hBrush);
-	Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
-	wsprintf(szText, "%d", idX);
-	TextOut(hdc, center.x, center.y, szText, strlen(szText));
-	SelectObject(hdc, hOldBrush);
+	Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);*/
+	//wsprintf(szText, "%d", idX);
+	//TextOut(hdc, center.x, center.y, szText, strlen(szText));
+	/*wsprintf(szText, "%d", idY);
+	TextOut(hdc, center.x-5, center.y-5, szText, strlen(szText));*/
+	//SelectObject(hdc, hOldBrush);
 	if (tileImg) {
 		tileImg->Render(hdc, center.x, center.y, true);
-	/*	if (index > -1) {
-			wsprintf(szText, "%d", index);
-			TextOut(hdc, center.x, center.y, szText, strlen(szText));
-		}*/
+		if (index > -1) {
+			//wsprintf(szText, "%d", index);
+			//TextOut(hdc, center.x, center.y, szText, strlen(szText));
+		}
 	}
 }
 
@@ -111,8 +113,10 @@ HRESULT MapGenManager::Init()
 	currTile = startTile;
 	minimapdone = false;
 	MiniMap = new Image();
+	MiniMap->Init(ASTARSIZE_X, ASTARSIZE_Y);
 
-	destTile = &(map[TILE_COUNT - 2][TILE_COUNT - 2]);
+	//destTile = &(map[TILE_COUNT - 2][TILE_COUNT - 2]);
+	destTile = &(map[1][1]);
 	destTile->SetColor(RGB(0, 0, 255));
 	destTile->SetType(TileType::End);
 	index = 0;
@@ -140,7 +144,7 @@ void MapGenManager::Update()
 		}
 	}
 
-	if (roomnum < 10) {
+	if (roomnum < 8) {
 		for (int i = 0; i < 4; i++) {
 			MakePath(*currTile);
 			if (!openList.empty()) {
@@ -185,19 +189,28 @@ void MapGenManager::Update()
 
 			//SetRect(&mapview, minIndex.x, minIndex.y, maxIndex.x + 1, maxIndex.y + 1);
 			SetRect(&mapview, minIndex.x, minIndex.y, maxIndex.x + 1, maxIndex.y + 1);
-		//SceneManager::GetSingleton()->ChangeScene("스테이지1");
+			//MiniMap->Init(ASTARSIZE_X, ASTARSIZE_Y);
+
+			//MiniMap->Init(((mapview.right - mapview.left) * TILE_SIZE), ((mapview.bottom - mapview.top) * TILE_SIZE));
+			//MiniMap->Init(((mapview.right - mapview.left) * TILE_SIZE), ((mapview.bottom - mapview.top) * TILE_SIZE));
+
 	}
-
-		if (minimapdone == false)
-		{
-			minimapdone = true;
-			//MiniMap->Init(((maxIndex.x + 1) - minIndex.x)* TILE_SIZE, ((maxIndex.y + 1) - minIndex.y)* TILE_SIZE);
-			MiniMap->Init(((maxIndex.x + 1) - minIndex.x)* TILE_SIZE, ((maxIndex.y + 1) - minIndex.y)* TILE_SIZE);
-			//MiniMap->Init(2000,2000);
+	else
+	{
 		
-		}
 
+		//
+	}
+		//if (minimapdone == false)
+		//{
+		//	minimapdone = true;
+		//	//MiniMap->Init(((maxIndex.x + 1) - minIndex.x)* TILE_SIZE, ((maxIndex.y + 1) - minIndex.y)* TILE_SIZE);
+		//	MiniMap->Init(((mapview.right - mapview.left) * TILE_SIZE), ((mapview.bottom - mapview.top) * TILE_SIZE));
+		//	//MiniMap->Init(2000,2000);
 
+		//}
+
+	
 	//for (int i = 0; i < TILE_COUNT; i++)	// 세로반복 (y)
 	//{
 	//	for (int j = 0; j < TILE_COUNT; j++)	// 가로반복 (x)
@@ -214,13 +227,17 @@ void MapGenManager::Update()
 
 	//currTile = startTile;
 	//FindPath();
-
-
+	UiDataManager::GetSingleton()->SetMapimg(MiniMap);
+	UiDataManager::GetSingleton()->SetMin(minIndex);
+	UiDataManager::GetSingleton()->SetMax(maxIndex);
+	SceneManager::GetSingleton()->ChangeScene("스테이지1");
 }
 
 void MapGenManager::Render(HDC hdc)
 {
+	
 	HDC miniDC = MiniMap->GetMemDC();
+	UiDataManager::GetSingleton()->SetHdc(miniDC);
 	for (int i = 0; i < TILE_COUNT; i++)	// 세로반복 (y)
 	{
 		for (int j = 0; j < TILE_COUNT; j++)	// 가로반복 (x)
@@ -228,14 +245,22 @@ void MapGenManager::Render(HDC hdc)
 			map[i][j].Render(hdc);
 		}
 	}
+	for (int i = 0; i < TILE_COUNT; i++)	// 세로반복 (y)
+	{
+		for (int j = 0; j < TILE_COUNT; j++)	// 가로반복 (x)
+		{
+			map[i][j].Render(miniDC);
+		}
+	}
 
 
 	Rectangle(hdc, mapview.left*TILE_SIZE, mapview.top * TILE_SIZE, mapview.right * TILE_SIZE, mapview.bottom * TILE_SIZE);
-	//Rectangle(hdc, 1000, 0, 2000, 1000);
+	Rectangle(hdc, 1000, 0, 2000, 1000);
 	for (int i = 0; i < openList.size(); i++)
 	{
 		openList[i]->Render(hdc);
 	}
+
 	for (int i = 0; i < openList.size(); i++) {
 		/*wsprintf(szText, "X : %d, Y : %d",openList.size()), openList[i]->GetParentTile()->getindex());
 		TextOut(hdc, 1000, 50*i, szText, strlen(szText));*/
@@ -246,18 +271,21 @@ void MapGenManager::Render(HDC hdc)
 				TextOut(hdc,1000+90*j, 80 * i, szText, strlen(szText));
 			}*/
 		}
-		for (int j = 0; j < 4; j++)
+		/*for (int j = 0; j < 4; j++)
 		{
 			wsprintf(szText, "r : %d, w : %d", i, openList[i]->GetFourDir()[j]);
 			TextOut(hdc, 1000 + 90 * j, 80 * i, szText, strlen(szText));
-		}
+		}*/
 	}
 	for (int i = 0; i < openList.size(); i++)
 	{
-		//openList[i]->Render(miniDC);
+		openList[i]->Render(miniDC);
 	}
 	//Rectangle(miniDC, mapview.left * TILE_SIZE, mapview.top * TILE_SIZE, mapview.right * TILE_SIZE, mapview.bottom * TILE_SIZE);
-	MiniMap->Render(hdc, mapview.left* TILE_SIZE, mapview.top * TILE_SIZE);
+	//MiniMap->Render3(hdc, 1100, 0,false,1,minIndex.x* TILE_SIZE,minIndex.y* TILE_SIZE);
+	MiniMap->Render4(hdc, 1100, 0,false,1,minIndex,maxIndex);
+	//MiniMap->Render3(hdc, 1000, 600,false,1,(maxIndex.x)* TILE_SIZE,(maxIndex.y)* TILE_SIZE);
+	/*MiniMap->Render3(hdc, 1200, 100,false,1, mapview.left, mapview.top );*/
 }
 
 void MapGenManager::Render2(HDC hdc)

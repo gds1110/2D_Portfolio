@@ -25,6 +25,10 @@ private:
 	CharacterManager* SM_MGR;
 
 	Image* RenderMinimap;
+	Image* Minimap;
+	POINT minIndex = { 99,99 };
+	POINT maxIndex = { -1,-1 };
+	HDC mapHdc;
 
 	Tile** map;
 
@@ -32,6 +36,15 @@ public:
 	HRESULT Init();
 	void Release();
 	void Update();
+
+	void SetHdc(HDC hdc) { this->mapHdc = hdc; }
+	HDC GetHdc() { return this->mapHdc; }
+
+	void SetMin(POINT min) { this->minIndex = min; }
+	void SetMax(POINT max) { this->maxIndex = max; }
+
+	POINT GetMin() { return this->minIndex; }
+	POINT GetMax() { return this->maxIndex; }
 
 	void selectSkill(Skill* select) { this->selctedSkill = select; }
 	void SelectChar(Character* select) { this->selectedChr = select; }
@@ -42,6 +55,9 @@ public:
 
 	void SetselCheck(bool check) { this->selCheck = check; }
 	bool GetselCheck() { return this->selCheck; }
+
+	void SetMapimg(Image* image) { this->Minimap = image; }
+	Image* GetMapimg() { return this->Minimap; }
 
 	void SetMiniMap(vector<Tile*>  map) { this->minmap = map; }
 	vector<Tile*>  GetMiniMap() { return this->minmap; }
