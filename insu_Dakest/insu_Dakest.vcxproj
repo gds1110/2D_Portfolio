@@ -170,6 +170,7 @@
     <ClCompile Include="MapGenManager.cpp" />
     <ClCompile Include="melee.cpp" />
     <ClCompile Include="OverUi.cpp" />
+    <ClCompile Include="ReadyScene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="skeleton_arbalistar.cpp" />
     <ClCompile Include="skeleton_bearer.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="MapGenManager.h" />
     <ClInclude Include="melee.h" />
     <ClInclude Include="OverUi.h" />
+    <ClInclude Include="ReadyScene.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Singleton.h" />

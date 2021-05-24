@@ -25,7 +25,7 @@ using namespace std;
 #define TILEMAPTOOLSIZE_Y	900
 #define ASTARSIZE_X	1620
 #define ASTARSIZE_Y	900
-#define TILE_SIZE		15
+#define TILE_SIZE	20
 #define TILE_COUNT	(ASTARSIZE_Y / TILE_SIZE)
 
 #define PI			3.141592f

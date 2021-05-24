@@ -11,6 +11,13 @@ class SkillManager;
 class DataManager;
 class Dungeon_1_1 : public GameNode
 {
+	enum DungeonType
+	{
+		START,
+		PATH,
+		ROOM,
+		END,
+	};
 private:
 	Image* Ip_Bg_First;
 	Image* Ip_Bg_Second;

@@ -7,6 +7,18 @@ class Image;
 class Tile : public GameNode
 {
 private:
+	struct TileStruct
+	{
+		bool isStarted=false;
+		bool isCurrted = false;
+		bool isEnemyed = false;
+		bool isSuddenEnemy = false;
+		bool isCurios = false;
+		int roomType=-1;
+		int pathType=-1;
+		int enemyArr[4] = { -1,-1,-1,-1 };
+	};
+private:
 	int idX, idY;
 	POINT center;
 	RECT rc;
@@ -20,17 +32,35 @@ private:
 	Tile* prevTile;
 	vector<int> way;
 	Image* tileImg;
+	Image* tileIcon;
 	bool isInOpenlist;
 	bool isClosed;
 
 	int fourDir[4] = { -1,-1,-1,-1 };
 
+	POINT prevNnext = { 0,0 };
 	COLORREF color;
 	HBRUSH hBrush;
 	HBRUSH hOldBrush;
 
-	char szText[128];
+	bool startPoint;
+	bool currtPoint;
+	bool EnemyPoint;
 
+
+	TileStruct infoRoom;
+	
+	//출발위치, 현재위치, 적이있는가,기습유무,방 타입, 통로 타입, 골동품 유무, 
+	bool roomInfo[7] = { 0,0,0,0,0,0,0 };
+	char szText[128];
+	bool isStarted = false;
+	bool isCurrted = false;
+	bool isEnemyed = false;
+	bool isSuddenEnemy = false;
+	bool isCurios = false;
+	int roomType = -1;
+	int pathType = -1;
+	int enemyArr[4] = { -1,-1,-1,-1 };
 	// heap 관련
 	int heapIndex;
 
@@ -41,8 +71,19 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 	void Render2(HDC hdc,int x,int y);
+
+	void SetPrevNnext(POINT prNne) { this->prevNnext = prNne; }
+	POINT GetPrevNnext() { return this->prevNnext; }
+
+	void SetIsStarted(bool is) { this->isStarted = is; }
+	void SetIsCurrted(bool is) { this->isCurrted = is; }
+
+	TileStruct GetTileinfo() { return this->infoRoom; }
+	void SetTileInfo(TileStruct tileinfo) { this->infoRoom = tileinfo; }
+
 	void setindex(int i) { this->index = i; }
 	int getindex() { return this->index; }
+
 	void SetColor(COLORREF color);
 	void SetType(TileType type) { this->type = type; }
 	TileType GetType() { return this->type; }
@@ -105,7 +146,7 @@ class MapGenManager : public GameNode
 	POINT minIndex = { 99,99 };
 	POINT maxIndex = { -1,-1 };
 	RECT mapview;
-
+	POINT startPoint = { 999,999 };
 	Image* MiniMap;
 	bool minimapdone;
 

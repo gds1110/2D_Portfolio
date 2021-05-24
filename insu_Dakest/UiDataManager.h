@@ -5,6 +5,7 @@
 #include <vector>
 #include "config.h"
 
+class MapGenManager;
 class Character;
 class Skill;
 class SkillManager;
@@ -30,12 +31,17 @@ private:
 	POINT maxIndex = { -1,-1 };
 	HDC mapHdc;
 
+	MapGenManager* MapGen;
+
 	Tile** map;
 
 public:
 	HRESULT Init();
 	void Release();
 	void Update();
+
+	MapGenManager* GetMapGen() { return this->MapGen; }
+	void SetMapGeN(MapGenManager* map) { this->MapGen = map; }
 
 	void SetHdc(HDC hdc) { this->mapHdc = hdc; }
 	HDC GetHdc() { return this->mapHdc; }

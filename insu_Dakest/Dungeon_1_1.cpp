@@ -74,6 +74,11 @@ void Dungeon_1_1::Release()
 
 void Dungeon_1_1::Update()
 {
+	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_F1))
+	{
+		SceneManager::GetSingleton()->ChangeScene("¸Ê»ý¼º");
+		return;
+	}
 
 	if (DM)
 	{

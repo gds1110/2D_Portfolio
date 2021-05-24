@@ -16,7 +16,10 @@ HRESULT UnderUi::Init()
 	selSkillmgr = nullptr;
 	c_mgr = nullptr;
 	m_mgr = nullptr;
-	minmap = UiDataManager::GetSingleton()->GetMiniMap();
+	HDC hdc2;
+	maps = UiDataManager::GetSingleton()->GetMapimg();
+
+	//minmap = UiDataManager::GetSingleton()->GetMiniMap();
 	//tile = UiDataManager::GetSingleton()->GetMiniMap();
 	return S_OK;
 }
@@ -42,7 +45,7 @@ void UnderUi::Update()
 		}
 		
 	}
-	if (!minmap.empty()) {
+	/*if (!minmap.empty()) {
 		
 
 		for (int i = 0; i < minmap.size(); i++)
@@ -50,7 +53,7 @@ void UnderUi::Update()
 			minmap[i]->SetPos( minmap[i]->GetIdX() * TILE_SIZE ,WINSIZE_Y/4+minmap[i]->GetIdY() *  (TILE_SIZE));
 			minmap[i]->Update();
 		}
-	}
+	}*/
 }
 
 void UnderUi::Render(HDC hdc)
@@ -69,16 +72,19 @@ void UnderUi::Render(HDC hdc)
 		//		}
 		//	}
 		//}
-		UiDataManager::GetSingleton()->GetMapimg()->Render4(hdc, WINSIZE_X / 2, WINSIZE_Y - WINSIZE_Y / 3, false, 1, 
-			UiDataManager::GetSingleton()->GetMin(), UiDataManager::GetSingleton()->GetMax());
+		/*UiDataManager::GetSingleton()->GetMapimg()->Render4(hdc, WINSIZE_X / 2, WINSIZE_Y - WINSIZE_Y / 3, false, 1, 
+			UiDataManager::GetSingleton()->GetMin(), UiDataManager::GetSingleton()->GetMax());*/
+    	//UiDataManager::GetSingleton()->GetMapGen()->Render(hdc);
+		maps->Render5(hdc, WINSIZE_X / 2+10, WINSIZE_Y - WINSIZE_Y / 3+20,
+			false,1, UiDataManager::GetSingleton()->GetMin(), UiDataManager::GetSingleton()->GetMax());
 	}
-	if (!minmap.empty())
-	{
-		for (int i = 0; i < minmap.size(); i++)
-		{
-			//minmap[i]->Render2(hdc,WINSIZE_X/2,WINSIZE_Y-WINSIZE_Y/3);
-		}
-	}
+	//if (!minmap.empty())
+	//{
+	//	for (int i = 0; i < minmap.size(); i++)
+	//	{
+	//		//minmap[i]->Render2(hdc,WINSIZE_X/2,WINSIZE_Y-WINSIZE_Y/3);
+	//	}
+	//}
 	if (underIcon) {
 		underIcon->Render2(hdc, 210, WINSIZE_Y - WINSIZE_Y / 3 + 50, true, 0.5);
 	}
@@ -90,4 +96,5 @@ void UnderUi::Render(HDC hdc)
 	{
 		selSkillIcon->Render(hdc, selSkill->GetPos().x, selSkill->GetPos().y, true);
 	}
+	
 }

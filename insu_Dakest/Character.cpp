@@ -146,7 +146,7 @@ void Character::MswitchSprite()
         break;
     case HURT:
         currFrameX = 0;
-        img = ImageManager::GetSingleton()->FindImage(MonArr[mkinds] + "허트");
+        img = ImageManager::GetSingleton()->FindImage(MonArr[mkinds] + "피격");
         AbilOn = true;
         break;
     case NONESTATE:

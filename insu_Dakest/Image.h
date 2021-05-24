@@ -97,7 +97,10 @@ public:
 	void Render3(HDC hdc, int destX = 0, int destY = 0,
 		bool isCenterRenderring = false, float size = 1, int posX = 0, int posY = 0, int sizeX = 0,int sizeY=0);
 	void Render4(HDC hdc, int destX = 0, int destY = 0,
-		bool isCenterRenderring = false, float size = 1, POINT min = { 0 }, POINT max = { 0 }, int sizeX = 0, int sizeY = 0);
+		bool isCenterRenderring = false, float size = 1, POINT minP = { 0 }, POINT maxP = { 0 }, int sizeX = 0, int sizeY = 0);
+
+	void Render5(HDC hdc, int destX = 0, int destY = 0,
+		bool isCenterRenderring = false, float size = 1, POINT minP = { 0 }, POINT maxP = { 0 }, int sizeX = 0, int sizeY = 0);
 
 
 	void Release();

@@ -480,7 +480,7 @@ void Image::Render3(HDC hdc, int destX, int destY, bool isCenterRenderring, floa
 
 }
 
-void Image::Render4(HDC hdc, int destX, int destY, bool isCenterRenderring, float size, POINT min, POINT max, int sizeX, int sizeY)
+void Image::Render4(HDC hdc, int destX, int destY, bool isCenterRenderring, float size, POINT minP, POINT maxP, int sizeX, int sizeY)
 {
     int x = destX;
     int y = destY;
@@ -499,35 +499,196 @@ void Image::Render4(HDC hdc, int destX, int destY, bool isCenterRenderring, floa
             imageInfo->width, imageInfo->height,
 
             imageInfo->hMemDC,
-            min.x, min.y,
+            minP.x, minP.y,
             imageInfo->width, imageInfo->height,
             transColor
         );
     }
     else
     {
-        
-          // bitmap 에 있는 이미지 정보를 다른 비트맵에 복사
+        //int maximum = max(maxP.x, maxP.y);
+        //float XX = maximum;
+
+        //float WidthSize = ((maxP.x - minP.x) * TILE_SIZE);
+        //float HeightSize = ((maxP.y - minP.y) * TILE_SIZE);
+        //float offsetx = 1.0f;
+        //float offsety = 1.0f;
+
+        //if (WidthSize > 440/*|| WidthSize < 440*/) {
+        //   // offsetx = (WidthSize / 440) * 100;
+        //    offsetx = (440 / WidthSize);
+        //    //WidthSize *= offsetx;
+        //   // HeightSize = (HeightSize / 440) * 100;
+
+        //}
+        ///* if () {
+
+        //    offsetx = (440 / WidthSize);
+        //}*/
+        // if (HeightSize > 230/*|| HeightSize < 230*/)
+        //{
+        //   // HeightSize = (HeightSize / (WINSIZE_Y / 3)) * 100;
+
+        //    //offsety = (HeightSize / 240) * 100;
+        //    offsety = ( 230/HeightSize);
+        //    //HeightSize *= offsety;
+        //    //WidthSize = (WidthSize / (WINSIZE_Y / 3)) * 100;
+
+        //}
+        //  // bitmap 에 있는 이미지 정보를 다른 비트맵에 복사
+        //StretchBlt(
+        //    hdc,
+        //    x, y,
+        //    //imageInfo->width * size, imageInfo->height * size,
+        //    (WidthSize) *size* offsetx, (HeightSize)* size* offsety,
+        //    //440,(WINSIZE_Y/3),
+        //    imageInfo->hMemDC,
+        //    //hdc,
+        //    minP.x * TILE_SIZE,
+        //    minP.y * TILE_SIZE,
+        //    (maxP.x+1 - minP.x) * TILE_SIZE , (maxP.y+1 - minP.y) * TILE_SIZE,
+
+        //    SRCCOPY);
+        BitBlt(
+            //imageInfo->hMemDC,                // 복사 목적지 DC
+            imageInfo->hMemDC,
+            0, 0,               // 복사 시작 위치
+            (maxP.x + 1 - minP.x) * TILE_SIZE,   // 원본에서 복사될 가로크기
+            (maxP.y + 1 - minP.y) * TILE_SIZE,  // 원본에서 복사될 세로크기
+            imageInfo->hMemDC,  // 원본 DC
+            minP.x * TILE_SIZE, minP.y * TILE_SIZE,               // 원본에서 복사 시작 위치
+            SRCCOPY             // 복사 옵션
+        );
+
+        BitBlt(
+            //imageInfo->hMemDC,                // 복사 목적지 DC
+            hdc,
+            x, y,               // 복사 시작 위치
+            (maxP.x + 1 - minP.x) * TILE_SIZE,   // 원본에서 복사될 가로크기
+            (maxP.y + 1 - minP.y) * TILE_SIZE,  // 원본에서 복사될 세로크기
+            imageInfo->hMemDC,  // 원본 DC
+            0, 0,               // 원본에서 복사 시작 위치
+            SRCCOPY             // 복사 옵션
+        );
+        //BitBlt(
+        //    //imageInfo->hMemDC,                // 복사 목적지 DC
+        //    hdc,
+        //    x, y,               // 복사 시작 위치
+        //    (maxP.x + 1 - minP.x) * TILE_SIZE,   // 원본에서 복사될 가로크기
+        //    (maxP.y + 1 - minP.y) * TILE_SIZE,  // 원본에서 복사될 세로크기
+        //    imageInfo->hMemDC,  // 원본 DC
+        //    minP.x * TILE_SIZE, minP.y * TILE_SIZE,               // 원본에서 복사 시작 위치
+        //    SRCCOPY             // 복사 옵션
+        //);
+
+    }
+}
+
+void Image::Render5(HDC hdc, int destX, int destY, bool isCenterRenderring, float size, POINT minP, POINT maxP, int sizeX, int sizeY)
+{
+    int x = destX;
+    int y = destY;
+    if (isCenterRenderring)
+    {
+        x = destX - (imageInfo->width / 2);
+        y = destY - (imageInfo->height / 2);
+    }
+
+    if (isTransparent)
+    {
+        // 특정 색상을 빼고 복사하는 함수
+        GdiTransparentBlt(
+            hdc,
+            x, y,
+            imageInfo->width, imageInfo->height,
+
+            imageInfo->hMemDC,
+            minP.x, minP.y,
+            imageInfo->width, imageInfo->height,
+            transColor
+        );
+    }
+    else
+    {
+        //int maximum = max(maxP.x, maxP.y);
+        //float XX = maximum;
+
+        //float WidthSize = ((maxP.x - minP.x) * TILE_SIZE);
+        //float HeightSize = ((maxP.y - minP.y) * TILE_SIZE);
+        //float offsetx = 1.0f;
+        //float offsety = 1.0f;
+
+        //if (WidthSize > 440/*|| WidthSize < 440*/) {
+        //   // offsetx = (WidthSize / 440) * 100;
+        //    offsetx = (440 / WidthSize);
+        //    //WidthSize *= offsetx;
+        //   // HeightSize = (HeightSize / 440) * 100;
+
+        //}
+        ///* if () {
+
+        //    offsetx = (440 / WidthSize);
+        //}*/
+        // if (HeightSize > 230/*|| HeightSize < 230*/)
+        //{
+        //   // HeightSize = (HeightSize / (WINSIZE_Y / 3)) * 100;
+
+        //    //offsety = (HeightSize / 240) * 100;
+        //    offsety = ( 230/HeightSize);
+        //    //HeightSize *= offsety;
+        //    //WidthSize = (WidthSize / (WINSIZE_Y / 3)) * 100;
+
+        //}
+        //  // bitmap 에 있는 이미지 정보를 다른 비트맵에 복사
+        GdiTransparentBlt(
+            imageInfo->hMemDC,
+            x, y,
+            imageInfo->width, imageInfo->height,
+
+            imageInfo->hMemDC,
+            minP.x, minP.y,
+            imageInfo->width, imageInfo->height,
+            RGB(255, 255, 255)
+        );
+
+
         StretchBlt(
             hdc,
             x, y,
             //imageInfo->width * size, imageInfo->height * size,
-            (max.x-min.x)*TILE_SIZE * size, (max.y-min.y)*TILE_SIZE * size,
+            //440,320,
+            //440,(WINSIZE_Y/3),
+            //(maxP.x + 1 - minP.x) * TILE_SIZE, (maxP.y + 1 - minP.y) * TILE_SIZE,
+            430,
+            200,
             imageInfo->hMemDC,
-            min.x * TILE_SIZE,
-            min.y * TILE_SIZE,
-            (max.x+1 - min.x) * TILE_SIZE , (max.y+1 - min.y) * TILE_SIZE,
-
+            //hdc,
+            minP.x * TILE_SIZE,
+            minP.y * TILE_SIZE,
+            //(maxP.x+1 - minP.x) * TILE_SIZE , (maxP.y+1 - minP.y) * TILE_SIZE,
+            430,
+            200,
             SRCCOPY);
-
+      
 
         //BitBlt(
-        //    imageInfo->hMemDC,                // 복사 목적지 DC
-        //    0, 0,               // 복사 시작 위치
-        //    posX,   // 원본에서 복사될 가로크기
-        //    posY,  // 원본에서 복사될 세로크기
+        //    //imageInfo->hMemDC,                // 복사 목적지 DC
+        //    hdc,
+        //    x, y,               // 복사 시작 위치
+        //    (maxP.x + 1 - minP.x) * TILE_SIZE,   // 원본에서 복사될 가로크기
+        //    (maxP.y + 1 - minP.y) * TILE_SIZE,  // 원본에서 복사될 세로크기
         //    imageInfo->hMemDC,  // 원본 DC
-        //    posX, posY,               // 원본에서 복사 시작 위치
+        //    0, 0,               // 원본에서 복사 시작 위치
+        //    SRCCOPY             // 복사 옵션
+        //);
+        //BitBlt(
+        //    //imageInfo->hMemDC,                // 복사 목적지 DC
+        //    hdc,
+        //    x, y,               // 복사 시작 위치
+        //    (maxP.x + 1 - minP.x) * TILE_SIZE,   // 원본에서 복사될 가로크기
+        //    (maxP.y + 1 - minP.y) * TILE_SIZE,  // 원본에서 복사될 세로크기
+        //    imageInfo->hMemDC,  // 원본 DC
+        //    minP.x * TILE_SIZE, minP.y * TILE_SIZE,               // 원본에서 복사 시작 위치
         //    SRCCOPY             // 복사 옵션
         //);
 

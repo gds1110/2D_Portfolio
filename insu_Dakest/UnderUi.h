@@ -15,7 +15,7 @@ private:
 	Image* selSkillIcon;
 	Image* MapBG;
 	vector<Tile*> minmap;
-
+	Image* maps;
 	Character* selChr;
 	Skill* selSkill;
 	SkillManager* selSkillmgr;

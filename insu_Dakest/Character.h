@@ -48,7 +48,7 @@ protected:
 	MonsterKinds mkinds;
 	SkillManager* S_MGR;
 	string classArr[15] = { "크루세이더 ","바운티헌터 ","노상강도 ","나병환자 ","성녀 " };
-	string MonArr[15] = { "스켈레톤아처" };
+	string MonArr[15] = { "스켈레톤아처 " };
 	//SelectCheck
 	bool selected;
 	bool target;
