@@ -48,17 +48,25 @@ void Character::HUpdate()
 
 void Character::MUpdate()
 {
-    eltimes += TimerManager::GetSingleton()->GetElapsedTime();
+   // mTime += TimerManager::GetSingleton()->GetElapsedTime();
 
+    
+ 
+    if (AbilOn == false) {
+        IdleCombatUpdate();
+        MswitchSprite();
+       
+    }
+    abliiltyUpdate();
     if (pos.x < MonArrPos[index])
     {
-        pos.x += eltimes * 2 / 10;
+        pos.x += 500*TimerManager::GetSingleton()->GetElapsedTime();//mTime * 1 / 10;
     }
     else if (pos.x > MonArrPos[index])
     {
-        pos.x -= eltimes * 2 / 10;
+        pos.x -= 500*TimerManager::GetSingleton()->GetElapsedTime();//mTime * 1 / 10;
     }
-
+    
 }
 
 void Character::SharedUpdate()
@@ -89,11 +97,15 @@ void Character::SharedUpdate()
 
     if (pos.x < CharArrPos[index])
     {
-        pos.x += eltimes * 2/10;
+        pos.x += eltimes * 1/10;
     }
     else if(pos.x>CharArrPos[index])
     {
-        pos.x -= eltimes * 2/10;
+        pos.x -= eltimes * 1/10;
+    }
+    else
+    {
+        eltimes = 0;
     }
        
 }
@@ -120,6 +132,7 @@ void Character::switchSprite()
         currFrameX = 0;
         img = ImageManager::GetSingleton()->FindImage(classArr[hClass] + "스킬1");
         AbilOn = true;
+        depth = 3;
         break;
     case NONESTATE:
         break;
@@ -128,7 +141,6 @@ void Character::switchSprite()
     }
   
 }
-
 void Character::MswitchSprite()
 {
     switch (currstate)
@@ -142,12 +154,13 @@ void Character::MswitchSprite()
     case SKILL1:
         currFrameX = 0;
         img = ImageManager::GetSingleton()->FindImage(MonArr[mkinds] + "스킬1");
-        AbilOn = true;
+        
         break;
     case HURT:
         currFrameX = 0;
         img = ImageManager::GetSingleton()->FindImage(MonArr[mkinds] + "피격");
         AbilOn = true;
+        depth = 2;
         break;
     case NONESTATE:
         break;
@@ -194,7 +207,7 @@ void Character::IdleCombatUpdate()
     //idle or combat
     if (currstate == State::IDLE || currstate == State::COMBAT) {
        
-
+        size = 1.0f;
         if (elapsed > 0.07f)
         {
             currFrameX++;
@@ -229,10 +242,36 @@ void Character::abliiltyUpdate()
     {
         AbilTime += TimerManager::GetSingleton()->GetElapsedTime();
 
-        if (AbilTime > 5.0f)
+        size -= AbilTime*0.001f;
+        if (AbilTime > 1.3f)
         {
-            AbilOn = false;
             AbilTime = 0;
+            AbilOn = false;
+            currstate = State::COMBAT;
+            depth = 1;
+        }
+        
+    }
+}
+
+void Character::Hurt()
+{
+    float Mtime;
+    if (currstate != State::HURT)
+    {
+        Mtime = 0.0f;
+
+       
+        currstate = State::HURT;
+    }
+    if (currstate == State::HURT)
+    {
+        Mtime += TimerManager::GetSingleton()->GetElapsedTime();
+        if (Mtime > 2.0f)
+        {
+            currstate = State::COMBAT;
+            Mtime = 0.0f;
+
         }
     }
 }
@@ -254,11 +293,13 @@ Character::Character()
     AbilTime = 0;
     currFrameX = 0;
     elapsed = 0.0f;
+    mTime = 0.0f;
     walkElapsed = 0;
     target = false;
     selected = false;
     fixedTarget = false;
     alpha = 150;
+    depth = 1;
     SetRect(&body, pos.x - 45, pos.y - 40, pos.x + 45, pos.y + 40);
 
 }

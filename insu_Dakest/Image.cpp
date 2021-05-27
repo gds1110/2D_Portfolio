@@ -233,6 +233,74 @@ void Image::Render2(HDC hdc, int destX, int destY, bool isCenterRenderring, floa
 
 }
 
+
+void Image::Render3(HDC hdc, int destX, int destY, bool isCenterRenderring, float size, int posX, int posY, int sizeX, int sizeY, bool battle)
+{
+    int x = destX;
+    int y = destY;
+    if (isCenterRenderring)
+    {
+        x = destX - (imageInfo->width / 2);
+        y = destY - (imageInfo->height / 2);
+    }
+
+    if (isTransparent)
+    {
+        // 특정 색상을 빼고 복사하는 함수
+        GdiTransparentBlt(
+            hdc,
+            x, y,
+            imageInfo->width, imageInfo->height,
+
+            imageInfo->hMemDC,
+            0, 0,
+            imageInfo->width, imageInfo->height,
+            transColor
+        );
+    }
+    else
+    {
+        if (size > 0)
+        {
+            if (battle)
+            {
+                StretchBlt(hdc,
+                    x, y,
+                    imageInfo->width * size, imageInfo->height * size,
+                    imageInfo->hMemDC,
+                    0,
+                    0,
+                    imageInfo->width, imageInfo->height,
+
+                    SRCCOPY);
+            }
+            else {
+                StretchBlt(hdc,
+                    x, y,
+                    imageInfo->width + 100 * size, imageInfo->height * size,
+                    imageInfo->hMemDC,
+                    0,
+                    0,
+                    imageInfo->width, imageInfo->height,
+
+                    SRCCOPY);
+            }
+        }
+        else
+        {
+            // bitmap 에 있는 이미지 정보를 다른 비트맵에 복사
+            BitBlt(
+                hdc,                // 복사 목적지 DC
+                x, y,               // 복사 시작 위치
+                imageInfo->width,   // 원본에서 복사될 가로크기
+                imageInfo->height,  // 원본에서 복사될 세로크기
+                imageInfo->hMemDC,  // 원본 DC
+                0, 0,               // 원본에서 복사 시작 위치
+                SRCCOPY             // 복사 옵션
+            );
+        }
+    }
+}
 void Image::FrameRender(HDC hdc, int destX, int destY,
     int currFrameX, int currFrameY, bool isCenterRenderring, float size)
 {
@@ -403,82 +471,6 @@ void Image::AlphaFrameRenders(HDC hdc, int destX, int destY, int currFrameX, int
     AlphaBlend(hdc, x, y, imageInfo->frameWidth, imageInfo->frameHeight, imageInfo->hAlphaDC, 0, 0, imageInfo->frameWidth, imageInfo->frameHeight, blendFunc);
 }
 
-void Image::Render3(HDC hdc, int destX, int destY, bool isCenterRenderring, float size, int posX, int posY, int sizeX, int sizeY)
-{
-    int x = destX;
-    int y = destY;
-    if (isCenterRenderring)
-    {
-        x = destX - (imageInfo->width / 2);
-        y = destY - (imageInfo->height / 2);
-    }
-
-    if (isTransparent)
-    {
-        // 특정 색상을 빼고 복사하는 함수
-        GdiTransparentBlt(
-            hdc,
-            x, y,
-            imageInfo->width, imageInfo->height,
-
-            imageInfo->hMemDC,
-            posX, posY,
-            imageInfo->width, imageInfo->height,
-            transColor
-        );
-    }
-    else
-    {
-      /*  if (size > 0)
-        {
-            StretchBlt(hdc,
-                x, y,
-                imageInfo->width * size, imageInfo->height * size,
-                imageInfo->hMemDC,
-                posX,
-                posY,
-                imageInfo->width, imageInfo->height,
-
-                SRCCOPY);
-        }*/
-        // bitmap 에 있는 이미지 정보를 다른 비트맵에 복사
-        StretchBlt(
-            hdc,
-            x, y,
-            //imageInfo->width * size, imageInfo->height * size,
-            posX*size, posY*size,
-            imageInfo->hMemDC,
-            posX,
-            posY,
-            posX, posY,
-
-            SRCCOPY);
-        //BitBlt(
-        //    imageInfo->hMemDC,                // 복사 목적지 DC
-        //    0, 0,               // 복사 시작 위치
-        //    posX,   // 원본에서 복사될 가로크기
-        //    posY,  // 원본에서 복사될 세로크기
-        //    imageInfo->hMemDC,  // 원본 DC
-        //    posX, posY,               // 원본에서 복사 시작 위치
-        //    SRCCOPY             // 복사 옵션
-        //);
-       
-        //else
-        //{
-        //    // bitmap 에 있는 이미지 정보를 다른 비트맵에 복사
-        //    BitBlt(
-        //        hdc,                // 복사 목적지 DC
-        //        x, y,               // 복사 시작 위치
-        //        imageInfo->width,   // 원본에서 복사될 가로크기
-        //        imageInfo->height,  // 원본에서 복사될 세로크기
-        //        imageInfo->hMemDC,  // 원본 DC
-        //        posX, posY,               // 원본에서 복사 시작 위치
-        //        SRCCOPY             // 복사 옵션
-        //    );
-        //}
-    }
-
-}
 
 void Image::Render4(HDC hdc, int destX, int destY, bool isCenterRenderring, float size, POINT minP, POINT maxP, int sizeX, int sizeY)
 {

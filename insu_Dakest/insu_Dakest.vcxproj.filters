@@ -31,11 +31,11 @@
     <Filter Include="소스 파일\UnitObject\Monster">
       <UniqueIdentifier>{792e7cbc-5053-4825-bdfa-e9e70fff386c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\UnitObject\Character">
-      <UniqueIdentifier>{a52163f6-ec97-4739-a48b-e7073fd24c2d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\abillity">
       <UniqueIdentifier>{d8d4e00d-08eb-4bd9-905c-08d1768c5586}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\UnitObject\Hero">
+      <UniqueIdentifier>{a52163f6-ec97-4739-a48b-e7073fd24c2d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -73,19 +73,19 @@
       <Filter>소스 파일\Scene</Filter>
     </ClCompile>
     <ClCompile Include="H_Crusader.cpp">
-      <Filter>소스 파일\UnitObject\Character</Filter>
+      <Filter>소스 파일\UnitObject\Hero</Filter>
     </ClCompile>
     <ClCompile Include="H_BountyHunter.cpp">
-      <Filter>소스 파일\UnitObject\Character</Filter>
+      <Filter>소스 파일\UnitObject\Hero</Filter>
     </ClCompile>
     <ClCompile Include="H_HighWayMan.cpp">
-      <Filter>소스 파일\UnitObject\Character</Filter>
+      <Filter>소스 파일\UnitObject\Hero</Filter>
     </ClCompile>
     <ClCompile Include="H_Leaper.cpp">
-      <Filter>소스 파일\UnitObject\Character</Filter>
+      <Filter>소스 파일\UnitObject\Hero</Filter>
     </ClCompile>
     <ClCompile Include="H_Vestel.cpp">
-      <Filter>소스 파일\UnitObject\Character</Filter>
+      <Filter>소스 파일\UnitObject\Hero</Filter>
     </ClCompile>
     <ClCompile Include="UnderUi.cpp">
       <Filter>소스 파일\UI</Filter>
@@ -150,6 +150,9 @@
     <ClCompile Include="ReadyScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Observable.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h">
@@ -189,19 +192,19 @@
       <Filter>소스 파일\Scene</Filter>
     </ClInclude>
     <ClInclude Include="H_Crusader.h">
-      <Filter>소스 파일\UnitObject\Character</Filter>
+      <Filter>소스 파일\UnitObject\Hero</Filter>
     </ClInclude>
     <ClInclude Include="H_BountyHunter.h">
-      <Filter>소스 파일\UnitObject\Character</Filter>
+      <Filter>소스 파일\UnitObject\Hero</Filter>
     </ClInclude>
     <ClInclude Include="H_HighWayMan.h">
-      <Filter>소스 파일\UnitObject\Character</Filter>
+      <Filter>소스 파일\UnitObject\Hero</Filter>
     </ClInclude>
     <ClInclude Include="H_Leaper.h">
-      <Filter>소스 파일\UnitObject\Character</Filter>
+      <Filter>소스 파일\UnitObject\Hero</Filter>
     </ClInclude>
     <ClInclude Include="H_Vestel.h">
-      <Filter>소스 파일\UnitObject\Character</Filter>
+      <Filter>소스 파일\UnitObject\Hero</Filter>
     </ClInclude>
     <ClInclude Include="UnderUi.h">
       <Filter>소스 파일\UI</Filter>
@@ -270,6 +273,9 @@
       <Filter>소스 파일\Manager</Filter>
     </ClInclude>
     <ClInclude Include="ReadyScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Observable.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

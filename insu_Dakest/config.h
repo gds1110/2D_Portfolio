@@ -81,6 +81,15 @@ extern enum MonsterKinds
 	SKELETON_COMMON,
 	NONEKINDS
 };
+
+
+extern enum SKILLTYPE
+{
+	COMBATSKILL,
+	ARANGESKILL,
+	CHARGESKILL,
+	NONESKILLTYPE
+};
 //typedef tagFPoint FPOINT2;
 //typedef tagFPoint* PFPOINT2;
 

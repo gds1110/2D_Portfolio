@@ -7,6 +7,7 @@ class Character;
 class Skill :public GameNode
 {
 public:
+	
 	enum SkillState
 	{
 		ON,
@@ -29,7 +30,7 @@ protected:
 	POINT pos;
 	SkillState skillstate;
 	Character* owner;
-
+	SKILLTYPE type;
 
 	HCLASS hClass;
 	int skillNum;
@@ -44,6 +45,9 @@ public:
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
+	virtual void SkillInit();
+
+	void SkillPosState();
 
 	void SetHClass(HCLASS hclass) { this->hClass = hclass; }
 	
@@ -51,6 +55,10 @@ public:
 
 	void SetskillNum(int num) { skillNum = num; }
 	int GetskillNum() { return skillNum; }
+
+	void SetSkillType(SKILLTYPE type) { this->type = type; }
+	SKILLTYPE GetSkillType() { return this->type; }
+
 
 	SkillState GetSkillState() { return this->skillstate; }
 	void SetSkillState(SkillState state) { this->skillstate = state; }
@@ -63,18 +71,11 @@ public:
 	skillInfo GetSkillInfo() { return this->s_info; }
 
 	void SetIndex(int index) { this->index = index; }
-	virtual void run(int x, Character* target) {};
+	virtual void run(int x, Character* target);
 	virtual void MotionRun();
 
-	Skill()
-	{
-		skillstate = SkillState::ON;
-		hClass = HCLASS::NONEHCLASS;
-		slotNum = 0;
-		skillNum = 0;
-		index = 0;
-		pos.y = 530;
-	}
+	Skill();
+	Skill(Character* owner);
 	virtual ~Skill() {};
 };
 
@@ -82,14 +83,16 @@ class CombatAttack : public  Skill {
 private:
 
 public:
-	CombatAttack() {
-		s_info.skillRank = { 0,1 };
-		s_info.targetRank = { 0,1 };
-		s_info.range = 1;
-	}
+	//CombatAttack() {
+	//	s_info.skillRank = { 0,1 };
+	//	s_info.targetRank = { 0,1 };
+	//	s_info.range = 1;
+	//}
+	CombatAttack();
+	CombatAttack(Character* owner);
 	void run();
 	
-
+	
 	virtual void run(int x, Character* target);
 
 };
@@ -98,11 +101,7 @@ class ArangeAttack : public  Skill {
 private:
 
 public:
-	ArangeAttack() {
-		s_info.skillRank = { 0,1 };
-		s_info.targetRank = { 1,3 };
-		s_info.range = 2;
-	}
+	ArangeAttack(Character* owner);
 
 	void run(int x, Character* target) {
 		//if(hClass==)

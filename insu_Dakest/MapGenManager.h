@@ -9,14 +9,13 @@ class Tile : public GameNode
 private:
 	struct TileStruct
 	{
-		bool isStarted=false;
-		bool isCurrted = false;
 		bool isEnemyed = false;
 		bool isSuddenEnemy = false;
 		bool isCurios = false;
 		int roomType=-1;
 		int pathType=-1;
 		int enemyArr[4] = { -1,-1,-1,-1 };
+		bool tileDone = false;
 	};
 private:
 	int idX, idY;
@@ -30,7 +29,7 @@ private:
 
 	Tile* parentTile;	// g가 갱신될 때마다 이전 노드를 갱신
 	Tile* prevTile;
-	vector<int> way;
+	vector<Tile*> way;
 	Image* tileImg;
 	Image* tileIcon;
 	bool isInOpenlist;
@@ -46,7 +45,7 @@ private:
 	bool startPoint;
 	bool currtPoint;
 	bool EnemyPoint;
-
+	float size;
 
 	TileStruct infoRoom;
 	
@@ -58,9 +57,11 @@ private:
 	bool isEnemyed = false;
 	bool isSuddenEnemy = false;
 	bool isCurios = false;
+	bool canWay = false;
 	int roomType = -1;
 	int pathType = -1;
 	int enemyArr[4] = { -1,-1,-1,-1 };
+	
 	// heap 관련
 	int heapIndex;
 
@@ -70,16 +71,16 @@ public:
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
-	void Render2(HDC hdc,int x,int y);
 
 	void SetPrevNnext(POINT prNne) { this->prevNnext = prNne; }
 	POINT GetPrevNnext() { return this->prevNnext; }
 
 	void SetIsStarted(bool is) { this->isStarted = is; }
 	void SetIsCurrted(bool is) { this->isCurrted = is; }
+	bool GetIsCurrted() { return this->isCurrted; }
 
 	TileStruct GetTileinfo() { return this->infoRoom; }
-	void SetTileInfo(TileStruct tileinfo) { this->infoRoom = tileinfo; }
+	void RandomSetTileInfo();
 
 	void setindex(int i) { this->index = i; }
 	int getindex() { return this->index; }
@@ -100,8 +101,8 @@ public:
 	int* GetFourDir() { return this->fourDir; }
 	void SetFourDir(int a, int b) { this->fourDir[a] = b; }
 
-	void addWay(int i) { way.push_back(i); }
-	vector<int> GetWay() { return this->way; }
+	void addWay(Tile* i) { way.push_back(i); }
+	vector<Tile*> GetWay() { return this->way; }
 
 	void SetParentTile(Tile* parent) { this->parentTile = parent; }
 	Tile* GetParentTile() { return this->parentTile; }
@@ -119,6 +120,10 @@ public:
 	bool GetIsInOpenlist() { return this->isInOpenlist; }
 	void SetIsClosed(bool b) { this->isClosed = b; }
 	bool GetIsClosed() { return this->isClosed; }
+
+
+	void SetIsWay(bool b) { this->canWay = b; }
+	bool GetIsWay() { return this->canWay; }
 
 	void SetHeapIndex(int id) { this->heapIndex = id; }
 	int GetHeapIndex() { return this->heapIndex; }

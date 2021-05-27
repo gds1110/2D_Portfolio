@@ -19,15 +19,18 @@ HRESULT DataManager::Init(CharacterManager* C_MGR, CharacterManager* M_MGR, Unde
 	this->C_MGR = C_MGR;
 	this->M_MGR = M_MGR;
 	this->underUI = ui;
+
+	/*C_MGR->GetCharacters()[1]->getSkillMgr()->AddSkill(new CombatAttack);*/
+
 	cursorChar = nullptr;
 	targeton = false;
 	return S_OK;
 }
 
 void DataManager::Release()
-{
+{/*
 	SAFE_RELEASE(C_MGR);
-	SAFE_RELEASE(M_MGR);
+	SAFE_RELEASE(M_MGR);*/
 }
 
 void DataManager::Update()
@@ -71,8 +74,11 @@ void DataManager::Update()
 						else {
 							if (M_MGR->GetCharacters()[(i + j)])
 							{
-								M_MGR->GetCharacters()[(i + j)]->SetFixed(true);
-								targeton = true;
+								if (i + j < selctedSkill->GetSkillInfo().range) {
+									M_MGR->GetCharacters()[(i + j)]->SetFixed(true);
+								}
+									targeton = true;
+								
 
 							}
 							

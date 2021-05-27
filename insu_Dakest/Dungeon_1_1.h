@@ -24,16 +24,19 @@ private:
 	Image* Ip_BG_Passage;
 	UnderUi* underUI;
 	OverUi* overUi;
+	DungeonType D_TYPE;
 
 	Image* CamBuffer;
 	DataManager* DM;
 	int battlePos[4];
 	char szText[128] = "";
-
+	bool BattleStage;
 	float test = 0.0f;
 	int CamPos;
 	CharacterManager* C_MGR;
 	CharacterManager* M_MGR;
+
+	bool Enemy;
 
 public:
 	virtual HRESULT Init();

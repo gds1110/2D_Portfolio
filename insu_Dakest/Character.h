@@ -48,7 +48,7 @@ protected:
 	MonsterKinds mkinds;
 	SkillManager* S_MGR;
 	string classArr[15] = { "Å©·ç¼¼ÀÌ´õ ","¹Ù¿îÆ¼ÇåÅÍ ","³ë»ó°­µµ ","³ªº´È¯ÀÚ ","¼º³à " };
-	string MonArr[15] = { "½ºÄÌ·¹Åæ¾ÆÃ³ " };
+	string MonArr[15] = { "½ºÄÌ·¹Åæ¾ÆÃ³ ","½ºÄÌ·¹Åæ±³±º ","½ºÄÌ·¹ÅæÄ¸Æ¾ ","½ºÄÌ·¹ÅæÄ¿¸Õ " };
 	//SelectCheck
 	bool selected;
 	bool target;
@@ -58,12 +58,15 @@ protected:
 	bool AbilOn;
 	float AbilTime;
 
+	float size;
+
 	//UI
 	Image* img;
 	Image* targetIcon;
 	Image* selecetedIcon;
 	int sIconCurrFrame;
 	float eltimes;
+	float mTime;
 	int alpha;
 	
 	//Frame
@@ -75,7 +78,7 @@ protected:
 	int speed = 100;
 	int depth;
 
-	float size;
+	//float size;
 	
 	//INDEX
 	int index;
@@ -91,7 +94,8 @@ public:
 	void ShareRender(HDC hdc);
 	void SetAlpha(int alpha) { this->alpha = alpha; }
 	int GetAlpha() { return this->alpha; }
-
+	void SetDepth(int d) { this->depth = d; }
+	int GetDepth() { return this->depth; }
 
 	//selected
 	void SetSelected(bool sel) { this->selected = sel; }
@@ -140,10 +144,14 @@ public:
 	//FrameRender Update : state :: combat or idle..
 	void IdleCombatUpdate();
 
+
+
 	//skill
 	SkillManager* getSkillMgr() { return this->S_MGR; }
 	void skillSeting();
 	void abliiltyUpdate();
+
+	void Hurt();
 
 	Character();
 	virtual ~Character() {};

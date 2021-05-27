@@ -7,6 +7,7 @@ class SkillManager;
 class Character;
 class CharacterManager;
 class Tile;
+class MapGenManager;
 class UnderUi :public GameNode
 {
 private:
@@ -16,13 +17,16 @@ private:
 	Image* MapBG;
 	vector<Tile*> minmap;
 	Image* maps;
+	Image* MiniMap;
+
 	Character* selChr;
 	Skill* selSkill;
 	SkillManager* selSkillmgr;
 	CharacterManager* c_mgr;
 	CharacterManager* m_mgr;
 	string iconKey;
-
+	MapGenManager* mapgen;
+	HDC hdc2;
 public:
 	virtual HRESULT Init();
 	virtual void Release();

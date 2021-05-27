@@ -4,6 +4,12 @@
 #include "CharacterManager.h"
 #include "SkillManager.h"
 #include "CommonFunction.h"
+#include "Image.h"
+#include "H_Crusader.h"
+#include "H_BountyHunter.h"
+#include "H_Leaper.h"
+#include "H_HighWayMan.h"
+#include "H_Vestel.h"
 HRESULT UiDataManager::Init()
 {
 	selectedChr = nullptr;
@@ -14,12 +20,26 @@ HRESULT UiDataManager::Init()
 	map = nullptr;
 	Minimap = nullptr;
 
+	SC_MGR = new CharacterManager;
+	SC_MGR->Init();
+	SC_MGR->AddCharacter(new H_BountyHunter, UnitType::HERO);
+	SC_MGR->AddCharacter(new H_Leaper, UnitType::HERO);
+	SC_MGR->AddCharacter(new H_HighWayMan, UnitType::HERO);
+	SC_MGR->AddCharacter(new H_Vestel, UnitType::HERO);
+
 	return S_OK;
 }
 
 void UiDataManager::Release()
 {
+	SAFE_RELEASE(SC_MGR);
 
+	if (Minimap)
+	{
+		//SAFE_RELEASE(Minimap);
+
+
+	}
 }
 
 void UiDataManager::Update()

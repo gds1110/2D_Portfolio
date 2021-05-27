@@ -11,38 +11,46 @@
 #include "UnderUi.h"
 #include "OverUi.h"
 #include "skeleton_arbalistar.h"
+#include "skeleton_bearer.h"
+#include "skeleton_captain.h"
+#include "skeleton_common.h"
+
 #include "SkillManager.h"
 #include "DataManager.h"
 
 HRESULT Dungeon_1_1::Init()
 {
 	SetClientRect(g_hWnd, WINSIZE_X, WINSIZE_Y);
-	
+	ImageManager::GetSingleton()->AddImage("방세트", "resource/dungeon/Stage1/rooms.BMP", 1920, 4320,1,6, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("던전입구", "resource/dungeon/Stage1/Entrance.BMP", 1920, 720,1,1, true, RGB(88, 88, 88));
 	Ip_Bg_First = ImageManager::GetSingleton()->AddImage("원거리배경", "resource/dungeon/Stage1/DistanceBG.BMP", 4320, 480, true, RGB(88, 88, 88));
-	Ip_Bg_Second = ImageManager::GetSingleton()->AddImage("근거리", "resource/dungeon/Stage1/NearBG.BMP", 4320, 480, true, RGB(88, 88, 88));;
-	Ip_BG_Passage = ImageManager::GetSingleton()->AddImage("복도배경", "resource/dungeon/Stage1/PassageBG1.BMP", 4320, 480, true, RGB(88, 88, 88));;
+	Ip_Bg_Second = ImageManager::GetSingleton()->AddImage("근거리", "resource/dungeon/Stage1/NearBG.BMP", 4320, 480, true, RGB(88, 88, 88));
+	Ip_BG_Passage = ImageManager::GetSingleton()->AddImage("복도배경", "resource/dungeon/Stage1/PassageBG1.BMP", 2900, 480, true, RGB(88, 88, 88));
 
 	CamPos = WINSIZE_X/2;
 
 	CamBuffer = new Image;
-	CamBuffer->Init(WINSIZE_X,600);
+	//CamBuffer->Init(WINSIZE_X,600);
+	CamBuffer->Init(1920,720);
 
 	for (int i = 0; i < 4; i++)
 	{
 		battlePos[i] = (WINSIZE_X/2) - (i * 100);
 	}
 
-	C_MGR = new CharacterManager;
-	C_MGR->Init();
-	C_MGR->AddCharacter(new H_BountyHunter, UnitType::HERO);
-	C_MGR->AddCharacter(new H_Leaper,UnitType::HERO);
-	C_MGR->AddCharacter(new H_HighWayMan, UnitType::HERO);
-	C_MGR->AddCharacter(new H_Vestel, UnitType::HERO);
+	//C_MGR = new CharacterManager;
+	//C_MGR->Init();
+	//C_MGR->AddCharacter(new H_BountyHunter, UnitType::HERO);
+	//C_MGR->AddCharacter(new H_Leaper,UnitType::HERO);
+	//C_MGR->AddCharacter(new H_HighWayMan, UnitType::HERO);
+	//C_MGR->AddCharacter(new H_Vestel, UnitType::HERO);
+
+	C_MGR = UiDataManager::GetSingleton()->GetSC_MGR();
 
 	M_MGR = new CharacterManager;
 	M_MGR->Init();
 	M_MGR->AddCharacter(new skeleton_arbalistar, UnitType::MONSTER);
-	M_MGR->AddCharacter(new skeleton_arbalistar, UnitType::MONSTER);
+	M_MGR->AddCharacter(new skeleton_captain, UnitType::MONSTER);
 	M_MGR->AddCharacter(new skeleton_arbalistar, UnitType::MONSTER);
 	M_MGR->AddCharacter(new skeleton_arbalistar, UnitType::MONSTER);
 
@@ -52,11 +60,11 @@ HRESULT Dungeon_1_1::Init()
 	overUi = new OverUi;
 	overUi->Init();
 
-	UiDataManager::GetSingleton()->SetSC_MGR(C_MGR);
-	UiDataManager::GetSingleton()->SetSM_MGR(M_MGR);
+	//UiDataManager::GetSingleton()->SetSC_MGR(C_MGR);
+	//UiDataManager::GetSingleton()->SetSM_MGR(M_MGR);
 
 	UiDataManager::GetSingleton()->SelectChar(C_MGR->GetCharacters()[0]);
-
+	BattleStage = false;
 	underUI = new UnderUi;
 	underUI->Init();
 
@@ -132,19 +140,23 @@ void Dungeon_1_1::Render(HDC hdc)
 		Ip_BG_Passage->Render(camDC, CamPos-WINSIZE_X/2, 0, false);
 	}
 
-	CamBuffer->Render2(hdc, WINSIZE_X / 2, 300, true);
+	CamBuffer->Render3(hdc, WINSIZE_X / 2, 350, true);
+	//CamBuffer->Render2(hdc, WINSIZE_X / 2, 350, true);
 
 
-	if (C_MGR)
-	{
-		C_MGR->Render(hdc);
-		//C_MGR->Render(camDC);
-	}
 	if (CamPos < 300) {
 		if (M_MGR)
 		{
+			overUi->SetBattle(true);
 			M_MGR->Render(hdc);
 		}
+	}
+	if (C_MGR)
+	{
+
+		C_MGR->Render(hdc);
+		
+		//C_MGR->Render(camDC);
 	}
 	underUI->Render(hdc);
 	overUi->Render(hdc);

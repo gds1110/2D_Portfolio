@@ -16,22 +16,27 @@ HRESULT UnderUi::Init()
 	selSkillmgr = nullptr;
 	c_mgr = nullptr;
 	m_mgr = nullptr;
-	HDC hdc2;
+	hdc2 = UiDataManager::GetSingleton()->GetHdc();
 	maps = UiDataManager::GetSingleton()->GetMapimg();
-
-	//minmap = UiDataManager::GetSingleton()->GetMiniMap();
+	minmap = UiDataManager::GetSingleton()->GetMiniMap();
 	//tile = UiDataManager::GetSingleton()->GetMiniMap();
+	MiniMap = new Image();
+	MiniMap->Init(1620, 900);
 	return S_OK;
 }
 
 void UnderUi::Release()
 {
-
+	mapgen->Release();
 }
 
 void UnderUi::Update()
 {
-
+	for (int i = 0; i < minmap.size(); i++)
+	{
+		minmap[i]->Update();
+	}
+	
 	if (selChr)
 	{
 		iconKey = selChr->GetClassArr()[selChr->GetClass()] + "아이콘";
@@ -58,33 +63,16 @@ void UnderUi::Update()
 
 void UnderUi::Render(HDC hdc)
 {
+
+	HDC miniDC = MiniMap->GetMemDC();
+	//UiDataManager::GetSingleton()->SetHdc(miniDC);
+
 	underUi->Render(hdc, 0, WINSIZE_Y - WINSIZE_Y / 3);
 	if (MapBG)
 	{
 		MapBG->Render(hdc, WINSIZE_X / 2, WINSIZE_Y - WINSIZE_Y / 3);
-		//if (tile)
-		//{
-		//	for (int i = 0; i < TILE_COUNT; i++)	// 세로반복 (y)
-		//	{
-		//		for (int j = 0; j < TILE_COUNT; j++)	// 가로반복 (x)
-		//		{
-		//			tile[i][j].Render(hdc);
-		//		}
-		//	}
-		//}
-		/*UiDataManager::GetSingleton()->GetMapimg()->Render4(hdc, WINSIZE_X / 2, WINSIZE_Y - WINSIZE_Y / 3, false, 1, 
-			UiDataManager::GetSingleton()->GetMin(), UiDataManager::GetSingleton()->GetMax());*/
-    	//UiDataManager::GetSingleton()->GetMapGen()->Render(hdc);
-		maps->Render5(hdc, WINSIZE_X / 2+10, WINSIZE_Y - WINSIZE_Y / 3+20,
-			false,1, UiDataManager::GetSingleton()->GetMin(), UiDataManager::GetSingleton()->GetMax());
 	}
-	//if (!minmap.empty())
-	//{
-	//	for (int i = 0; i < minmap.size(); i++)
-	//	{
-	//		//minmap[i]->Render2(hdc,WINSIZE_X/2,WINSIZE_Y-WINSIZE_Y/3);
-	//	}
-	//}
+	
 	if (underIcon) {
 		underIcon->Render2(hdc, 210, WINSIZE_Y - WINSIZE_Y / 3 + 50, true, 0.5);
 	}
@@ -96,5 +84,24 @@ void UnderUi::Render(HDC hdc)
 	{
 		selSkillIcon->Render(hdc, selSkill->GetPos().x, selSkill->GetPos().y, true);
 	}
-	
+	if (!minmap.empty())
+	{
+		
+		for (int i = 0; i < minmap.size(); i++)
+		{
+			if (minmap[i]->GetType() == TileType::Path) {
+				//openList[i]->Render(miniDC);
+				minmap[i]->Render(miniDC);
+			}
+		}
+		for (int i = 0; i < minmap.size(); i++)
+		{
+			if (minmap[i]->GetType() == TileType::Room) {
+				//openList[i]->Render(miniDC);
+				minmap[i]->Render(miniDC);
+			}
+		}
+		MiniMap->Render5(hdc, WINSIZE_X / 2 + 10, WINSIZE_Y - WINSIZE_Y / 3 + 20,
+			false, 1, UiDataManager::GetSingleton()->GetMin(), UiDataManager::GetSingleton()->GetMax());
+	}
 }

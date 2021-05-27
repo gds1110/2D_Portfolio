@@ -169,6 +169,7 @@
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="MapGenManager.cpp" />
     <ClCompile Include="melee.cpp" />
+    <ClCompile Include="Observable.cpp" />
     <ClCompile Include="OverUi.cpp" />
     <ClCompile Include="ReadyScene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="MapGenManager.h" />
     <ClInclude Include="melee.h" />
+    <ClInclude Include="Observable.h" />
     <ClInclude Include="OverUi.h" />
     <ClInclude Include="ReadyScene.h" />
     <ClInclude Include="resource.h" />

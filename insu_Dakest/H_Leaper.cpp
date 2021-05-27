@@ -19,11 +19,19 @@ HRESULT H_Leaper::Init()
     hClass = HCLASS::LEAPER;
     skillSeting();
 
-    S_MGR->AddSkill(new CombatAttack);
+    S_MGR->AddSkill3(COMBATSKILL, 0, 0);
+    S_MGR->AddSkill3(ARANGESKILL, 1, 1);
+    S_MGR->AddSkill3(COMBATSKILL, 4, 2);
+    S_MGR->AddSkill3(COMBATSKILL, 5, 3);
+
+
+   /* S_MGR->AddSkill(new CombatAttack);
     S_MGR->AddSkill(new ArangeAttack);
     S_MGR->AddSkill(new ChargeAttack);
     S_MGR->AddSkill(new Skill);
-    S_MGR->AddSkill(new Skill);
+    S_MGR->AddSkill(new Skill);*/
+    
+    size = 1.0f;
     //skillSeting();
 
 	return S_OK;
@@ -38,6 +46,8 @@ void H_Leaper::Update()
     SetRect(&body, pos.x - 20, pos.y - 50, pos.x + 80, pos.y + 200);
     SharedUpdate();   
 
+  
+
   /*  switchSprite();
 
     IdleCombatUpdate();
@@ -47,6 +57,6 @@ void H_Leaper::Update()
 
 void H_Leaper::Render(HDC hdc)
 {
-    img->FrameRender(hdc, pos.x, pos.y + 80, currFrameX, 0, true, 1);
+    img->FrameRender(hdc, pos.x, pos.y + 80, currFrameX, 0, true, size);
 
 }

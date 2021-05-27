@@ -9,6 +9,7 @@ class SkillManager : public GameNode
 private:
 	vector<Skill*>skillSlot;
 
+	int skillPos[6];
 	int index;
 	HCLASS hclass;
 	Character* owner;
@@ -21,7 +22,8 @@ public:
 
 
 	void AddSkill(Skill* skill);
-	void AddSkill(HCLASS hclass, int skillNum, int index);
+	void AddSkill2(Skill* skill, int skillNum=0, int index=0);
+	void AddSkill3(SKILLTYPE type, int skillNum=0, int index=0);
 	vector<Skill*> GetSkillSlot() { return this->skillSlot; }
 	
 	void SetHClass(HCLASS hclass) { this->hclass = hclass; }

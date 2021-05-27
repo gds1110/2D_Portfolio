@@ -11,9 +11,13 @@ HRESULT OverUi::Init()
 	targetIcon = ImageManager::GetSingleton()->AddImage("Å¸°Ù¾ÆÀÌÄÜ", "resource/sharedUi/target.BMP", 197, 412, 1, 2, true, RGB(88, 88, 88));*/
 	torchFireUI = ImageManager::GetSingleton()->AddImage("È¶ºÒ", "resource/torch/titletorch.bmp",900 ,188 , true, RGB(88, 88, 88));
 	flame = ImageManager::GetSingleton()->AddImage("ºÒ²É", "resource/torch/flame.bmp", 3984, 669, 24, 3, true, RGB(88, 88, 88));
+	BattleStart = ImageManager::GetSingleton()->AddImage("ÀüÅõ½ÃÀÛ", "resource/battle/combat/start2.bmp", 17262, 300, 56, 1, true, RGB(0, 0, 0));
+
 	sIconCurrFrame = 0;
 	eltimes = 0;
 	ePos = 0;
+	combattimer = 0;
+	combatCurrFrame = 0;
 	//BLENDFUNCTION* blendFunc = targetIcon->GetBlendFunc();
 	//blendFunc->SourceConstantAlpha = 150;
 	return S_OK;
@@ -61,6 +65,19 @@ void OverUi::Update()
 	{
 		ePos = -200;
 	}*/
+	if (battle == true)
+	{
+		combattimer += TimerManager::GetSingleton()->GetElapsedTime();
+		if (combattimer > 0.04f)
+		{
+			combatCurrFrame += 1;
+			combattimer = 0;
+			if (combatCurrFrame > 56)
+			{
+				battle = false;
+			}
+		}
+	}
 }
 
 void OverUi::Render(HDC hdc)
@@ -73,6 +90,9 @@ void OverUi::Render(HDC hdc)
 
 		}
 	}*/
-	flame->FrameRender(hdc, WINSIZE_X / 2+40, -20, sIconCurrFrame, 1,true);
+	flame->FrameRender(hdc, WINSIZE_X / 2+40, -20, sIconCurrFrame, 2,true);
 	torchFireUI->Render(hdc, WINSIZE_X / 2 + 25, 90, true);
+	if (combatCurrFrame<56) {
+		BattleStart->FrameRender(hdc, WINSIZE_X / 2, 300, combatCurrFrame, 0, true);
+	}
 }

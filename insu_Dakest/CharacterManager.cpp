@@ -156,12 +156,49 @@ void CharacterManager::Update()
 
 void CharacterManager::Render(HDC hdc)
 {
+    /*for (int i = 0; i < v_Characters.size(); i++)
+    {
+        for (int j = 1; j < 4; j++)
+        {
+            if (v_Characters[i]->GetDepth() == j)
+            {
+                v_Characters[i]->Render(hdc);
+                v_Characters[i]->ShareRender(hdc);
+            }
+        }
+       
+    }
+   */
     for (int i = 0; i < v_Characters.size(); i++)
+    {
+        if (v_Characters[i]->GetDepth() == 1)
+        {
+            v_Characters[i]->Render(hdc);
+            v_Characters[i]->ShareRender(hdc);
+
+
+        }
+    }
+    for (int i = 0; i < v_Characters.size(); i++)
+    {
+    if (v_Characters[i]->GetDepth() == 2)
     {
         v_Characters[i]->Render(hdc);
         v_Characters[i]->ShareRender(hdc);
+
+
     }
-   
+    }
+    for (int i = 0; i < v_Characters.size(); i++)
+    {
+        if (v_Characters[i]->GetDepth() ==3)
+        {
+            v_Characters[i]->Render(hdc);
+            v_Characters[i]->ShareRender(hdc);
+
+
+        }
+    }
  /*   if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RETURN))
     {
         for (int i = 0; i < v_Characters.size(); i++)
