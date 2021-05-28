@@ -1,18 +1,24 @@
 #include "H_Crusader.h"
 #include "Image.h"
+#include "CommonFunction.h"
 HRESULT H_Crusader::Init()
 {
 
-    pos.x = WINSIZE_X / 2-200;
-    pos.y = WINSIZE_Y/3;
+    maxFrameArr[State::IDLE] = 33;
+    maxFrameArr[State::COMBAT] = 15;
+    maxFrameArr[State::WALK] = 16;
+    maxFrameArr[State::SKILL1] = 1;
+    img = ImageManager::GetSingleton()->AddImage("农风技捞歹 哪诡", "resource/hero/crusader/combat/combat.BMP", 2115, 300,15,1,true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("农风技捞歹 况农", "resource/hero/crusader/walk/walk.BMP", 2896, 300, 16, 1, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("农风技捞歹 酒捞甸", "resource/hero/crusader/idle/idle.BMP", 5808, 300, 33, 1, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("农风技捞歹 酒捞能", "resource/hero/crusader/icon.BMP", 65, 65, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("农风技捞歹 扁夯傍拜", "resource/hero/crusader/attack.BMP", 295, 295,1,1, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("农风技捞歹 胶懦", "resource/hero/crusader/skill/skillset.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
 
-    img = ImageManager::GetSingleton()->AddImage("农风技捞歹 哪诡", "resource/hero/crusader/combat/crusader_combat.BMP", 2115, 300,15,1,true, RGB(88, 88, 88));
-    ImageManager::GetSingleton()->AddImage("农风技捞歹 况农", "resource/hero/crusader/walk/crusader_walk.BMP", 2896, 300, 16, 1, true, RGB(88, 88, 88));
-    ImageManager::GetSingleton()->AddImage("农风技捞歹 酒捞甸", "resource/hero/crusader/idle/crusader_idle.BMP", 5808, 300, 33, 1, true, RGB(88, 88, 88));
-    currFrameX = 0;
-    elapsed = 0.0f;
-    walkElapsed = 0;
-    currstate = State::COMBAT;
+    currstate = State::IDLE;
+    hClass = HCLASS::CRUSADER;
+    skillSeting();
+
     return S_OK;
 }
 
@@ -22,77 +28,55 @@ void H_Crusader::Release()
 
 void H_Crusader::Update()
 {
+    SetRect(&body, pos.x - 20, pos.y - 50, pos.x + 80, pos.y + 200);
   
-    Move();
+   
+    if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RETURN))
+    {
+      /*  for (int i = 0; i < v_Heros.size(); i++)
+        {
+            v_Heros[i]->SetState(Character::State::IDLE);
+        }*/
+        speed += 500 * TimerManager::GetSingleton()->GetElapsedTime();
+        SetCurrState(State::SKILL1);
+      
+    }
+   if (KeyManager::GetSingleton()->IsOnceKeyUp(VK_RETURN))
+    {
+      
+
+        SetPos(CharArrPos[index]);
+        speed = 100;
+        currFrameX = 0;
+        SetCurrState(State::COMBAT);
+
+    }
+
+   SharedUpdate();
+   /*  switchSprite();
+
+     IdleCombatUpdate();
+
+     Move();*/
+  /*  if (pos.x < WINSIZE_X / 2)
+    {
+
+        pos.x += 2;
+    }*/
+  //  Move();
 }
 
 void H_Crusader::Render(HDC hdc)
 {
-    img->FrameRender(hdc, pos.x, pos.y+50, currFrameX, 0,true,1.1);
+  
+
+        //img->FrameRender(hdc, pos.x, pos.y+80, currFrameX, 0, true, 1);
+        //Rectangle(hdc, body.left, body.top, body.right, body.bottom);
+
+       // RenderRectToCenter(hdc, pos.x, pos.y + 50, 80, 300);
 }
-
-void H_Crusader::Move()
+void H_Crusader::Render2(HDC hdc)
 {
-    if (currstate == State::COMBAT)
-    {
-        img = ImageManager::GetSingleton()->FindImage("农风技捞歹 酒捞甸");
-    }
-    else if (currstate == State::WALK)
-    {
-        img = ImageManager::GetSingleton()->FindImage("农风技捞歹 况农");
-    }
-
-    if (currstate == State::COMBAT) {
-        elapsed += TimerManager::GetSingleton()->GetElapsedTime();
-        if (elapsed > 0.05f)
-        {
-            currFrameX++;
-
-            elapsed = 0;
-        }
-
-        if (currFrameX >= 33)
-        {
-            currFrameX = 0;
-        }
-    }
-    //float walkElapsed = 0.0f;
-    if(KeyManager::GetSingleton()->IsStayKeyDown(VK_RIGHT)) {
-        currstate = State::WALK;
-
-        walkElapsed += 5;
-        //elapsed += 0.05f;
-        if (walkElapsed>50/*elapsed > 0.3f*/) {
-            currFrameX++;
-           // elapsed = 0;
-            walkElapsed = 0;
-        }
-        if (currFrameX >= 16) {
-            currFrameX = 0;
-        }
-       // pos.x += 1;
-    }
-    else if (KeyManager::GetSingleton()->IsStayKeyDown(VK_LEFT)) {
-        currstate = State::WALK;
-
-        walkElapsed += 5;
-        //elapsed += 0.1f;
-        if (walkElapsed > 50/*elapsed > 0.2f*/) {
-            currFrameX++;
-            //elapsed = 0;
-            walkElapsed = 0;
-        }
-        if (currFrameX >= 16) {
-            currFrameX = 0;
-        }
-       // pos.x -= 1;
-    }
-     if (KeyManager::GetSingleton()->IsOnceKeyUp(VK_LEFT) || KeyManager::GetSingleton()->IsOnceKeyUp(VK_RIGHT))
-    {
-         walkElapsed = 0;
-        currFrameX = 0;
-        SetCurrState(State::COMBAT);
-      
-       
-    }
+    //img->FrameRender(hdc, pos.x-300+speed, pos.y + 50, currFrameX, 0, true, 1.5);
+    //img->Render(hdc, pos.x, pos.y);
 }

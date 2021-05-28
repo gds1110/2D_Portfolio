@@ -1,22 +1,21 @@
 #include "MainGame.h"
 #include "Image.h"
 #include "Dungeon_1_1.h"
-
+#include "MapGenManager.h"
+#include <ctime>
+#include "DataManager.h"
 HRESULT MainGame::Init()
 {
 	hdc = GetDC(g_hWnd);
+	//Main_DM = new DataManager();
 
 	KeyManager::GetSingleton()->Init();
 	ImageManager::GetSingleton()->Init();
 	SceneManager::GetSingleton()->Init();
-
+	UiDataManager::GetSingleton()->Init();
+	TimerManager::GetSingleton()->Init();
 	// 이미지를 미리 로드한다
-	ImageManager::GetSingleton()->AddImage("Enemy",
-		"Image/ufo.bmp", 530, 32, 10, 1,
-		true, RGB(255, 0, 255));
 
-	ImageManager::GetSingleton()->AddImage("EnemyMissile",
-		"Image/구슬.bmp", 20, 20, true, RGB(255, 0, 255));
 
 	// 메인게임의 초기화 함수
 	//hTimer = (HANDLE)SetTimer(g_hWnd, 0, 1, NULL);
@@ -28,12 +27,16 @@ HRESULT MainGame::Init()
 
 	backBuffer = new Image(); 
 	backBuffer->Init(maxWidth, maxHeight);
+	SceneManager::GetSingleton()->AddScene("맵생성", new MapGenManager());
 
 	SceneManager::GetSingleton()->AddScene("스테이지1", new Dungeon_1_1());
 
-	SceneManager::GetSingleton()->ChangeScene("스테이지1");
+	SceneManager::GetSingleton()->ChangeScene("맵생성");
+	//SceneManager::GetSingleton()->ChangeScene("스테이지1");
 
 	isInited = true;
+	//srand(time(NULL));
+	srand(time(NULL));
 
 	return S_OK;
 }
@@ -45,7 +48,7 @@ void MainGame::Release()
 	SceneManager::GetSingleton()->Release();
 
 	SAFE_RELEASE(backBuffer);
-
+	 
 	ReleaseDC(g_hWnd, hdc);
 }
 
@@ -60,9 +63,9 @@ void MainGame::Render()
 
 	SceneManager::GetSingleton()->Render(hBackDC);
 
-	// 인사
-	TextOut(hBackDC, 20, 20, "MainGame 렌더 중", strlen("MainGame 렌더 중"));
-	// 마우스 좌표
+	//// 인사
+	//TextOut(hBackDC, 20, 20, "MainGame 렌더 중", strlen("MainGame 렌더 중"));
+	//// 마우스 좌표
 	wsprintf(szText, "X : %d, Y : %d", g_ptMouse.x, g_ptMouse.y);
 	TextOut(hBackDC, 200, 20, szText, strlen(szText));
 	// FPS

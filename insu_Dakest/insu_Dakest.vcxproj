@@ -37,7 +37,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -50,7 +50,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -75,12 +75,17 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <GenerateManifest>true</GenerateManifest>
+    <EmbedManifest>true</EmbedManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <GenerateManifest>true</GenerateManifest>
+    <EmbedManifest>true</EmbedManifest>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -102,9 +107,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -130,21 +136,27 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="arange.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="change.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterManager.cpp" />
-    <ClCompile Include="DungeonUImgr.cpp" />
+    <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="DungeonRoom.cpp" />
     <ClCompile Include="Dungeon_1_1.cpp" />
+    <ClCompile Include="FXmanager.cpp" />
     <ClCompile Include="GameNode.cpp" />
+    <ClCompile Include="heal.cpp" />
     <ClCompile Include="H_BountyHunter.cpp" />
     <ClCompile Include="H_Crusader.cpp" />
     <ClCompile Include="H_HighWayMan.cpp" />
@@ -155,19 +167,38 @@
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="MapGenManager.cpp" />
+    <ClCompile Include="melee.cpp" />
+    <ClCompile Include="Observable.cpp" />
+    <ClCompile Include="OverUi.cpp" />
+    <ClCompile Include="ReadyScene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="skeleton_arbalistar.cpp" />
+    <ClCompile Include="skeleton_bearer.cpp" />
+    <ClCompile Include="skeleton_captain.cpp" />
+    <ClCompile Include="skeleton_common.cpp" />
+    <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="SkillManager.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TimerManager.cpp" />
+    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="UiDataManager.cpp" />
+    <ClCompile Include="UnderUi.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="arange.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="change.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterManager.h" />
     <ClInclude Include="CommonFunction.h" />
     <ClInclude Include="config.h" />
-    <ClInclude Include="DungeonUImgr.h" />
+    <ClInclude Include="DataManager.h" />
+    <ClInclude Include="DungeonRoom.h" />
     <ClInclude Include="Dungeon_1_1.h" />
+    <ClInclude Include="FXmanager.h" />
     <ClInclude Include="GameNode.h" />
+    <ClInclude Include="heal.h" />
     <ClInclude Include="H_BountyHunter.h" />
     <ClInclude Include="H_Crusader.h" />
     <ClInclude Include="H_HighWayMan.h" />
@@ -177,10 +208,25 @@
     <ClInclude Include="ImageManager.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="MapGenManager.h" />
+    <ClInclude Include="melee.h" />
+    <ClInclude Include="Observable.h" />
+    <ClInclude Include="OverUi.h" />
+    <ClInclude Include="ReadyScene.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="skeleton_arbalistar.h" />
+    <ClInclude Include="skeleton_bearer.h" />
+    <ClInclude Include="skeleton_captain.h" />
+    <ClInclude Include="skeleton_common.h" />
+    <ClInclude Include="Skill.h" />
+    <ClInclude Include="SkillManager.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TimerManager.h" />
+    <ClInclude Include="UI.h" />
+    <ClInclude Include="UiDataManager.h" />
+    <ClInclude Include="UnderUi.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

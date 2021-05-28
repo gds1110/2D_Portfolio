@@ -1,29 +1,50 @@
 #pragma once
 #include "GameNode.h"
 
+class UI;
+class OverUi;
+class UnderUi;
 class Image;
 class Character;
 class CharacterManager;
+class SkillManager;
+class DataManager;
 class Dungeon_1_1 : public GameNode
 {
+	enum DungeonType
+	{
+		START,
+		PATH,
+		ROOM,
+		END,
+	};
 private:
 	Image* Ip_Bg_First;
 	Image* Ip_Bg_Second;
 	Image* Ip_BG_Passage;
-	Image* UnderUI;
+	UnderUi* underUI;
+	OverUi* overUi;
+	DungeonType D_TYPE;
+
 	Image* CamBuffer;
-
-
+	DataManager* DM;
+	int battlePos[4];
+	char szText[128] = "";
+	bool BattleStage;
 	float test = 0.0f;
 	int CamPos;
 	CharacterManager* C_MGR;
-	Character* ptr_Hero1;
+	CharacterManager* M_MGR;
+
+	bool Enemy;
 
 public:
 	virtual HRESULT Init();
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
+
+	
 
 	virtual ~Dungeon_1_1() {};
 };
