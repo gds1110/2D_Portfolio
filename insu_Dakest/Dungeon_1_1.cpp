@@ -257,8 +257,8 @@ void Dungeon_1_1::Render(HDC hdc)
 		
 		//C_MGR->Render(camDC);
 	}
-	underUI->Render(hdc);
 	overUi->Render(hdc);
+	underUI->Render(hdc);
 	//Rectangle(hdc, CamPos - 25, 50 - 25, CamPos + 25, 50 + 50);
 	// 인사
 	// 마우스 좌표

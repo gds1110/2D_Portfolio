@@ -22,7 +22,11 @@ HRESULT UnderUi::Init()
 	minmap = UiDataManager::GetSingleton()->GetMiniMap();
 	//tile = UiDataManager::GetSingleton()->GetMiniMap();
 	MiniMap = new Image();
-	MiniMap->Init(430, 230);
+	MiniMap->Init(440, 300);
+	minimapposx = (WINSIZE_X / 2 + 10);
+	minimapposy = (WINSIZE_Y - WINSIZE_Y / 3) + 20;
+	mouseOffsetX = (WINSIZE_X / 2 + 10)+20;
+	mouseOffsetY = (WINSIZE_Y - WINSIZE_Y / 3) + 20+20;
 	currTile = nullptr;
 	return S_OK;
 }
@@ -35,11 +39,16 @@ void UnderUi::Update()
 {
 	if (UiDataManager::GetSingleton()->GetTile()) {
 		currTile = UiDataManager::GetSingleton()->GetTile();
+		//mouseOffsetX = (WINSIZE_X / 2 + 10);//+ 20;
+		//mouseOffsetY = (WINSIZE_Y - WINSIZE_Y / 3);//+ 20 + 20 ;
 	}
 
 	for (int i = 0; i < minmap.size(); i++)
 	{
 		minmap[i]->Update();
+		//minmap[i]->SetPos(minmap[i]->getPos().x+ (WINSIZE_X / 2 + 10), minmap[i]->getPos().y+ (WINSIZE_Y - WINSIZE_Y / 3) + 20);
+		minmap[i]->SetPos(minmap[i]->getPos().x+ (WINSIZE_X / 2 + 10), minmap[i]->getPos().y+ (WINSIZE_Y - WINSIZE_Y / 3) + 20);
+		//minmap[i]->SetPos(minmap[i]->getPos().y + (WINSIZE_Y - WINSIZE_Y / 3) + 20, minmap[i]->getPos().x + (WINSIZE_X / 2 + 10));
 		
 	}
 	if (currTile)
@@ -52,13 +61,29 @@ void UnderUi::Update()
 			}
 		
 		}
+
+
 		for (int i = 0; i < currTile->GetWay().size(); i++) {
-			if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
+			if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_RBUTTON))
 			{
-				if (PointInRect({ (WINSIZE_X / 2 + 10) + g_ptMouse.x,(WINSIZE_Y - WINSIZE_Y / 3) + 20 + g_ptMouse.y }, (currTile->GetWay()[i]->GetRC())) && currTile->GetWay()[i]->GetIsWay() == true)
+				/*if (PointInRect({ (WINSIZE_X / 2 + 10) + g_ptMouse.x,(WINSIZE_Y - WINSIZE_Y / 3) + 20 + g_ptMouse.y }, (currTile->GetWay()[i]->GetRC())) && currTile->GetWay()[i]->GetIsWay() == true)
 				{
 					currTile->GetWay()[i]->SetIsCurrted(true);
 					currTile = currTile->GetWay()[i];
+				}*/
+				RECT rc = currTile->GetWay()[i]->GetRC();
+				if (PtInRect(&(rc), { g_ptMouse.x,g_ptMouse.y }))
+				{
+					
+					currTile->GetWay()[i]->SetIsCurrted(true);
+					currTile = currTile->GetWay()[i];
+				}
+				if (PointInRect(g_ptMouse, (currTile->GetWay()[i]->GetRC()), minimapposx+20, minimapposy+20) && currTile->GetWay()[i]->GetIsWay() == true)
+				{
+				/*	currTile->GetWay()[i]->SetIsCurrted(true);
+					currTile = currTile->GetWay()[i];
+					SceneManager::GetSingleton()->ChangeScene2("스테이지1", currTile);
+					return;*/
 				}
 			}
 
@@ -113,7 +138,7 @@ void UnderUi::Render(HDC hdc)
 	{
 		selSkillIcon->Render(hdc, selSkill->GetPos().x, selSkill->GetPos().y, true);
 	}	
-	wsprintf(szText, "X : %d, Y : %d", (WINSIZE_X / 2 + 10) + g_ptMouse.x, (WINSIZE_Y - WINSIZE_Y / 3) + 20 + g_ptMouse.y);
+	wsprintf(szText, "X : %d, Y : %d",  g_ptMouse.x-minimapposx,  g_ptMouse.y-minimapposy);
 	TextOut(hdc, 200, 60, szText, strlen(szText));
 	if (!minmap.empty())
 	{
@@ -123,18 +148,21 @@ void UnderUi::Render(HDC hdc)
 			if (minmap[i]->GetType() == TileType::Path) {
 				//openList[i]->Render(miniDC);
 				
-				minmap[i]->Render(miniDC);
+				//minmap[i]->Render(miniDC);
 			}
 		}
 		for (int i = 0; i < minmap.size(); i++)
 		{
 			if (minmap[i]->GetType() == TileType::Room) {
 				//openList[i]->Render(miniDC);
-				minmap[i]->Render(hdc);
+				//minmap[i]->Render(hdc);
 				minmap[i]->Render(miniDC);
 			}
 		}
-		MiniMap->Render(hdc, WINSIZE_X / 2 + 10, WINSIZE_Y - WINSIZE_Y / 3 + 20);
+		//MiniMap->Render(hdc, WINSIZE_X / 2 + 10, WINSIZE_Y - WINSIZE_Y / 3 + 20);
+		if (UiDataManager::GetSingleton()->GetTile()) {
+		}
+			MiniMap->MinimapRender(hdc, minimapposx, minimapposy, UiDataManager::GetSingleton()->GetTile(),false);
 		//MiniMap->Render(hdc, 100, 0);
 		//MiniMap->Render5(hdc, WINSIZE_X / 2 + 10, WINSIZE_Y - WINSIZE_Y / 3 + 20,
 		//	false, 1, UiDataManager::GetSingleton()->GetMin(), UiDataManager::GetSingleton()->GetMax());
@@ -143,4 +171,9 @@ void UnderUi::Render(HDC hdc)
 		//MiniMap->Render6(hdc, WINSIZE_X / 2 + 10, WINSIZE_Y - WINSIZE_Y / 3 + 20,
 		//	false, 1, UiDataManager::GetSingleton()->GetMin(), UiDataManager::GetSingleton()->GetMax(),0,0,(UiDataManager::GetSingleton()->GetTile()));
 	}
+
+	//for (int i = 0; i < minrc.size(); i++)
+	//{
+	//	Rectangle(hdc, minrc[i].left, minrc[i].top, minrc[i].right, minrc[i].bottom);
+	//}
 }

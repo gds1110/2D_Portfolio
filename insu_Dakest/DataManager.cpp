@@ -116,56 +116,56 @@ void DataManager::Update()
 
 	}
 	
-  //  if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
-  //  {
-  //      for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
-  //      {
-  //          if (PointInRect(g_ptMouse, C_MGR->GetCharacters()[i]->GetRect()))
-  //          {
-  //            
-		//		if (selectedChr) {
-		//			selectedChr->SetSelected(false);
-		//		}
-		//		SelectChar(C_MGR->GetCharacters()[i]);
-  //          
-		//		selectedChr->SetSelected(true);
-		//		underUI->SetSelChr(C_MGR->GetCharacters()[i]);
-		//	
-  //              if (!selectedChr)
-  //              {
-		//			selctedSkill = nullptr;
-  //              }
-  //          }
-  //      }
-		//if (S_MGR)
-		//{
-		//	for (int i = 0; i < S_MGR->GetSkillSlot().size(); i++)
-		//	{
-		//		if (PointInRect(g_ptMouse, S_MGR->GetSkillSlot()[i]->GetRect())) {
-		//			if (S_MGR->GetSkillSlot()[i]->GetSkillState() == Skill::SkillState::ON) {
-		//				underUI->setSelSkill(S_MGR->GetSkillSlot()[i]);
-		//				selectSkill(S_MGR->GetSkillSlot()[i]);
-		//			}
-		//		}
-		//	}
-		//}
+    if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
+    {
+        for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
+        {
+            if (PointInRect(g_ptMouse, C_MGR->GetCharacters()[i]->GetRect()))
+            {
+              
+				if (selectedChr) {
+					selectedChr->SetSelected(false);
+				}
+				SelectChar(C_MGR->GetCharacters()[i]);
+            
+				selectedChr->SetSelected(true);
+				underUI->SetSelChr(C_MGR->GetCharacters()[i]);
+			
+                if (!selectedChr)
+                {
+					selctedSkill = nullptr;
+                }
+            }
+        }
+		if (S_MGR)
+		{
+			for (int i = 0; i < S_MGR->GetSkillSlot().size(); i++)
+			{
+				if (PointInRect(g_ptMouse, S_MGR->GetSkillSlot()[i]->GetRect())) {
+					if (S_MGR->GetSkillSlot()[i]->GetSkillState() == Skill::SkillState::ON) {
+						underUI->setSelSkill(S_MGR->GetSkillSlot()[i]);
+						selectSkill(S_MGR->GetSkillSlot()[i]);
+					}
+				}
+			}
+		}
 
-		//if (selectedChr && selctedSkill)
-		//{
-		//		for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
-		//		{
-		//			if (M_MGR->GetCharacters()[i]->GetFixed() == true)
-		//			{
-		//				selctedSkill->run(0, M_MGR->GetCharacters()[i]);
-		//				M_MGR->GetCharacters()[i]->SetPos(WINSIZE_X / 2 + 100 * i);
-		//				selectedChr->SetPos(WINSIZE_X / 2);
-		//				//selectedChr->SetCurrState(State::SKILL1);
-		//			}
-		//		}
+		if (selectedChr && selctedSkill)
+		{
+				for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
+				{
+					if (M_MGR->GetCharacters()[i]->GetFixed() == true)
+					{
+						selctedSkill->run(0, M_MGR->GetCharacters()[i]);
+						M_MGR->GetCharacters()[i]->SetPos(WINSIZE_X / 2 + 100 * i);
+						selectedChr->SetPos(WINSIZE_X / 2);
+						//selectedChr->SetCurrState(State::SKILL1);
+					}
+				}
 
-		//	
-		//}
-   // }
+			
+		}
+    }
 	
 
 

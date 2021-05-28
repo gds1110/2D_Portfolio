@@ -48,10 +48,7 @@ void Tile::Release()
 
 void Tile::Update()
 {
-	rc.left = center.x - TILE_SIZE;
-	rc.right = rc.left + TILE_SIZE;
-	rc.top = center.y - TILE_SIZE;
-	rc.bottom = rc.top + TILE_SIZE;
+	
 	
 
 	if (type == TileType::Path)
@@ -61,6 +58,10 @@ void Tile::Update()
 	else if (type == TileType::Room)
 	{
 		tileImg = ImageManager::GetSingleton()->FindImage("´øÀü¹æ");
+		rc.left = center.x - TILE_SIZE;
+		rc.right = center.x + TILE_SIZE ;
+		rc.top = center.y - TILE_SIZE;
+		rc.bottom = center.y + TILE_SIZE ;
 	}
 	if (isCurrted==true)
 	{
@@ -96,6 +97,7 @@ void Tile::Render(HDC hdc)
 	/*wsprintf(szText, "%d", idY);
 	TextOut(hdc, center.x-5, center.y-5, szText, strlen(szText));*/
 	if (tileImg) {
+		Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
 
 		tileImg->Render2(hdc, center.x, center.y, true, size);
 		if (index > -1) {
@@ -111,7 +113,6 @@ void Tile::Render(HDC hdc)
 	
 			}
 		}
-		Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
 
 	}
 }
@@ -195,7 +196,7 @@ HRESULT MapGenManager::Init()
 	currTile = startTile;
 	minimapdone = false;
 	MiniMap = new Image();
-	MiniMap->Init(1620, 900);
+	MiniMap->Init(400, 300);
 
 	destTile = &(map[1][1]);
 	destTile->SetColor(RGB(0, 0, 255));
@@ -241,7 +242,7 @@ void MapGenManager::Update()
 		MakePath(*currTile);
 
 		//SetRect(&mapview, minIndex.x, minIndex.y, maxIndex.x + 1, maxIndex.y + 1);
-		SetRect(&mapview, 0, 0, 440, 270);
+		SetRect(&mapview, 0, 0, 1000,1000);
 
 	}
 
@@ -254,7 +255,7 @@ void MapGenManager::Update()
 			for (int i = 0; i < openList.size(); i++)
 			{
 				//openList[i]->SetPos(openList[i]->GetIdY() * TILE_SIZE - (min.y * TILE_SIZE), (openList[i]->GetIdX() * TILE_SIZE) - (min.x * TILE_SIZE));
-				openList[i]->SetPos((openList[i]->GetIdX() * TILE_SIZE) - (minIndex.x * TILE_SIZE), (openList[i]->GetIdY() * TILE_SIZE) - (minIndex.y * TILE_SIZE));
+				openList[i]->SetPos(20+(openList[i]->GetIdX() * TILE_SIZE) - (minIndex.x * TILE_SIZE), 20+(openList[i]->GetIdY() * TILE_SIZE) - (minIndex.y * TILE_SIZE));
 
 				openList[i]->RandomSetTileInfo();
 					if (openList[i]->GetIsCurrted()) {

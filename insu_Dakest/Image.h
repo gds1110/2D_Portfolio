@@ -85,6 +85,8 @@ public:
 	// 화면에 출력
 	void Render(HDC hdc, int destX = 0, int destY = 0,
 		bool isCenterRenderring = false);
+	void MinimapRender(HDC hdc, int destX = 0, int destY = 0,Tile* currTile=nullptr,
+		bool isCenterRenderring = false);
 	void Render2(HDC hdc, int destX = 0, int destY = 0,
 		bool isCenterRenderring = false, float size = 1);
 	void FrameRender(HDC hdc, int destX, int destY,

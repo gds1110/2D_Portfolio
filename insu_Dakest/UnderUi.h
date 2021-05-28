@@ -16,10 +16,14 @@ private:
 	Image* selSkillIcon;
 	Image* MapBG;
 	vector<Tile*> minmap;
+	vector<RECT> minrc;
 	Image* maps;
 	Image* MiniMap;
 	char szText[128] = "";
-
+	int mouseOffsetX;
+	int mouseOffsetY;
+	int minimapposx;
+	int minimapposy;
 	Tile* currTile;
 	Character* selChr;
 	Skill* selSkill;

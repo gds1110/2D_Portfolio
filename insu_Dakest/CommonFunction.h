@@ -45,6 +45,22 @@ inline bool PointInRect(POINT ptMouse, RECT rc)
 
 	return true;
 }
+inline bool PointInRect(POINT ptMouse, RECT rc,int offsetX, int offsetY)
+{
+	int ptoffsetx = (ptMouse.x - offsetX);
+	int ptoffsety = (ptMouse.y - offsetY);
+	int rcleftoffset = rc.left; //(rc.left + offsetX);
+	int rcrightoffset = rc.right; //rc.right + offsetX;
+	int rctopoffset = rc.top; //(rc.top + offsetY);
+	int rcbotoffset = rc.bottom; //(rc.bottom + offsetY);
+	if (ptoffsetx < rcleftoffset || ptoffsetx >rcrightoffset
+		|| ptoffsety <rctopoffset || ptoffsety >rcbotoffset)
+	{
+		return false;
+	}
+
+	return true;
+}
 
 inline bool PointInRect(POINT ptMouse, POINT rcPos, int rcSize)
 {
@@ -58,6 +74,7 @@ inline bool PointInRect(POINT ptMouse, POINT rcPos, int rcSize)
 
 	return true;
 }
+
 
 inline bool RectInRect(RECT rc1, RECT rc2)
 {
