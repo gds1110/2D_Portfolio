@@ -1,4 +1,5 @@
 #include "Image.h"
+#include "MapGenManager.h"
 
 HRESULT Image::Init(int width, int height)
 {
@@ -193,7 +194,7 @@ void Image::Render2(HDC hdc, int destX, int destY, bool isCenterRenderring, floa
         GdiTransparentBlt(
             hdc,
             x, y,
-            imageInfo->width, imageInfo->height,
+            imageInfo->width * size, imageInfo->height * size,
 
             imageInfo->hMemDC,
             0, 0,
@@ -632,16 +633,6 @@ void Image::Render5(HDC hdc, int destX, int destY, bool isCenterRenderring, floa
 
         //}
         //  // bitmap 에 있는 이미지 정보를 다른 비트맵에 복사
-        GdiTransparentBlt(
-            imageInfo->hMemDC,
-            x, y,
-            imageInfo->width, imageInfo->height,
-
-            imageInfo->hMemDC,
-            minP.x, minP.y,
-            imageInfo->width, imageInfo->height,
-            RGB(255, 255, 255)
-        );
 
 
         StretchBlt(
@@ -683,6 +674,66 @@ void Image::Render5(HDC hdc, int destX, int destY, bool isCenterRenderring, floa
         //    minP.x * TILE_SIZE, minP.y * TILE_SIZE,               // 원본에서 복사 시작 위치
         //    SRCCOPY             // 복사 옵션
         //);
+
+    }
+}
+
+void Image::Render6(HDC hdc, int destX, int destY, bool isCenterRenderring, float size, POINT minP, POINT maxP, int sizeX, int sizeY, Tile* tile)
+{
+    int x = destX;
+    int y = destY;
+    if (isCenterRenderring)
+    {
+        x = destX - (imageInfo->width / 2);
+        y = destY - (imageInfo->height / 2);
+    }
+
+    if (isTransparent)
+    {
+        // 특정 색상을 빼고 복사하는 함수
+        GdiTransparentBlt(
+            hdc,
+            x, y,
+            imageInfo->width, imageInfo->height,
+
+            imageInfo->hMemDC,
+            minP.x, minP.y,
+            imageInfo->width, imageInfo->height,
+            transColor
+        );
+    }
+    else
+    {
+        /*GdiTransparentBlt(
+            imageInfo->hMemDC,
+            x, y,
+            imageInfo->width, imageInfo->height,
+
+            imageInfo->hMemDC,
+            minP.x, minP.y,
+            imageInfo->width, imageInfo->height,
+            RGB(255, 255, 255)
+        );
+*/
+
+        StretchBlt(
+            hdc,
+            x, y,
+            430,
+            200,
+            imageInfo->hMemDC,
+            tile->GetIdX()*TILE_SIZE,//-215,
+            tile->GetIdY()*TILE_SIZE,//-100,
+            //hdc,
+            /*minP.x * TILE_SIZE,
+            minP.y * TILE_SIZE,*/
+            //(maxP.x+1 - minP.x) * TILE_SIZE , (maxP.y+1 - minP.y) * TILE_SIZE,
+            516,
+            240,
+            SRCCOPY);
+
+
+      
 
     }
 }

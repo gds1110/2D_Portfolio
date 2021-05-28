@@ -8,7 +8,7 @@ class CharacterManager : public GameNode
 {
 private:
 	vector<Character*> v_Characters;
-	vector<Character*>::iterator itHero;
+	vector<Character*>::iterator itChr;
 	
 	int index;
 	int CharArrPos[4] = { 640,440,240,40 };
@@ -23,7 +23,8 @@ public:
 	vector<Character*> GetCharacters() { return this->v_Characters; }
 
 	void AddCharacter(Character* chr, UnitType type);
-
+	//void AddCharacter(UnitType type,int CharIndex);
+	void AddMonster(int charIndex);
 	int GetCharPos();
 	
 	virtual ~CharacterManager() {};

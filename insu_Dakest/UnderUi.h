@@ -18,7 +18,9 @@ private:
 	vector<Tile*> minmap;
 	Image* maps;
 	Image* MiniMap;
+	char szText[128] = "";
 
+	Tile* currTile;
 	Character* selChr;
 	Skill* selSkill;
 	SkillManager* selSkillmgr;

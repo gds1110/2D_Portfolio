@@ -102,6 +102,8 @@ public:
 	void Render5(HDC hdc, int destX = 0, int destY = 0,
 		bool isCenterRenderring = false, float size = 1, POINT minP = { 0 }, POINT maxP = { 0 }, int sizeX = 0, int sizeY = 0);
 
+	void Render6(HDC hdc, int destX = 0, int destY = 0,
+		bool isCenterRenderring = false, float size = 1, POINT minP = { 0 }, POINT maxP = { 0 }, int sizeX = 0, int sizeY = 0,Tile* tile=nullptr);
 
 	void Release();
 

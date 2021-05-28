@@ -11,6 +11,13 @@ HRESULT GameNode::Init()
 	//return S_OK;
 }
 
+HRESULT GameNode::DungoenInit(Tile* flowTile)
+{
+	return E_NOTIMPL;
+}
+
+
+
 void GameNode::Release()
 {
 }

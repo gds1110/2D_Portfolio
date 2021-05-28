@@ -6,6 +6,9 @@
 
 using namespace std;
 
+class Dungeon_1_1;
+class Tile;
+class MapGenManager;
 class GameNode;
 class SceneManager : public Singleton<SceneManager>
 {
@@ -16,7 +19,8 @@ public:
 	static GameNode* currentScene;
 	static GameNode* loadingScene;
 	static GameNode* readyScene;
-
+	static Dungeon_1_1* prevDungeon;
+	static Dungeon_1_1* currentDungeon;
 public:
 	HRESULT Init();
 	void Release();
@@ -25,6 +29,7 @@ public:
 
 	GameNode* AddScene(string key, GameNode* scene);
 	HRESULT ChangeScene(string key);
+	HRESULT ChangeScene2(string key,Tile* tile);
 
 };
 

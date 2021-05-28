@@ -4,6 +4,7 @@
 #include "MapGenManager.h"
 #include <ctime>
 #include "DataManager.h"
+#include "ImageStorage.h"
 HRESULT MainGame::Init()
 {
 	hdc = GetDC(g_hWnd);
@@ -15,7 +16,8 @@ HRESULT MainGame::Init()
 	UiDataManager::GetSingleton()->Init();
 	TimerManager::GetSingleton()->Init();
 	// 이미지를 미리 로드한다
-
+	istorage = new ImageStorage();
+	istorage->Init();
 
 	// 메인게임의 초기화 함수
 	//hTimer = (HANDLE)SetTimer(g_hWnd, 0, 1, NULL);
@@ -46,7 +48,7 @@ void MainGame::Release()
 	KeyManager::GetSingleton()->Release();
 	ImageManager::GetSingleton()->Release();
 	SceneManager::GetSingleton()->Release();
-
+	SAFE_RELEASE(istorage);
 	SAFE_RELEASE(backBuffer);
 	 
 	ReleaseDC(g_hWnd, hdc);

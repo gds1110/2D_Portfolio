@@ -21,12 +21,16 @@ private:
 	UnderUi* underUI;
 	bool selCheck;
 	bool targeton;
+	bool BattleStage;
 public:
 	virtual HRESULT Init();
 	virtual HRESULT Init(CharacterManager* SC_MGR,CharacterManager* SM_MGR, UnderUi* ui);
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
+
+	bool GetBattle() { return BattleStage; }
+	void SetBattle(bool setbatte) { this->BattleStage = setbatte; }
 
 	int GetCampos() { return this->camPos; }
 	void SetCampos(int cam) { this->camPos = cam; }

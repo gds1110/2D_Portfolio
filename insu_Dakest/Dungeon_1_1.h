@@ -9,6 +9,7 @@ class Character;
 class CharacterManager;
 class SkillManager;
 class DataManager;
+class MapGenManager;
 class Dungeon_1_1 : public GameNode
 {
 	enum DungeonType
@@ -35,15 +36,19 @@ private:
 	int CamPos;
 	CharacterManager* C_MGR;
 	CharacterManager* M_MGR;
-
+	Tile* thisTile;
 	bool Enemy;
 
 public:
 	virtual HRESULT Init();
+	virtual HRESULT DungoenInit(Tile* flowTile);
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
+	Dungeon_1_1() {
+		isDungeon = true;
+	}
 	
 
 	virtual ~Dungeon_1_1() {};

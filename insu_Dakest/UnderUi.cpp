@@ -6,6 +6,7 @@
 #include "SkillManager.h"
 #include "CommonFunction.h"
 #include "MapGenManager.h"
+
 HRESULT UnderUi::Init()
 {
 	underUi = ImageManager::GetSingleton()->AddImage("유아이", "resource/dungeon/UI/D_under_ui2.BMP", 1280, 240, false);
@@ -21,22 +22,48 @@ HRESULT UnderUi::Init()
 	minmap = UiDataManager::GetSingleton()->GetMiniMap();
 	//tile = UiDataManager::GetSingleton()->GetMiniMap();
 	MiniMap = new Image();
-	MiniMap->Init(1620, 900);
+	MiniMap->Init(430, 230);
+	currTile = nullptr;
 	return S_OK;
 }
 
 void UnderUi::Release()
 {
-	mapgen->Release();
 }
 
 void UnderUi::Update()
 {
+	if (UiDataManager::GetSingleton()->GetTile()) {
+		currTile = UiDataManager::GetSingleton()->GetTile();
+	}
+
 	for (int i = 0; i < minmap.size(); i++)
 	{
 		minmap[i]->Update();
+		
 	}
-	
+	if (currTile)
+	{
+		for (int i = 0; i < currTile->GetWay().size(); i++)
+		{
+			if (currTile->GetWay()[i]->getindex() > -1)
+			{
+				currTile->GetWay()[i]->SetIsWay(true);
+			}
+		
+		}
+		for (int i = 0; i < currTile->GetWay().size(); i++) {
+			if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
+			{
+				if (PointInRect({ (WINSIZE_X / 2 + 10) + g_ptMouse.x,(WINSIZE_Y - WINSIZE_Y / 3) + 20 + g_ptMouse.y }, (currTile->GetWay()[i]->GetRC())) && currTile->GetWay()[i]->GetIsWay() == true)
+				{
+					currTile->GetWay()[i]->SetIsCurrted(true);
+					currTile = currTile->GetWay()[i];
+				}
+			}
+
+		}
+	}
 	if (selChr)
 	{
 		iconKey = selChr->GetClassArr()[selChr->GetClass()] + "아이콘";
@@ -50,6 +77,8 @@ void UnderUi::Update()
 		}
 		
 	}
+	
+
 	/*if (!minmap.empty()) {
 		
 
@@ -83,7 +112,9 @@ void UnderUi::Render(HDC hdc)
 	if (selSkill)
 	{
 		selSkillIcon->Render(hdc, selSkill->GetPos().x, selSkill->GetPos().y, true);
-	}
+	}	
+	wsprintf(szText, "X : %d, Y : %d", (WINSIZE_X / 2 + 10) + g_ptMouse.x, (WINSIZE_Y - WINSIZE_Y / 3) + 20 + g_ptMouse.y);
+	TextOut(hdc, 200, 60, szText, strlen(szText));
 	if (!minmap.empty())
 	{
 		
@@ -91,6 +122,7 @@ void UnderUi::Render(HDC hdc)
 		{
 			if (minmap[i]->GetType() == TileType::Path) {
 				//openList[i]->Render(miniDC);
+				
 				minmap[i]->Render(miniDC);
 			}
 		}
@@ -98,10 +130,17 @@ void UnderUi::Render(HDC hdc)
 		{
 			if (minmap[i]->GetType() == TileType::Room) {
 				//openList[i]->Render(miniDC);
+				minmap[i]->Render(hdc);
 				minmap[i]->Render(miniDC);
 			}
 		}
-		MiniMap->Render5(hdc, WINSIZE_X / 2 + 10, WINSIZE_Y - WINSIZE_Y / 3 + 20,
-			false, 1, UiDataManager::GetSingleton()->GetMin(), UiDataManager::GetSingleton()->GetMax());
+		MiniMap->Render(hdc, WINSIZE_X / 2 + 10, WINSIZE_Y - WINSIZE_Y / 3 + 20);
+		//MiniMap->Render(hdc, 100, 0);
+		//MiniMap->Render5(hdc, WINSIZE_X / 2 + 10, WINSIZE_Y - WINSIZE_Y / 3 + 20,
+		//	false, 1, UiDataManager::GetSingleton()->GetMin(), UiDataManager::GetSingleton()->GetMax());
+	/*	MiniMap->Render5(hdc, 0,0,
+			false, 1, UiDataManager::GetSingleton()->GetMin(), UiDataManager::GetSingleton()->GetMax());*/
+		//MiniMap->Render6(hdc, WINSIZE_X / 2 + 10, WINSIZE_Y - WINSIZE_Y / 3 + 20,
+		//	false, 1, UiDataManager::GetSingleton()->GetMin(), UiDataManager::GetSingleton()->GetMax(),0,0,(UiDataManager::GetSingleton()->GetTile()));
 	}
 }

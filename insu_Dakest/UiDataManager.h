@@ -34,11 +34,15 @@ private:
 	MapGenManager* MapGen;
 
 	Tile** map;
+	Tile* currtile;
 
 public:
 	HRESULT Init();
 	void Release();
 	void Update();
+
+	void SetCurrtile(Tile* tile) { this->currtile = tile; }
+	Tile* GetTile() { return this->currtile; }
 
 	MapGenManager* GetMapGen() { return this->MapGen; }
 	void SetMapGeN(MapGenManager* map) { this->MapGen = map; }

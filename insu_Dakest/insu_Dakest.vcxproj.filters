@@ -37,6 +37,9 @@
     <Filter Include="소스 파일\UnitObject\Hero">
       <UniqueIdentifier>{a52163f6-ec97-4739-a48b-e7073fd24c2d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\NewFilter1">
+      <UniqueIdentifier>{456ab8a3-fe09-4a67-8117-beade3118815}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -151,6 +154,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Observable.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageStorage.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -277,6 +283,9 @@
     </ClInclude>
     <ClInclude Include="Observable.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageStorage.h">
+      <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

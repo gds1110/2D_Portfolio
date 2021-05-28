@@ -76,6 +76,7 @@ public:
 	POINT GetPrevNnext() { return this->prevNnext; }
 
 	void SetIsStarted(bool is) { this->isStarted = is; }
+	bool GetIsStarted() { return this->isStarted; }
 	void SetIsCurrted(bool is) { this->isCurrted = is; }
 	bool GetIsCurrted() { return this->isCurrted; }
 
@@ -87,7 +88,9 @@ public:
 
 	void SetColor(COLORREF color);
 	void SetType(TileType type) { this->type = type; }
+
 	TileType GetType() { return this->type; }
+
 	int GetIdX() { return this->idX; }
 	int GetIdY() { return this->idY; }
 
@@ -118,15 +121,19 @@ public:
 
 	void SetIsInOpenlist(bool b) { this->isInOpenlist = b; }
 	bool GetIsInOpenlist() { return this->isInOpenlist; }
+
 	void SetIsClosed(bool b) { this->isClosed = b; }
 	bool GetIsClosed() { return this->isClosed; }
 
+	int* GetEnemyArr() { return this->enemyArr; }
 
 	void SetIsWay(bool b) { this->canWay = b; }
 	bool GetIsWay() { return this->canWay; }
 
 	void SetHeapIndex(int id) { this->heapIndex = id; }
 	int GetHeapIndex() { return this->heapIndex; }
+
+	RECT GetRC() { return this->rc; }
 
 	virtual ~Tile() {};
 

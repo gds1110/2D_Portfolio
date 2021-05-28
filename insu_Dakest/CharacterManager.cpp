@@ -3,6 +3,10 @@
 #include "Character.h"
 #include "CommonFunction.h"
 #include <algorithm>
+#include "skeleton_arbalistar.h"
+#include "skeleton_bearer.h"
+#include "skeleton_captain.h"
+#include "skeleton_common.h"
 
 HRESULT CharacterManager::Init()
 {
@@ -49,6 +53,45 @@ void CharacterManager::AddCharacter(Character* chr, UnitType type)
             index++;
         }
 
+    }
+}
+
+void CharacterManager::AddMonster(int charIndex)
+{
+
+    if (v_Characters.size() > 3)
+    {
+        return;
+    }
+    else
+    {
+       
+        switch (charIndex)  
+        {
+        case 0:
+            v_Characters.push_back(new skeleton_arbalistar);
+
+            break;
+        case 1:
+            v_Characters.push_back(new skeleton_bearer);
+
+            break;
+        case 2:
+            v_Characters.push_back(new skeleton_captain);
+
+            break;
+        case 3:
+            v_Characters.push_back(new skeleton_common);
+            break;
+
+        default:
+            break;
+        }
+            v_Characters[index]->SetType(UnitType::MONSTER);
+            v_Characters[index]->Init();
+            v_Characters[index]->SetIndex(index);
+            v_Characters[index]->SetPos((WINSIZE_X / 2 + 100) + (index * 150));
+            index++;    
     }
 }
 

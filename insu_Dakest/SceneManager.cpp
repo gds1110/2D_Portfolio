@@ -1,5 +1,7 @@
 #include "SceneManager.h"
 #include "GameNode.h"
+#include "Dungeon_1_1.h"
+#include "MapGenManager.h"
 
 GameNode* SceneManager::currentScene = nullptr;
 GameNode* SceneManager::loadingScene = nullptr;
@@ -96,3 +98,48 @@ HRESULT SceneManager::ChangeScene(string key)
 
     return E_FAIL;
 }
+
+HRESULT SceneManager::ChangeScene2(string key, Tile* tile)
+{
+    map<string, GameNode*>::iterator it = mSceneDatas.find(key);
+    if (it == mSceneDatas.end())
+    {
+        return E_FAIL;
+    }
+
+    if (it->second == currentScene)
+    {
+        return S_OK;
+    }
+    if (it->second->GetIsDungeon()) {
+        if (SUCCEEDED(it->second->DungoenInit(tile)))
+        {
+            // ÇöÀç ¾À -> Å¸ÀÌÆ² ¾À
+            // ¹Ù²Ù°í ½ÍÀº ¾À -> ¹èÆ² ¾À
+            if (currentScene)
+            {
+                currentScene->Release();
+            }
+            currentScene = it->second;
+
+            return S_OK;
+        }
+    }
+    else {
+        if (SUCCEEDED(it->second->Init()))
+        {
+            // ÇöÀç ¾À -> Å¸ÀÌÆ² ¾À
+            // ¹Ù²Ù°í ½ÍÀº ¾À -> ¹èÆ² ¾À
+            if (currentScene)
+            {
+                currentScene->Release();
+            }
+            currentScene = it->second;
+
+            return S_OK;
+        }
+    }
+
+    return E_FAIL;
+}
+

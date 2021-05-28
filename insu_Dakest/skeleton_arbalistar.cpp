@@ -3,9 +3,10 @@
 HRESULT skeleton_arbalistar::Init()
 {
 	maxFrameArr[State::COMBAT] = 15;
+	img = ImageManager::GetSingleton()->FindImage("½ºÄÌ·¹Åæ¾ÆÃ³ ÄÄ¹î");
 
-	img = ImageManager::GetSingleton()->AddImage("½ºÄÌ·¹Åæ¾ÆÃ³ ÄÄ¹î", "resource/monster/skeleton_arbalista/combat/combat.BMP", 2115, 250, maxFrameArr[State::COMBAT], 1, true, RGB(88, 88, 88));
-	ImageManager::GetSingleton()->AddImage("½ºÄÌ·¹Åæ¾ÆÃ³ ÇÇ°Ý", "resource/monster/skeleton_arbalista/defend/hurt.BMP", 300, 400,1,1, true, RGB(88, 88, 88));
+	/*img = ImageManager::GetSingleton()->AddImage("½ºÄÌ·¹Åæ¾ÆÃ³ ÄÄ¹î", "resource/monster/skeleton_arbalista/combat/combat.BMP", 2115, 250, maxFrameArr[State::COMBAT], 1, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("½ºÄÌ·¹Åæ¾ÆÃ³ ÇÇ°Ý", "resource/monster/skeleton_arbalista/defend/hurt.BMP", 300, 400,1,1, true, RGB(88, 88, 88));*/
 	currstate = State::COMBAT;
 	mkinds = MonsterKinds::SKELETON_ARBALISTAR;
 	size = 0.9;

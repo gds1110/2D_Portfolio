@@ -3,6 +3,8 @@
 
 class Image;
 class DataManager;
+class ImageStorage;
+
 class MainGame : public GameNode
 {
 private:
@@ -14,7 +16,7 @@ private:
 	char szText[128] = "";
 	//DataManager* Main_DM;
 	Image* backBuffer;
-
+	ImageStorage* istorage;
 public:
 	HRESULT Init();		// 오버라이딩 : 다형성
 	void Release();
