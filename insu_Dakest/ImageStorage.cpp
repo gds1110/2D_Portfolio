@@ -1,5 +1,5 @@
 #include "ImageStorage.h"
-
+#include "config.h"
 HRESULT ImageStorage::Init()
 {
 	ImageManager::GetSingleton()->AddImage("스켈레톤캡틴 컴뱃", "resource/monster/skeleton_captain/combat/combat.BMP", 3706, 400, 17, 1, true, RGB(88, 88, 88));
@@ -11,11 +11,26 @@ HRESULT ImageStorage::Init()
 	ImageManager::GetSingleton()->AddImage("스켈레톤교군 컴뱃", "resource/monster/skeleton_bearer/combat/combat.BMP", 5468, 500,17, 1, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("스켈레톤교군 피격", "resource/monster/skeleton_bearer/defend/hurt.BMP", 300, 400, 1, 1, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("방세트", "resource/dungeon/Stage1/rooms.BMP", 1920, 4320, 1, 6, true, RGB(88, 88, 88));
-	ImageManager::GetSingleton()->AddImage("던전입구", "resource/dungeon/Stage1/Entrance.BMP", 1300, 480, 1, 1, true, RGB(88, 88, 88));
-	ImageManager::GetSingleton()->AddImage("원거리배경", "resource/dungeon/Stage1/DistanceBG.BMP", 4320, 480, true, RGB(88, 88, 88));
-	ImageManager::GetSingleton()->AddImage("근거리", "resource/dungeon/Stage1/NearBG.BMP", 4320, 480, true, RGB(88, 88, 88));
-	ImageManager::GetSingleton()->AddImage("복도배경1", "resource/dungeon/Stage1/PassageBG1.BMP", 2900, 480, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("던전입구", "resource/dungeon/Stage1/Entrance.BMP", 1920, 720, 1, 1, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("원거리배경", "resource/dungeon/Stage1/DistanceBG.BMP", 4320, 720, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("근거리", "resource/dungeon/Stage1/NearBG.BMP", 4320, 720, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("복도배경1", "resource/dungeon/Stage1/PassageBG1.BMP", 4320, 720, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("복도배경2", "resource/dungeon/Stage1/PassageBG2.BMP", 4320, 720, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("복도배경3", "resource/dungeon/Stage1/PassageBG3.BMP", 4320, 720, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("복도배경4", "resource/dungeon/Stage1/PassageBG4.BMP", 4320, 720, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("복도배경5", "resource/dungeon/Stage1/PassageBG5.BMP", 4320, 720, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("복도배경6", "resource/dungeon/Stage1/PassageBG6.BMP", 4320, 720, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("시작상점", "resource/StartTown/townhome.bmp",WINSIZE_X , WINSIZE_Y);
+	ImageManager::GetSingleton()->AddImage("로스터배경", "resource/StartTown/rosterbg2.bmp",250 , 70);
+	ImageManager::GetSingleton()->AddImage("출발버튼", "resource/StartTown/startButton.bmp",225 , 94,1,2,false);
 
+
+
+
+	ImageManager::GetSingleton()->AddImage("선택아이콘", "resource/sharedUi/selected_2-down.BMP", 236, 412, 1, 2, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("타겟아이콘", "resource/sharedUi/target.BMP", 197, 412, 1, 2, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("힐아이콘", "resource/sharedUi/target_h.BMP", 175, 206, 1, 1, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("미니맵배경색", "resource/mapui/mapbg.BMP", 600, 600, 1, 1, true, RGB(255, 0, 255));
 	return S_OK;
 }
 

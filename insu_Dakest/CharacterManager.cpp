@@ -55,7 +55,24 @@ void CharacterManager::AddCharacter(Character* chr, UnitType type)
 
     }
 }
+void CharacterManager::AddCharacter2(Character* chr, int indexx, bool isroster, UnitType type)
+{
+    if (type == UnitType::HERO) {
+        v_Characters.push_back(chr);
+        v_Characters[index]->SetType(type);
+        v_Characters[index]->Init();
+        v_Characters[index]->SetIconPos({ WINSIZE_X / 2 + 400,50 + index * 70 });
+        v_Characters[index]->RosterInit();
+      
+      
+       /* rosterBg->Render(hdc, WINSIZE_X / 2 + 400, 50 + index * 70);
+        rosterIcon->Render(hdc, WINSIZE_X / 2 + 400, 50 + index * 70);*/
+        v_Characters[index]->SetIndex(index);
+        
+        index++;
+    }
 
+}
 void CharacterManager::AddMonster(int charIndex)
 {
 

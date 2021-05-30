@@ -33,6 +33,9 @@ private:
 	string iconKey;
 	MapGenManager* mapgen;
 	HDC hdc2;
+
+	bool currTileChange;
+	bool firstTile;
 public:
 	virtual HRESULT Init();
 	virtual void Release();

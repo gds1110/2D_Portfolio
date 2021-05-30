@@ -33,11 +33,38 @@ using namespace std;
 #define SAFE_DELETE(p) { if (p) { delete p; p = nullptr; } }
 #define SAFE_RELEASE(p) { if (p) { p->Release(); delete p; p = nullptr; } }
 
+extern enum DungeonType
+{
+	START,
+	PATH,
+	ROOM,
+	END,
+};
+
 typedef struct tagFPoint
 {
 	float x;
 	float y;
 } FPOINT, *PFPOINT;
+
+typedef struct tagDungeon
+{
+	bool infoDone = false;
+	bool isEnemyed = false;
+	bool isSuddenEnemy = false;
+	bool isCurios = false;
+	int roomType = -1;
+	int pathType = -1;
+	int enemySize = 1;
+	int enemyArr[4] = { -1,-1,-1,-1 };
+	bool tileDone = false;
+	DungeonType dType=DungeonType::END;
+	POINT prevAnNext = { -1,-1 }; //통로일때 어느방에서 왔는지x 와 어느방으로 이동하는지 y
+	DungeonType nextType = DungeonType::END;
+	int NextDestIndex = -1; // 방에서 다음 방을 선택시 이 부분에 인덱스를 채운다. 그 후 통로방으로 이동
+
+} DUNGEONINFO, * PTR_DUNGEONINFO;
+
 
 extern enum State
 {
@@ -90,6 +117,8 @@ extern enum SKILLTYPE
 	CHARGESKILL,
 	NONESKILLTYPE
 };
+
+
 //typedef tagFPoint FPOINT2;
 //typedef tagFPoint* PFPOINT2;
 

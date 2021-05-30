@@ -2,6 +2,7 @@
 #include "Skill.h"
 #include "SkillManager.h"
 #include "Image.h"
+#include "config.h"
 HRESULT Character::Init()
 {
 	return S_OK;
@@ -20,6 +21,65 @@ void Character::Render(HDC hdc)
 }
 
 void Character::Render2(HDC hdc)
+{
+}
+
+HRESULT Character::RosterInit()
+{
+    rosterBg = ImageManager::GetSingleton()->FindImage("로스터배경");
+    rosterIcon = ImageManager::GetSingleton()->FindImage(GetClassArr()[GetClass()] + "아이콘");
+    SetRect(&iconRC, iconPos.x , iconPos.y ,
+        iconPos.x + 160, iconPos.y + 70);
+    iconMouseOver = false;
+    iconIsSeleceted = false;
+    return S_OK;
+}
+
+void Character::RosterRelease()
+{
+}
+
+void Character::RosterUpdate()
+{
+    if (iconMouseOver)
+    {
+        iconPos.x = WINSIZE_X / 2 + 350;
+        SetRect(&iconRC, iconPos.x, iconPos.y,
+            iconPos.x + 160, iconPos.y + 70);
+    }
+    else
+    {
+        iconPos.x = WINSIZE_X / 2 + 400;
+        SetRect(&iconRC, iconPos.x, iconPos.y,
+            iconPos.x + 160, iconPos.y + 70);
+    }
+    //SetRect(&iconRC,WINSIZE_X / 2 + 400)
+    rosterIcon= ImageManager::GetSingleton()->FindImage(GetClassArr()[GetClass()] + "아이콘");
+}
+
+void Character::RosterRender(HDC hdc)
+{
+  /*  rosterBg->Render(hdc,WINSIZE_X/2+400,50+index*70);
+    rosterIcon->Render(hdc,WINSIZE_X / 2 + 400,50+index * 70);  */
+    rosterBg->Render(hdc,iconPos.x,iconPos.y);
+    rosterIcon->Render(hdc,iconPos.x,iconPos.y);
+    //Rectangle(hdc, iconRC.left, iconRC.top, iconRC.right, iconRC.bottom);
+}
+
+HRESULT Character::PartyInit()
+{
+    return E_NOTIMPL;
+}
+
+void Character::PartyRelease()
+{
+}
+
+void Character::PartyUpdate()
+{
+}
+
+void Character::PartyRender(HDC hdc)
 {
 }
 

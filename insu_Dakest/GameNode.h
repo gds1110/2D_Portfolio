@@ -9,6 +9,7 @@ class MapGenManager;
 class GameNode
 {
 protected:
+	DUNGEONINFO d_info;
 	bool isDungeon = false;
 public:
 	virtual HRESULT Init();			// 멤버 변수의 초기화, 메모리 할당
@@ -18,7 +19,8 @@ public:
 	virtual void Render(HDC hdc);	// 프레임 단위로 출력 (이미지, 텍스트 등)
 
 	bool GetIsDungeon() { return this->isDungeon; }
-
+	DUNGEONINFO GetDinfo() { return this->d_info; }
+	void SetDinfo(DUNGEONINFO info) { this->d_info = info; }
 	GameNode();
 	virtual ~GameNode();
 };

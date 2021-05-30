@@ -78,6 +78,7 @@ HRESULT Dungeon_1_1::DungoenInit(Tile* flowTile)
 	//SetClientRect(g_hWnd, WINSIZE_X, WINSIZE_Y);
 	thisTile = flowTile;
 	//CamPos = 1920 / 2;
+	CamPos = 0;
 	if (thisTile->GetType() == TileType::Room) {
 		CamPos = 900;
 	}
@@ -123,16 +124,16 @@ HRESULT Dungeon_1_1::DungoenInit(Tile* flowTile)
 
 	M_MGR = new CharacterManager;
 	M_MGR->Init();
-	if (thisTile->GetTileinfo().isEnemyed == true)
-	{
-		for (int i = 0; i < 4; i++)
-		{
-			if (thisTile->GetTileinfo().enemyArr[i]!= NULL)
-			{
-				M_MGR->AddMonster(thisTile->GetTileinfo().enemyArr[i]);
-			}
-		}
-	}
+	//if (thistile.getisenemyed)
+	//{
+	//	for (int i = 0; i < 4; i++)
+	//	{
+	//		if (thisTile->GetTileinfo().enemyArr[i]!= NULL)
+	//		{
+	//			M_MGR->AddMonster(thisTile->GetTileinfo().enemyArr[i]);
+	//		}
+	//	}
+	//}
 
 	
 
@@ -190,7 +191,7 @@ void Dungeon_1_1::Update()
 	if (DM)
 	{
 		DM->Update();
-		DM->SetCampos(CamPos);
+		//DM->SetCampos(CamPos);
 	}
 	if (overUi)
 	{

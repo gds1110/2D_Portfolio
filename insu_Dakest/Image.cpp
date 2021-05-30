@@ -182,6 +182,8 @@ void Image::MinimapRender(HDC hdc, int destX, int destY, Tile* currTile, bool is
 {
     int x = destX;
     int y = destY;
+    int offsetx = currTile->getPos().x - 215;
+    int offsety = currTile->getPos().y - 100;
     if (isCenterRenderring)
     {
         x = destX - (imageInfo->width / 2);
@@ -190,17 +192,41 @@ void Image::MinimapRender(HDC hdc, int destX, int destY, Tile* currTile, bool is
 
     if (isTransparent)
     {
+        StretchBlt(
+            imageInfo->hMemDC,
+            
+            x, y,
+            430,
+            230,
+            imageInfo->hMemDC,
+            offsetx,//-215
+            offsety,//-100,
+            //hdc,
+            /*minP.x * TILE_SIZE,
+            minP.y * TILE_SIZE,*/
+            //(maxP.x+1 - minP.x) * TILE_SIZE , (maxP.y+1 - minP.y) * TILE_SIZE,
+
+            430,
+            230,
+            SRCCOPY);
+
+
         // 특정 색상을 빼고 복사하는 함수
-        GdiTransparentBlt(
+              GdiTransparentBlt(
             hdc,
             x, y,
-            imageInfo->width, imageInfo->height,
+            430,230,
 
             imageInfo->hMemDC,
-            0, 0,
-            imageInfo->width, imageInfo->height,
+           /* 0, 0,*/
+            offsetx,//-215
+            offsety,//-100,
+            430, 230,
             transColor
         );
+   
+    
+
     }
     else
     {
@@ -214,7 +240,7 @@ void Image::MinimapRender(HDC hdc, int destX, int destY, Tile* currTile, bool is
         //    0, 0,               // 원본에서 복사 시작 위치
         //    SRCCOPY             // 복사 옵션
         //);
-        GdiTransparentBlt(
+      /*  GdiTransparentBlt(
             imageInfo->hMemDC,
             x, y,
             imageInfo->width, imageInfo->height,
@@ -223,21 +249,22 @@ void Image::MinimapRender(HDC hdc, int destX, int destY, Tile* currTile, bool is
             0, 0,
             imageInfo->width, imageInfo->height,
             transColor
-        );
+        );*/
         StretchBlt(
             hdc,
             x, y,
             430,
-            200,
+            230,
             imageInfo->hMemDC,
-            currTile->getPos().x-215,//-215
-            currTile->getPos().y-100,//-100,
+            offsetx,//-215
+            offsety,//-100,
             //hdc,
             /*minP.x * TILE_SIZE,
             minP.y * TILE_SIZE,*/
             //(maxP.x+1 - minP.x) * TILE_SIZE , (maxP.y+1 - minP.y) * TILE_SIZE,
+           
             430,
-            200,
+            230,
             SRCCOPY);
 
 
@@ -802,6 +829,86 @@ void Image::Render6(HDC hdc, int destX, int destY, bool isCenterRenderring, floa
 
       
 
+    }
+}
+
+void Image::CamRender(HDC hdc, int destX, int destY, bool isCenterRenderring)
+{
+    int x = destX;
+    int y = destY;
+    if (isCenterRenderring)
+    {
+        x = destX - (imageInfo->width / 2);
+        y = destY - (imageInfo->height / 2);
+    }
+
+    if (isTransparent)
+    {
+        // 특정 색상을 빼고 복사하는 함수
+        GdiTransparentBlt(
+            hdc,
+            x, y,
+            imageInfo->width , imageInfo->height ,
+
+            imageInfo->hMemDC,
+            0, 0,
+            imageInfo->width, imageInfo->height,
+            transColor
+        );
+    }
+    else
+    {
+        SetStretchBltMode(hdc,COLORONCOLOR);
+
+        StretchBlt(hdc,
+            x, y,
+            imageInfo->width*1.2, imageInfo->height*1.2,
+            imageInfo->hMemDC,
+            0,
+            0,
+            imageInfo->width*2, imageInfo->height*1.7,
+
+            SRCCOPY);
+    }
+}
+
+void Image::CamRender2(HDC hdc, int destX, int destY, bool isCenterRenderring)
+{
+    int x = destX;
+    int y = destY;
+    if (isCenterRenderring)
+    {
+        x = destX - (imageInfo->width / 2);
+        y = destY - (imageInfo->height / 2);
+    }
+
+    if (isTransparent)
+    {
+        // 특정 색상을 빼고 복사하는 함수
+        GdiTransparentBlt(
+            hdc,
+            x, y,
+            imageInfo->width, imageInfo->height,
+
+            imageInfo->hMemDC,
+            0, 0,
+            imageInfo->width, imageInfo->height,
+            transColor
+        );
+    }
+    else
+    {
+        SetStretchBltMode(hdc, COLORONCOLOR);
+
+        StretchBlt(hdc,
+            x, y,
+            imageInfo->width * 1.2, imageInfo->height * 1.2,
+            imageInfo->hMemDC,
+            0,
+            0,
+            imageInfo->width * 1.8, imageInfo->height * 1.7,
+
+            SRCCOPY);
     }
 }
 

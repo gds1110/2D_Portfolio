@@ -13,9 +13,7 @@ HRESULT DataManager::Init()
 
 HRESULT DataManager::Init(CharacterManager* C_MGR, CharacterManager* M_MGR, UnderUi* ui)
 {
-    ImageManager::GetSingleton()->AddImage("선택아이콘", "resource/sharedUi/selected_2-down.BMP", 236, 412, 1, 2, true, RGB(88, 88, 88));
-    ImageManager::GetSingleton()->AddImage("타겟아이콘", "resource/sharedUi/target.BMP", 197, 412, 1, 2, true, RGB(88, 88, 88));
-    ImageManager::GetSingleton()->AddImage("힐아이콘", "resource/sharedUi/target_h.BMP", 175, 206, 1, 1, true, RGB(88, 88, 88));
+
 	camPos = 0;
 	this->C_MGR = C_MGR;
 	this->M_MGR = M_MGR;

@@ -107,6 +107,11 @@ HRESULT SceneManager::ChangeScene2(string key, Tile* tile)
         return E_FAIL;
     }
 
+    /*if (currentScene)
+    {
+        currentScene->Release();
+        
+    }*/
     //if (it->second == currentScene)
     //{
     //    return S_OK;
@@ -116,9 +121,9 @@ HRESULT SceneManager::ChangeScene2(string key, Tile* tile)
         {
             // ÇöÀç ¾À -> Å¸ÀÌÆ² ¾À
             // ¹Ù²Ù°í ½ÍÀº ¾À -> ¹èÆ² ¾À
-            if (currentScene)
             {
                 currentScene->Release();
+
             }
             currentScene = it->second;
 

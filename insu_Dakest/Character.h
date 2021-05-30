@@ -69,6 +69,9 @@ protected:
 	float mTime;
 	int alpha;
 	
+	Image* rosterIcon;
+	Image* rosterBg;
+
 	//Frame
 	int currFrameX;
 	int maxFrameX;
@@ -81,7 +84,13 @@ protected:
 	//float size;
 	
 	//INDEX
+
+
 	int index;
+	bool iconIsSeleceted;
+	bool iconMouseOver;
+	RECT iconRC;
+	POINT iconPos;
 	
 public:
 	virtual HRESULT Init();
@@ -89,6 +98,29 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 	virtual void Render2(HDC hdc);
+
+	virtual HRESULT RosterInit();
+	virtual void RosterRelease();
+	virtual void RosterUpdate();
+	virtual void RosterRender(HDC hdc);
+
+	virtual HRESULT PartyInit();
+	virtual void PartyRelease();
+	virtual void PartyUpdate();
+	virtual void PartyRender(HDC hdc);
+
+	void SetIconIsSelecetd(bool issel)	{this->iconIsSeleceted = issel;}
+	bool GetIconIsSelecetd(){return this->iconIsSeleceted;}
+	Image* GetIconImage(){return this->rosterIcon;}
+
+	void SetIconMouseOver(bool over){this->iconMouseOver = over;}
+	bool GetIconMouseOver(){return this->iconMouseOver;}
+	
+	POINT GetIconPOS() { return this->iconPos; }
+	void SetIconPos(POINT pos) { this->iconPos = pos; }
+
+	RECT GetIconRC() { return this->iconRC; }
+	//void SetIconRc(RECT RC) { this->iconRC = RC; }
 
 	//Render
 	void ShareRender(HDC hdc);
@@ -118,6 +150,10 @@ public:
 	//Set pos
 	virtual void SetPos(int x) { this->pos.x = x; };
 	virtual int GetPosx() { return this->pos.x; }
+
+	virtual void SetPosY(int y) { this->pos.y = y; };
+	virtual int GetPosY() { return this->pos.y; }
+
 
 	//H_Class
 	virtual HCLASS GetClass() { return this->hClass; }; //{ return HCLASS::NONE; }

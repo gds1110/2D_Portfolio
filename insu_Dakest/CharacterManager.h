@@ -22,7 +22,8 @@ public:
 
 	vector<Character*> GetCharacters() { return this->v_Characters; }
 
-	void AddCharacter(Character* chr, UnitType type);
+	void AddCharacter(Character* chr, UnitType type= UnitType::HERO);
+	void AddCharacter2(Character* chr, int indexx, bool isroster = false, UnitType type = UnitType::HERO);
 	//void AddCharacter(UnitType type,int CharIndex);
 	void AddMonster(int charIndex);
 	int GetCharPos();

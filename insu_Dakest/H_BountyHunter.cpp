@@ -12,6 +12,7 @@ HRESULT H_BountyHunter::Init()
     ImageManager::GetSingleton()->AddImage("바운티헌터 아이들", "resource/hero/bountyhunter/idle/idle.BMP", 2880, 300, maxFrameArr[State::IDLE], 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("바운티헌터 아이콘", "resource/hero/bountyhunter/icon.BMP", 65, 65, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("바운티헌터 스킬", "resource/hero/bountyhunter/skill/skillset.BMP", 504, 144,7,2, true, RGB(88, 88, 88));
+
     currstate = State::IDLE;
     hClass = HCLASS::BOUNTYHUNTER;
     skillSeting();

@@ -48,7 +48,7 @@ private:
 	float size;
 
 	TileStruct infoRoom;
-	
+	DUNGEONINFO d_info;
 	//출발위치, 현재위치, 적이있는가,기습유무,방 타입, 통로 타입, 골동품 유무, 
 	bool roomInfo[7] = { 0,0,0,0,0,0,0 };
 	char szText[128];
@@ -72,9 +72,13 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
+	
+
 	void SetPrevNnext(POINT prNne) { this->prevNnext = prNne; }
 	POINT GetPrevNnext() { return this->prevNnext; }
 
+	int* GetEnemyArr() { return this->enemyArr; }
+	bool GetIsEnemyed() { return this->isEnemyed; }
 	void SetIsStarted(bool is) { this->isStarted = is; }
 	bool GetIsStarted() { return this->isStarted; }
 	void SetIsCurrted(bool is) { this->isCurrted = is; }
@@ -125,7 +129,6 @@ public:
 	void SetIsClosed(bool b) { this->isClosed = b; }
 	bool GetIsClosed() { return this->isClosed; }
 
-	int* GetEnemyArr() { return this->enemyArr; }
 
 	void SetIsWay(bool b) { this->canWay = b; }
 	bool GetIsWay() { return this->canWay; }

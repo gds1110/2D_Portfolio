@@ -124,6 +124,7 @@ void Tile::RandomSetTileInfo()
 	int random2 = 0;
 	int monrandom = 0;
 	int randtype = 0;
+	int monnum;
 	if (isStarted)
 	{
 		/*isEnemyed = true;
@@ -132,36 +133,46 @@ void Tile::RandomSetTileInfo()
 			enemyArr[i] = 0;
 		}*/
 		roomType = 0;
-		
+		d_info.dType = DungeonType::START;
 	}
 	if (!isStarted)
 	{
 		
 		randomn = rand() % 2;
 		random2 = rand() % 101;
-		randtype = rand() % 7+1;
+		randtype = rand() % 7;
 		if (type == TileType::Room)
 		{
 			this->isEnemyed = randomn;
 			infoRoom.isEnemyed = randomn;
 			this->roomType = randtype;
+			d_info.dType = DungeonType::ROOM;
+			d_info.isEnemyed = this->isEnemyed;
+			d_info.roomType = this->roomType;
 		}
 		if (type == TileType::Path)
 		{
+			d_info.dType = DungeonType::PATH;
+
 			if (random2 > 66)
 			{
 				this->isEnemyed = true;
 				this->pathType = randtype;
 				
+				d_info.isEnemyed = this->isEnemyed;
+				d_info.roomType = this->roomType;
 			}
 		}
 	}
 	if (isEnemyed)
 	{
-		for (int i = 0; i < 4; i++)
+		monnum = rand() % 4;
+		d_info.enemySize = monnum;
+		for (int i = 0; i < d_info.enemySize; i++)
 		{
 			monrandom = rand() % 4;
 			enemyArr[i] = monrandom;
+			d_info.enemyArr[i] = monrandom;
 		}
 	}
 }
@@ -195,9 +206,9 @@ HRESULT MapGenManager::Init()
 	roomnum = 0;
 	currTile = startTile;
 	minimapdone = false;
-	MiniMap = new Image();
-	MiniMap->Init(400, 300);
-
+	/*MiniMap = new Image();
+	MiniMap->Init(1000, 1000);*/
+	MiniMap = ImageManager::GetSingleton()->FindImage("미니맵배경색");
 	destTile = &(map[1][1]);
 	destTile->SetColor(RGB(0, 0, 255));
 	destTile->SetType(TileType::End);
@@ -212,7 +223,9 @@ void MapGenManager::Release()
 	{
 		for (int j = 0; j < TILE_COUNT; j++)	// 가로반복 (x)
 		{
+			
 			map[i][j].Release();
+		
 		}
 	}
 }
@@ -242,7 +255,7 @@ void MapGenManager::Update()
 		MakePath(*currTile);
 
 		//SetRect(&mapview, minIndex.x, minIndex.y, maxIndex.x + 1, maxIndex.y + 1);
-		SetRect(&mapview, 0, 0, 1000,1000);
+		//SetRect(&mapview, 0, 0, 1000,1000);
 
 	}
 
@@ -256,7 +269,7 @@ void MapGenManager::Update()
 			{
 				//openList[i]->SetPos(openList[i]->GetIdY() * TILE_SIZE - (min.y * TILE_SIZE), (openList[i]->GetIdX() * TILE_SIZE) - (min.x * TILE_SIZE));
 				openList[i]->SetPos(20+(openList[i]->GetIdX() * TILE_SIZE) - (minIndex.x * TILE_SIZE), 20+(openList[i]->GetIdY() * TILE_SIZE) - (minIndex.y * TILE_SIZE));
-
+				//openList[i]->SetPos(WINSIZE_X/2+(openList[i]->GetIdX() * TILE_SIZE) - (minIndex.x * TILE_SIZE), WINSIZE_Y/2+(openList[i]->GetIdY() * TILE_SIZE) - (minIndex.y * TILE_SIZE));
 				openList[i]->RandomSetTileInfo();
 					if (openList[i]->GetIsCurrted()) {
 						openList[i]->SetIsCurrted(true);
@@ -264,7 +277,7 @@ void MapGenManager::Update()
 			}
 		}
 
-
+	//TODO : 여기서 가로 세로 prev and next 체크
 	for (int i = 0; i < openList.size(); i++)
 	{
 		if (openList[i]->GetType() == TileType::Room) 
@@ -334,7 +347,9 @@ void MapGenManager::Update()
 	{
 		
 		//SceneManager::GetSingleton()->ChangeScene("스테이지1");
+
 		SceneManager::GetSingleton()->ChangeScene2("스테이지1", currTile);
+		this->Release();
 		return;
 	}
 
@@ -345,14 +360,15 @@ void MapGenManager::Render(HDC hdc)
 	
 	HDC miniDC = MiniMap->GetMemDC();
 	UiDataManager::GetSingleton()->SetHdc(miniDC);
-	
+	//Rectangle(hdc, 0, 0, 1000, 1000);
 	if (minimapdone) {
 		for (int i = 0; i < openList.size(); i++)
 		{
-			openList[i]->Render(hdc);
+			//openList[i]->Render(hdc);
+			openList[i]->Render(miniDC);
 		}
 	}
-
+	MiniMap->Render(hdc);
 	//for (int i = 0; i < openList.size(); i++) {
 	//
 	//	if (openList[i]->GetType() == TileType::Room) {

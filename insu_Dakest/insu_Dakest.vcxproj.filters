@@ -37,9 +37,6 @@
     <Filter Include="소스 파일\UnitObject\Hero">
       <UniqueIdentifier>{a52163f6-ec97-4739-a48b-e7073fd24c2d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\NewFilter1">
-      <UniqueIdentifier>{456ab8a3-fe09-4a67-8117-beade3118815}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -156,8 +153,20 @@
     <ClCompile Include="Observable.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="DungeonPath.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="DungeonUi.cpp">
+      <Filter>소스 파일\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Home.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="ImageStorage.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DungeonConnect.cpp">
+      <Filter>소스 파일\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -284,8 +293,20 @@
     <ClInclude Include="Observable.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="DungeonPath.h">
+      <Filter>소스 파일\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonUi.h">
+      <Filter>소스 파일\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Home.h">
+      <Filter>소스 파일\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="ImageStorage.h">
       <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonConnect.h">
+      <Filter>소스 파일\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

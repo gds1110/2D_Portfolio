@@ -5,6 +5,10 @@
 #include <ctime>
 #include "DataManager.h"
 #include "ImageStorage.h"
+#include "DungeonPath.h"
+#include "DungeonRoom.h"
+#include "DungeonConnect.h"
+#include "Home.h"
 HRESULT MainGame::Init()
 {
 	hdc = GetDC(g_hWnd);
@@ -15,6 +19,7 @@ HRESULT MainGame::Init()
 	SceneManager::GetSingleton()->Init();
 	UiDataManager::GetSingleton()->Init();
 	TimerManager::GetSingleton()->Init();
+
 	// 이미지를 미리 로드한다
 	istorage = new ImageStorage();
 	istorage->Init();
@@ -32,9 +37,14 @@ HRESULT MainGame::Init()
 	SceneManager::GetSingleton()->AddScene("맵생성", new MapGenManager());
 
 	SceneManager::GetSingleton()->AddScene("스테이지1", new Dungeon_1_1());
+	SceneManager::GetSingleton()->AddScene("통로", new DungeonPath());
+	SceneManager::GetSingleton()->AddScene("마을", new Home());
+	SceneManager::GetSingleton()->AddScene("던정방", new DungeonRoom());
+	SceneManager::GetSingleton()->AddScene("던전연결기", new DungeonConnect());
 
-	SceneManager::GetSingleton()->ChangeScene("맵생성");
+	SceneManager::GetSingleton()->ChangeScene("던정방");
 	//SceneManager::GetSingleton()->ChangeScene("스테이지1");
+	//SceneManager::GetSingleton()->ChangeScene("맵생성");
 
 	isInited = true;
 	//srand(time(NULL));

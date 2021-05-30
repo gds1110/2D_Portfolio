@@ -21,13 +21,16 @@ HRESULT UnderUi::Init()
 	maps = UiDataManager::GetSingleton()->GetMapimg();
 	minmap = UiDataManager::GetSingleton()->GetMiniMap();
 	//tile = UiDataManager::GetSingleton()->GetMiniMap();
-	MiniMap = new Image();
-	MiniMap->Init(440, 300);
+	/*MiniMap = new Image();
+	MiniMap->Init(600, 600);*/
+	MiniMap = ImageManager::GetSingleton()->FindImage("미니맵배경색");
 	minimapposx = (WINSIZE_X / 2 + 10);
 	minimapposy = (WINSIZE_Y - WINSIZE_Y / 3) + 20;
-	mouseOffsetX = (WINSIZE_X / 2 + 10)+20;
-	mouseOffsetY = (WINSIZE_Y - WINSIZE_Y / 3) + 20+20;
-	currTile = nullptr;
+	mouseOffsetX = ((WINSIZE_X / 2 + 10));
+	mouseOffsetY = ((WINSIZE_Y - WINSIZE_Y / 3) + 20);
+	currTile = UiDataManager::GetSingleton()->GetTile();
+	currTileChange = true;
+	firstTile = true;
 	return S_OK;
 }
 
@@ -37,27 +40,40 @@ void UnderUi::Release()
 
 void UnderUi::Update()
 {
+	mouseOffsetX = UiDataManager::GetSingleton()->GetTile()->getPos().x - 215;
+	mouseOffsetY = UiDataManager::GetSingleton()->GetTile()->getPos().y-100;
 	if (UiDataManager::GetSingleton()->GetTile()) {
 		currTile = UiDataManager::GetSingleton()->GetTile();
 		//mouseOffsetX = (WINSIZE_X / 2 + 10);//+ 20;
 		//mouseOffsetY = (WINSIZE_Y - WINSIZE_Y / 3);//+ 20 + 20 ;
 	}
 
-	for (int i = 0; i < minmap.size(); i++)
+	/*for (int i = 0; i < minmap.size(); i++)
 	{
 		minmap[i]->Update();
-		//minmap[i]->SetPos(minmap[i]->getPos().x+ (WINSIZE_X / 2 + 10), minmap[i]->getPos().y+ (WINSIZE_Y - WINSIZE_Y / 3) + 20);
-		minmap[i]->SetPos(minmap[i]->getPos().x+ (WINSIZE_X / 2 + 10), minmap[i]->getPos().y+ (WINSIZE_Y - WINSIZE_Y / 3) + 20);
-		//minmap[i]->SetPos(minmap[i]->getPos().y + (WINSIZE_Y - WINSIZE_Y / 3) + 20, minmap[i]->getPos().x + (WINSIZE_X / 2 + 10));
 		
+	}*/
+
+	if (currTileChange == true) {
+		if (firstTile == true) {
+			for (int i = 0; i < minmap.size(); i++)
+			{
+				//minmap[i]->SetPos(minmap[i]->getPos().x + (WINSIZE_X / 2 + 10), minmap[i]->getPos().y + (WINSIZE_Y - WINSIZE_Y / 3) + 20);
+			}
+			firstTile = false;
+		}
+
+		currTileChange = false;
 	}
-	if (currTile)
-	{
+
+		currTile->Update();
+
 		for (int i = 0; i < currTile->GetWay().size(); i++)
 		{
 			if (currTile->GetWay()[i]->getindex() > -1)
 			{
 				currTile->GetWay()[i]->SetIsWay(true);
+				currTile->GetWay()[i]->Update();
 			}
 		
 		}
@@ -66,29 +82,21 @@ void UnderUi::Update()
 		for (int i = 0; i < currTile->GetWay().size(); i++) {
 			if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_RBUTTON))
 			{
-				/*if (PointInRect({ (WINSIZE_X / 2 + 10) + g_ptMouse.x,(WINSIZE_Y - WINSIZE_Y / 3) + 20 + g_ptMouse.y }, (currTile->GetWay()[i]->GetRC())) && currTile->GetWay()[i]->GetIsWay() == true)
-				{
-					currTile->GetWay()[i]->SetIsCurrted(true);
-					currTile = currTile->GetWay()[i];
-				}*/
+			
 				RECT rc = currTile->GetWay()[i]->GetRC();
-				if (PtInRect(&(rc), { g_ptMouse.x,g_ptMouse.y }))
+				if (PtInRect(&(rc), { g_ptMouse.x - minimapposx + mouseOffsetX,g_ptMouse.y - minimapposy + mouseOffsetY }))
 				{
-					
+					currTile->SetIsCurrted(false);
 					currTile->GetWay()[i]->SetIsCurrted(true);
-					currTile = currTile->GetWay()[i];
-				}
-				if (PointInRect(g_ptMouse, (currTile->GetWay()[i]->GetRC()), minimapposx+20, minimapposy+20) && currTile->GetWay()[i]->GetIsWay() == true)
-				{
-				/*	currTile->GetWay()[i]->SetIsCurrted(true);
-					currTile = currTile->GetWay()[i];
+					UiDataManager::GetSingleton()->SetCurrtile(currTile->GetWay()[i]);
 					SceneManager::GetSingleton()->ChangeScene2("스테이지1", currTile);
-					return;*/
+					return;
+					//currTile = currTile->GetWay()[i];
 				}
 			}
 
 		}
-	}
+
 	if (selChr)
 	{
 		iconKey = selChr->GetClassArr()[selChr->GetClass()] + "아이콘";
@@ -140,6 +148,8 @@ void UnderUi::Render(HDC hdc)
 	}	
 	wsprintf(szText, "X : %d, Y : %d",  g_ptMouse.x-minimapposx,  g_ptMouse.y-minimapposy);
 	TextOut(hdc, 200, 60, szText, strlen(szText));
+	wsprintf(szText, "X : %d, Y : %d", g_ptMouse.x -minimapposx+mouseOffsetX, g_ptMouse.y-minimapposy+ mouseOffsetY);
+	TextOut(hdc, 800, 100, szText, strlen(szText));
 	if (!minmap.empty())
 	{
 		
@@ -148,7 +158,7 @@ void UnderUi::Render(HDC hdc)
 			if (minmap[i]->GetType() == TileType::Path) {
 				//openList[i]->Render(miniDC);
 				
-				//minmap[i]->Render(miniDC);
+				minmap[i]->Render(miniDC);
 			}
 		}
 		for (int i = 0; i < minmap.size(); i++)
@@ -160,10 +170,9 @@ void UnderUi::Render(HDC hdc)
 			}
 		}
 		//MiniMap->Render(hdc, WINSIZE_X / 2 + 10, WINSIZE_Y - WINSIZE_Y / 3 + 20);
-		if (UiDataManager::GetSingleton()->GetTile()) {
-		}
-			MiniMap->MinimapRender(hdc, minimapposx, minimapposy, UiDataManager::GetSingleton()->GetTile(),false);
-		//MiniMap->Render(hdc, 100, 0);
+		//MiniMap->MinimapRender(hdc, minimapposx, minimapposy, UiDataManager::GetSingleton()->GetTile(),false);
+		MiniMap->MinimapRender(hdc, minimapposx, minimapposy, currTile , false);
+		//MiniMap->Render(hdc, 0, 0);
 		//MiniMap->Render5(hdc, WINSIZE_X / 2 + 10, WINSIZE_Y - WINSIZE_Y / 3 + 20,
 		//	false, 1, UiDataManager::GetSingleton()->GetMin(), UiDataManager::GetSingleton()->GetMax());
 	/*	MiniMap->Render5(hdc, 0,0,
