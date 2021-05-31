@@ -4,7 +4,7 @@ HRESULT skeleton_captain::Init()
 {
 	maxFrameArr[State::COMBAT] = 17;
 
-	img = ImageManager::GetSingleton()->FindImage("½ºÄÌ·¹Åæ Ä¸Æ¾");
+	img = ImageManager::GetSingleton()->FindImage("½ºÄÌ·¹ÅæÄ¸Æ¾ ÄÄ¹î");
 	//img = ImageManager::GetSingleton()->AddImage("½ºÄÌ·¹ÅæÄ¸Æ¾ ÄÄ¹î", "resource/monster/skeleton_captain/combat/combat.BMP", 3706, 400, maxFrameArr[State::COMBAT], 1, true, RGB(88, 88, 88));
 	//ImageManager::GetSingleton()->AddImage("½ºÄÌ·¹ÅæÄ¸Æ¾ ÇÇ°İ", "resource/monster/skeleton_captain/defend/hurt.BMP", 400, 500, 1, 1, true, RGB(88, 88, 88));
 	currstate = State::COMBAT;

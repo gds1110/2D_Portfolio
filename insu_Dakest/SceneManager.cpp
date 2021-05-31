@@ -150,8 +150,52 @@ HRESULT SceneManager::ChangeScene2(string key, Tile* tile)
 
 HRESULT SceneManager::ChangeTile(Tile* tile)
 {
+    map<string, GameNode*>::iterator it;
+    if (UiDataManager::GetSingleton()->GetPrevScene() == UiDataManager::SceneInfo::ROOM) {
+        it = mSceneDatas.find("통로");
+    }
+    else if (UiDataManager::GetSingleton()->GetPrevScene() == UiDataManager::SceneInfo::PATH) {
+        it = mSceneDatas.find("던전방");
+    }
+    else
+    {
+        it = mSceneDatas.find("던전방");
 
+    }
+    /*if (tile->GetDinfo().dType == DungeonType::ROOM)
+    {
+        it = mSceneDatas.find("통로");
+    }
+    else
+    {
+        it = mSceneDatas.find("던전방");
+    }
+    */
+    if (it == mSceneDatas.end())
+    {
+        return E_FAIL;
+    }
 
-    return S_OK;
+    if (it->second == currentScene)
+    {
+        return S_OK;
+    }
+   
+        if (SUCCEEDED(it->second->DungoenInit(tile)))
+        {
+            // 현재 씬 -> 타이틀 씬
+            // 바꾸고 싶은 씬 -> 배틀 씬
+            if (currentScene)
+            {
+                currentScene->Release();
+            }
+            currentScene = it->second;
+
+            return S_OK;
+        }
+    
+
+ 
+    return E_FAIL;
 }
 

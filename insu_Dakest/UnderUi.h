@@ -33,11 +33,12 @@ private:
 	string iconKey;
 	MapGenManager* mapgen;
 	HDC hdc2;
-
+	RECT minimapZone;
 	bool currTileChange;
 	bool firstTile;
 public:
 	virtual HRESULT Init();
+	virtual HRESULT Init(Tile* currTile, vector<Tile*> minmap);
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);

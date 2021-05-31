@@ -68,7 +68,7 @@ HRESULT Dungeon_1_1::Init()
 	underUI->Init();
 
 	DM = new DataManager();
-	DM->Init(C_MGR, M_MGR, underUI);
+	DM->Init(C_MGR, M_MGR, thisTile);
 	return S_OK;
 }
 
@@ -166,7 +166,7 @@ HRESULT Dungeon_1_1::DungoenInit(Tile* flowTile)
 	underUI->Init();
 
 	DM = new DataManager();
-	DM->Init(C_MGR, M_MGR, underUI);
+	DM->Init(C_MGR, M_MGR, flowTile);
 	return S_OK;
 }
 

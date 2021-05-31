@@ -13,6 +13,7 @@ private:
 	Character* selectedChr;
 	Character* cursorChar;
 	vector<Character*> targetChr;
+	vector<Tile*> minmap;
 	Skill* selctedSkill;
 	string* arrClass;
 	SkillManager* S_MGR;
@@ -22,9 +23,20 @@ private:
 	bool selCheck;
 	bool targeton;
 	bool BattleStage;
+	RECT minimapZone;
+	RECT characterZone;
+	RECT statusZone;
+	char szText[128];
+	Tile* thisTile;
+
+	int mouseOffsetX;
+	int mouseOffsetY;
+	int minimapposx;
+	int	minimapposy;
+
 public:
 	virtual HRESULT Init();
-	virtual HRESULT Init(CharacterManager* SC_MGR,CharacterManager* SM_MGR, UnderUi* ui);
+	virtual HRESULT Init(CharacterManager* SC_MGR,CharacterManager* SM_MGR,Tile* currTile);
 	virtual HRESULT Init(CharacterManager* SC_MGR,CharacterManager* SM_MGR, UnderUi* ui, Tile* currtile);
 	virtual void Release();
 	virtual void Update();

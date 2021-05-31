@@ -56,10 +56,60 @@ HRESULT DungeonPath::Init()
 	return S_OK;
 }
 
-HRESULT DungeonPath::DungeonPathInit(Tile* flowTile)
+HRESULT DungeonPath::DungoenInit(Tile* flowTile)
 {
+	SetClientRect(g_hWnd, WINSIZE_X, WINSIZE_Y);
+
+	if (flowTile->GetDinfo().infoDone == false)
+	{
+		d_info.infoDone = true;
+		d_info.isEnemyed = true;
+		d_info.isSuddenEnemy = false;
+		d_info.isCurios = false;
+		d_info.roomType = 0;
+		d_info.pathType = -1;
+		d_info.tileDone = false;
+		d_info.enemySize = 2;
+		d_info.dType = DungeonType::PATH;
+		for (int i = 0; i < d_info.enemySize; i++)
+		{
+			d_info.enemyArr[i] = 0;
+		}
+	}
+	else
+	{
+		this->d_info = flowTile->GetDinfo();
+	}
+
+	C_MGR = UiDataManager::GetSingleton()->GetSC_MGR();
+
+	for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
+	{
+		C_MGR->GetCharacters()[i]->SetPos(90 + 150 * i);
+	}
+	if (d_info.isEnemyed) {
+		M_MGR = new CharacterManager;
+		for (int i = 0; i < d_info.enemySize; i++)
+		{
+			M_MGR->AddMonster(d_info.enemyArr[i]);
+		}
+	}
+	CamPos = 400;
+	//CamPos = WINSIZE_X / 2;
+	camBuffer = new Image();
+	camBuffer->Init(WINSIZE_X * 2, WINSIZE_Y);
+
+
+	/*d_UI = new DungeonUi();
+	d_UI->Init(C_MGR, M_MGR, d_info,UiDataManager::GetSingleton()->GetTile());*/
+	bgThird = ImageManager::GetSingleton()->FindImage("원거리배경");
+	bgSecond = ImageManager::GetSingleton()->FindImage("근거리");
+	FindFirstBg(this->d_info);
+	DM = new DataManager();
+	DM->Init(C_MGR, M_MGR, flowTile);
 	return S_OK;
 }
+
 
 HRESULT DungeonPath::DungeonPathInit(CharacterManager cmgr, Tile* flowTile, DUNGEONINFO info)
 {
@@ -103,15 +153,19 @@ HRESULT DungeonPath::DungeonPathInit(CharacterManager cmgr, Tile* flowTile, DUNG
 
 void DungeonPath::Release()
 {
-	SAFE_RELEASE(C_MGR);
+	//SAFE_RELEASE(C_MGR);
 	SAFE_RELEASE(M_MGR);
 	SAFE_RELEASE(camBuffer);
 	SAFE_RELEASE(DM);
-	SAFE_RELEASE(d_UI);
 }
 
 void DungeonPath::Update()
 {
+	if (!C_MGR)
+	{
+		C_MGR = UiDataManager::GetSingleton()->GetSC_MGR();
+	}
+
 	if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RIGHT) || KeyManager::GetSingleton()->IsStayKeyDown('D')) {
 		//
 		if (CamPos >-1790)
@@ -137,10 +191,11 @@ void DungeonPath::Update()
 
 		}
 	}
-	if (C_MGR)
+	if (DM)
 	{
-		C_MGR->Update();
+		DM->Update();
 	}
+
 }
 
 void DungeonPath::Render(HDC hdc)
@@ -160,13 +215,16 @@ void DungeonPath::Render(HDC hdc)
 	{
 		C_MGR->Render(hdc);
 	}
-	
+
 	wsprintf(szText, "campos : %d", CamPos);
 
 	camBuffer->CamRender(hdc, WINSIZE_X/2+400, 350, true);
+	if (DM)
+	{
+		DM->Render(hdc);
+	}
 	TextOut(hdc, WINSIZE_X / 2, 100, szText, strlen(szText));
 
-	d_UI->Render(hdc);
 }
 
 void DungeonPath::FindFirstBg(DUNGEONINFO d_info)

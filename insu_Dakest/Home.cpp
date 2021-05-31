@@ -77,11 +77,20 @@ void Home::Update()
 			{
 				if (ready == true)
 				{
-					UiDataManager::GetSingleton()->GetSC_MGR()->AddCharacter(rosterList->GetCharacters()[heroSlot[3].HeroNum]);
-					UiDataManager::GetSingleton()->GetSC_MGR()->AddCharacter(rosterList->GetCharacters()[heroSlot[2].HeroNum]);
-					UiDataManager::GetSingleton()->GetSC_MGR()->AddCharacter(rosterList->GetCharacters()[heroSlot[1].HeroNum]);
-					UiDataManager::GetSingleton()->GetSC_MGR()->AddCharacter(rosterList->GetCharacters()[heroSlot[0].HeroNum]);
+					if (heroSlot[3].HeroNum > -1) {
+						UiDataManager::GetSingleton()->GetSC_MGR()->AddCharacter(rosterList->GetCharacters()[heroSlot[3].HeroNum]);
+					}
+					if (heroSlot[2].HeroNum > -1) {
 
+						UiDataManager::GetSingleton()->GetSC_MGR()->AddCharacter(rosterList->GetCharacters()[heroSlot[2].HeroNum]);
+					}
+					if (heroSlot[1].HeroNum > -1) {
+						UiDataManager::GetSingleton()->GetSC_MGR()->AddCharacter(rosterList->GetCharacters()[heroSlot[1].HeroNum]);
+					}
+					if (heroSlot[0].HeroNum > -1) {
+
+						UiDataManager::GetSingleton()->GetSC_MGR()->AddCharacter(rosterList->GetCharacters()[heroSlot[0].HeroNum]);
+					}
 					UiDataManager::GetSingleton()->SetSceneInfo(UiDataManager::SceneInfo::TOWN, UiDataManager::SceneInfo::MAPGEN);
 					SceneManager::GetSingleton()->ChangeScene("던전연결기");
 					return;
@@ -165,7 +174,7 @@ void Home::Update()
 			{
 				ready = false;
 			}
-			else
+			if (heroSlot[i].HeroNum >-1)
 			{
 				ready = true;
 			}

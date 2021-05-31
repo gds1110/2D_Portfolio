@@ -193,7 +193,7 @@ void Image::MinimapRender(HDC hdc, int destX, int destY, Tile* currTile, bool is
     if (isTransparent)
     {
         StretchBlt(
-            imageInfo->hMemDC,
+            hdc,
             
             x, y,
             430,
@@ -211,19 +211,19 @@ void Image::MinimapRender(HDC hdc, int destX, int destY, Tile* currTile, bool is
             SRCCOPY);
 
 
-        // 특정 색상을 빼고 복사하는 함수
-              GdiTransparentBlt(
-            hdc,
-            x, y,
-            430,230,
+        //// 특정 색상을 빼고 복사하는 함수
+        //      GdiTransparentBlt(
+        //    hdc,
+        //    x, y,
+        //    430,230,
 
-            imageInfo->hMemDC,
-           /* 0, 0,*/
-            offsetx,//-215
-            offsety,//-100,
-            430, 230,
-            transColor
-        );
+        //    imageInfo->hMemDC,
+        //   /* 0, 0,*/
+        //    offsetx,//-215
+        //    offsety,//-100,
+        //    430, 230,
+        //    transColor
+        //);
    
     
 

@@ -52,17 +52,67 @@ HRESULT DungeonRoom::Init()
 	
 	FindFirstBg(this->d_info);
 
-	underUi = new UnderUi();
-	underUi->Init();
 	DM = new DataManager();
 	DM->Init();
 
 	return S_OK;
 }
 
-HRESULT DungeonRoom::DungeonRoomInit(Tile* flowTile)
+HRESULT DungeonRoom::DungoenInit(Tile* flowTile)
 {
-    return E_NOTIMPL;
+	SetClientRect(g_hWnd, WINSIZE_X, WINSIZE_Y);
+
+	if (flowTile->GetDinfo().infoDone == false)
+	{
+		d_info.infoDone = true;
+		d_info.isEnemyed = true;
+		d_info.isSuddenEnemy = false;
+		d_info.isCurios = false;
+		d_info.roomType = 0;
+		d_info.pathType = -1;
+		d_info.tileDone = false;
+		d_info.enemySize = 2;
+		d_info.dType = DungeonType::ROOM;
+		for (int i = 0; i < d_info.enemySize; i++)
+		{
+			d_info.enemyArr[i] = 0;
+		}
+	}
+	else
+	{
+		this->d_info = flowTile->GetDinfo();
+	}
+	if (d_info.dType == DungeonType::START)
+	{
+		d_info.isEnemyed = false;
+		d_info.enemySize = 0;
+	}
+	C_MGR = UiDataManager::GetSingleton()->GetSC_MGR();
+
+	for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
+	{
+		C_MGR->GetCharacters()[i]->SetPos(90 + 150 * i);
+	}
+	if (d_info.isEnemyed) {
+		M_MGR = new CharacterManager;
+		for (int i = 0; i < d_info.enemySize; i++)
+		{
+			M_MGR->AddMonster(d_info.enemyArr[i]);
+		}
+	}
+	CamPos = 400;
+	//CamPos = WINSIZE_X / 2;
+	camBuffer = new Image();
+	camBuffer->Init(WINSIZE_X * 2, WINSIZE_Y);
+
+
+	/*d_UI = new DungeonUi();
+	d_UI->Init(C_MGR, M_MGR, d_info,UiDataManager::GetSingleton()->GetTile());*/
+
+	FindFirstBg(this->d_info);
+	DM = new DataManager();
+	DM->Init(C_MGR, M_MGR,flowTile);
+	return S_OK;
 }
 
 HRESULT DungeonRoom::DungeonRoomInit(CharacterManager cmgr, Tile* flowTile, DUNGEONINFO info)
@@ -104,29 +154,26 @@ HRESULT DungeonRoom::DungeonRoomInit(CharacterManager cmgr, Tile* flowTile, DUNG
 	{
 		M_MGR->AddMonster(d_info.enemyArr[i]);
 	}
-	CamPos = 1920 / 2;
+	CamPos = 400;
+	//CamPos = WINSIZE_X / 2;
 	camBuffer = new Image();
-	camBuffer->Init(1920, 720);
+	camBuffer->Init(WINSIZE_X * 2, WINSIZE_Y);
 
-
-	underUi = new UnderUi();
-	underUi->Init();
 	/*d_UI = new DungeonUi();
 	d_UI->Init(C_MGR, M_MGR, d_info,UiDataManager::GetSingleton()->GetTile());*/
 
 	FindFirstBg(this->d_info);
 	DM = new DataManager();
-	DM->Init(C_MGR,M_MGR,underUi);
+	DM->Init(C_MGR,M_MGR,flowTile);
 	return S_OK;
 }
 
 void DungeonRoom::Release()
 {
-	SAFE_RELEASE(C_MGR);
+	//SAFE_RELEASE(C_MGR);
 	SAFE_RELEASE(M_MGR);
 	SAFE_RELEASE(camBuffer);
 	SAFE_RELEASE(DM);
-	SAFE_RELEASE(d_UI);
 }
 
 void DungeonRoom::Update()
@@ -140,14 +187,7 @@ void DungeonRoom::Update()
 		DM->Update();
 	}
 
-	if (C_MGR)
-	{
-		C_MGR->Update();
-	}
-	if (M_MGR)
-	{
-		M_MGR->Update();
-	}
+	
 }
 
 void DungeonRoom::Render(HDC hdc)
@@ -162,20 +202,16 @@ void DungeonRoom::Render(HDC hdc)
 			bgFirst->Render(camDC, CamPos, 0);
 		}
 	}
-
+	
+	camBuffer->CamRender2(hdc, WINSIZE_X / 2 + 370, 350, true);
 	wsprintf(szText, "campos : %d", CamPos);
-	if (C_MGR)
-	{
-		C_MGR->Render(hdc);
-	}
+	
 	if (DM)
 	{
 		DM->Render(hdc);
 	}
-	camBuffer->CamRender2(hdc, WINSIZE_X / 2 + 370, 350, true);
 
 	TextOut(hdc, WINSIZE_X / 2, 100, szText, strlen(szText));
-	underUi->Render(hdc);
 	//d_UI->Render(hdc);
 }
 

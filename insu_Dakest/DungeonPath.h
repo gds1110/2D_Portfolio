@@ -23,17 +23,19 @@ private:
 	CharacterManager* C_MGR;
 	CharacterManager* M_MGR;
 	DungeonUi* d_UI;
+	//UnderUi* underUi;
+
 	int CamPos;
 	char szText[128] = "";
 
 public:
 	
 	virtual HRESULT Init();
-	virtual HRESULT DungeonPathInit(Tile* flowTile);
 	virtual HRESULT DungeonPathInit(CharacterManager cmgr, Tile* flowTile, DUNGEONINFO info = { 0 });
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
+	virtual HRESULT DungoenInit(Tile* flowTile);
 
 	void FindFirstBg(DUNGEONINFO d_info);
 

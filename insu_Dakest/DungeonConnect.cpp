@@ -22,12 +22,14 @@ void DungeonConnect::Update()
 	if (UiDataManager::GetSingleton()->GetPrevScene() == UiDataManager::SceneInfo::TOWN)
 	{
 		SceneManager::GetSingleton()->ChangeScene("¸Ê»ý¼º");
-		return;
 	}
-	if (UiDataManager::GetSingleton()->GetPrevScene() == UiDataManager::SceneInfo::MAPGEN)
+	else if (UiDataManager::GetSingleton()->GetPrevScene() == UiDataManager::SceneInfo::MAPGEN)
 	{
-		SceneManager::GetSingleton()->ChangeScene();
-		return;
+		SceneManager::GetSingleton()->ChangeTile(UiDataManager::GetSingleton()->GetTile());
+	}
+	else
+	{
+		SceneManager::GetSingleton()->ChangeTile(UiDataManager::GetSingleton()->GetTile());
 	}
 }
 

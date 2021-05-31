@@ -7,16 +7,7 @@ class Image;
 class Tile : public GameNode
 {
 private:
-	struct TileStruct
-	{
-		bool isEnemyed = false;
-		bool isSuddenEnemy = false;
-		bool isCurios = false;
-		int roomType=-1;
-		int pathType=-1;
-		int enemyArr[4] = { -1,-1,-1,-1 };
-		bool tileDone = false;
-	};
+
 private:
 	int idX, idY;
 	POINT center;
@@ -27,13 +18,16 @@ private:
 	int costToGoal;		// h : 현재 노드부터 목적지까지의 예상비용
 	int totalCost;		// f : g + h
 
+	bool genCheck;
+
 	Tile* parentTile;	// g가 갱신될 때마다 이전 노드를 갱신
-	Tile* prevTile;
 	vector<Tile*> way;
+	vector<Tile*> Path;
 	Image* tileImg;
 	Image* tileIcon;
 	bool isInOpenlist;
 	bool isClosed;
+	char szText[128];
 
 	int fourDir[4] = { -1,-1,-1,-1 };
 
@@ -42,25 +36,15 @@ private:
 	HBRUSH hBrush;
 	HBRUSH hOldBrush;
 
-	bool startPoint;
-	bool currtPoint;
-	bool EnemyPoint;
+	bool isStarted;
+	bool isCurrted;
+	bool canWay;
+	bool isPath;
+	
 	float size;
 
-	TileStruct infoRoom;
-	//출발위치, 현재위치, 적이있는가,기습유무,방 타입, 통로 타입, 골동품 유무, 
-	bool roomInfo[7] = { 0,0,0,0,0,0,0 };
-	char szText[128];
-	bool isStarted = false;
-	bool isCurrted = false;
-	bool isEnemyed = false;
-	bool isSuddenEnemy = false;
-	bool isCurios = false;
-	bool canWay = false;
-	int roomType = -1;
-	int pathType = -1;
-	int enemyArr[4] = { -1,-1,-1,-1 };
-	
+	Tile* prevTile;
+	Tile* nextTile;
 	// heap 관련
 	int heapIndex;
 
@@ -70,26 +54,37 @@ public:
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
+	
+	void SetIsPath(bool is) { this->isPath = is; }
+	bool GetIsPath() { return this->isPath; }
+
+	void SetGenCheck(bool is) { this->genCheck = is; }
+	bool GetGenCheck() { return this->genCheck; }
+
+	void SetIsCurrted(bool is) { this->isCurrted = is; }
+	bool GetIsCurrted() { return this->isCurrted; }
+	void SetIsStarted(bool is) { this->isStarted = is; }
+	bool GetIsStarted() { return this->isStarted; }
+	void SetIsWay(bool is) { this->canWay = true; }
 
 	void SetPathDir(PathDir dir)
 	{
 		d_info.pathDir = dir;
 	}
+	Tile* GetPrevTile() { return this->prevTile; }
+	Tile* GetNextTile() { return this->nextTile; }
 
+	void SetPrevAndNextTile(Tile* prev, Tile* next)
+	{
+		this->prevTile = prev;
+		this->nextTile = next;
+	}
 	void SetPrevNnext(POINT prNne) {
 		this->prevNnext = prNne;
 		this->d_info.prevAnNext = prNne;
 	}
 	POINT GetPrevNnext() { return this->prevNnext; }
 
-	int* GetEnemyArr() { return this->enemyArr; }
-	bool GetIsEnemyed() { return this->isEnemyed; }
-	void SetIsStarted(bool is) { this->isStarted = is; }
-	bool GetIsStarted() { return this->isStarted; }
-	void SetIsCurrted(bool is) { this->isCurrted = is; }
-	bool GetIsCurrted() { return this->isCurrted; }
-
-	TileStruct GetTileinfo() { return this->infoRoom; }
 	void RandomSetTileInfo();
 
 	void setindex(int i) { this->index = i; }
@@ -119,6 +114,9 @@ public:
 	void addWay(Tile* i) { way.push_back(i); }
 	vector<Tile*> GetWay() { return this->way; }
 
+	void addPath(Tile* i) { Path.push_back(i); }
+	vector<Tile*> GetPath() { return this->Path; }
+
 	void SetParentTile(Tile* parent) { this->parentTile = parent; }
 	Tile* GetParentTile() { return this->parentTile; }
 
@@ -138,8 +136,6 @@ public:
 	bool GetIsClosed() { return this->isClosed; }
 
 
-	void SetIsWay(bool b) { this->canWay = b; }
-	bool GetIsWay() { return this->canWay; }
 
 	void SetHeapIndex(int id) { this->heapIndex = id; }
 	int GetHeapIndex() { return this->heapIndex; }
