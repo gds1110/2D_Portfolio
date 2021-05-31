@@ -134,6 +134,8 @@ void Tile::RandomSetTileInfo()
 		}*/
 		roomType = 0;
 		d_info.dType = DungeonType::START;
+		d_info.infoDone = true;
+		d_info.isCurrted = true;
 	}
 	if (!isStarted)
 	{
@@ -174,6 +176,13 @@ void Tile::RandomSetTileInfo()
 			enemyArr[i] = monrandom;
 			d_info.enemyArr[i] = monrandom;
 		}
+		d_info.infoDone = true;
+
+	}
+	else
+	{
+		d_info.infoDone = true;
+
 	}
 }
 
@@ -273,6 +282,9 @@ void MapGenManager::Update()
 				openList[i]->RandomSetTileInfo();
 					if (openList[i]->GetIsCurrted()) {
 						openList[i]->SetIsCurrted(true);
+					/*	DUNGEONINFO tempD_info;
+						tempD_info.dType = DungeonType::START;
+						openList[i]->SetDinfo(tempD_info);*/
 					}
 			}
 		}
@@ -291,6 +303,7 @@ void MapGenManager::Update()
 					map[openList[i]->GetIdY()][openList[i]->GetIdX() - 1].SetPrevNnext({ map[openList[i]->GetIdY()][openList[i]->GetIdX()].getindex(),
 					map[openList[i]->GetIdY()][openList[i]->GetIdX() - 5].getindex() });
 					openList[i]->addWay(&map[openList[i]->GetIdY()][openList[i]->GetIdX() - 5]);
+					map[openList[i]->GetIdY()][openList[i]->GetIdX() - 1].SetPathDir(PathDir::LEFT);
 				}
 			}
 			if (openList[i]->GetIdX() + 5 < TILE_COUNT && map[openList[i]->GetIdY()][openList[i]->GetIdX() + 5].GetType() == TileType::Room)
@@ -301,6 +314,7 @@ void MapGenManager::Update()
 					map[openList[i]->GetIdY()][openList[i]->GetIdX() + 1].SetPrevNnext({ map[openList[i]->GetIdY()][openList[i]->GetIdX()].getindex(),
 					map[openList[i]->GetIdY()][openList[i]->GetIdX() + 5].getindex() });
 					openList[i]->addWay(&map[openList[i]->GetIdY()][openList[i]->GetIdX() + 5]);
+					map[openList[i]->GetIdY()][openList[i]->GetIdX() - 1].SetPathDir(PathDir::RIGHT);
 
 				}
 			}
@@ -312,6 +326,7 @@ void MapGenManager::Update()
 					map[openList[i]->GetIdY() - 1][openList[i]->GetIdX()].SetPrevNnext({ map[openList[i]->GetIdY()][openList[i]->GetIdX()].getindex(),
 					map[openList[i]->GetIdY() - 5][openList[i]->GetIdX()].getindex() });
 					openList[i]->addWay(&map[openList[i]->GetIdY() - 5][openList[i]->GetIdX()]);
+					map[openList[i]->GetIdY()][openList[i]->GetIdX() - 1].SetPathDir(PathDir::TOP);
 
 				}
 			}
@@ -323,6 +338,7 @@ void MapGenManager::Update()
 					map[openList[i]->GetIdY() + 1][openList[i]->GetIdX()].SetPrevNnext({ map[openList[i]->GetIdY()][openList[i]->GetIdX()].getindex(),
 					map[openList[i]->GetIdY() + 5][openList[i]->GetIdX()].getindex() });
 					openList[i]->addWay(&map[openList[i]->GetIdY() + 5][openList[i]->GetIdX()]);
+					map[openList[i]->GetIdY()][openList[i]->GetIdX() - 1].SetPathDir(PathDir::BOTTOM);
 
 				}
 			}
@@ -341,17 +357,21 @@ void MapGenManager::Update()
 		UiDataManager::GetSingleton()->SetMapGeN(this);
 		//SceneManager::GetSingleton()->ChangeScene2("스테이지1",currTile);
 		//SceneManager::GetSingleton()->ChangeScene("스테이지1");
-	}
-
-	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_F1))
-	{
-		
-		//SceneManager::GetSingleton()->ChangeScene("스테이지1");
-
-		SceneManager::GetSingleton()->ChangeScene2("스테이지1", currTile);
-		this->Release();
+		//SceneManager::GetSingleton()->ChangeScene2("던전룸", currTile);
+		UiDataManager::GetSingleton()->SetSceneInfo(UiDataManager::SceneInfo::MAPGEN, UiDataManager::SceneInfo::ROOM);
+		SceneManager::GetSingleton()->ChangeScene("던전연결기");
 		return;
 	}
+
+	//if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_F1))
+	//{
+	//	
+	//	//SceneManager::GetSingleton()->ChangeScene("스테이지1");
+
+	//	SceneManager::GetSingleton()->ChangeScene2("스테이지1", currTile);
+
+	//	return;
+	//}
 
 }
 

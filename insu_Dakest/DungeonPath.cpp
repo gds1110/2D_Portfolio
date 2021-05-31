@@ -116,7 +116,7 @@ void DungeonPath::Update()
 		//
 		if (CamPos >-1790)
 		{
-			CamPos -= 10;
+			CamPos -= 5;
 
 			if ((CamPos - 2) < -WINSIZE_X * 2)
 			{
@@ -129,7 +129,7 @@ void DungeonPath::Update()
 		//
 		if (CamPos <400)
 		{
-			CamPos += 10;;
+			CamPos += 5;
 			if (CamPos - 1 > WINSIZE_X / 2)
 			{
 				CamPos = WINSIZE_X / 2;

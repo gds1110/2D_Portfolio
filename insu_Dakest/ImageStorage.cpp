@@ -24,12 +24,12 @@ HRESULT ImageStorage::Init()
 	ImageManager::GetSingleton()->AddImage("로스터배경", "resource/StartTown/rosterbg2.bmp",250 , 70);
 	ImageManager::GetSingleton()->AddImage("출발버튼", "resource/StartTown/startButton.bmp",225 , 94,1,2,false);
 
-
-
-
+	ImageManager::GetSingleton()->AddImage("스킬선택", "resource/sharedUi/sel_skill.BMP", 60, 60, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("유아이", "resource/dungeon/UI/D_under_ui2.BMP", 1280, 240, false);
 	ImageManager::GetSingleton()->AddImage("선택아이콘", "resource/sharedUi/selected_2-down.BMP", 236, 412, 1, 2, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("타겟아이콘", "resource/sharedUi/target.BMP", 197, 412, 1, 2, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("힐아이콘", "resource/sharedUi/target_h.BMP", 175, 206, 1, 1, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("미니맵배경", "resource/sharedUi/downpanelmap.BMP", 480, 240, false);
 	ImageManager::GetSingleton()->AddImage("미니맵배경색", "resource/mapui/mapbg.BMP", 600, 600, 1, 1, true, RGB(255, 0, 255));
 	return S_OK;
 }

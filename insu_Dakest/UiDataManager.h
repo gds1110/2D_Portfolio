@@ -14,6 +14,15 @@ class Image;
 class Tile;
 class UiDataManager : public Singleton<UiDataManager>
 {
+public: enum SceneInfo
+{
+	MAPGEN,
+	PATH,
+	ROOM,
+	TOWN,
+	NONESCENE,
+	};
+
 private:
 	Character* selectedChr;
 	vector<Tile*> minmap;
@@ -24,7 +33,8 @@ private:
 	SkillManager* SS_MGR;
 	CharacterManager* SC_MGR;
 	CharacterManager* SM_MGR;
-
+	SceneInfo prevScene;
+	SceneInfo selScene;
 	Image* RenderMinimap;
 	Image* Minimap;
 	POINT minIndex = { 99,99 };
@@ -41,9 +51,15 @@ public:
 	void Release();
 	void Update();
 
+	SceneInfo GetPrevScene() { return this->prevScene; }
+
 	void SetCurrtile(Tile* tile) { this->currtile = tile; }
 	Tile* GetTile() { return this->currtile; }
 
+	void SetSceneInfo(SceneInfo prevScene, SceneInfo selScene) {
+		this->prevScene = prevScene;
+		this->selScene = selScene;
+	}
 	MapGenManager* GetMapGen() { return this->MapGen; }
 	void SetMapGeN(MapGenManager* map) { this->MapGen = map; }
 

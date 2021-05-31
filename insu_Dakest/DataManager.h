@@ -25,6 +25,7 @@ private:
 public:
 	virtual HRESULT Init();
 	virtual HRESULT Init(CharacterManager* SC_MGR,CharacterManager* SM_MGR, UnderUi* ui);
+	virtual HRESULT Init(CharacterManager* SC_MGR,CharacterManager* SM_MGR, UnderUi* ui, Tile* currtile);
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);

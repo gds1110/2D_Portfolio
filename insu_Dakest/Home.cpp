@@ -54,6 +54,7 @@ HRESULT Home::Init()
 
 void Home::Release()
 {
+	//SAFE_RELEASE(rosterList);  //지워야할수도
 }
 
 void Home::Update()
@@ -81,7 +82,9 @@ void Home::Update()
 					UiDataManager::GetSingleton()->GetSC_MGR()->AddCharacter(rosterList->GetCharacters()[heroSlot[1].HeroNum]);
 					UiDataManager::GetSingleton()->GetSC_MGR()->AddCharacter(rosterList->GetCharacters()[heroSlot[0].HeroNum]);
 
-					SceneManager::GetSingleton()->ChangeScene("통로");
+					UiDataManager::GetSingleton()->SetSceneInfo(UiDataManager::SceneInfo::TOWN, UiDataManager::SceneInfo::MAPGEN);
+					SceneManager::GetSingleton()->ChangeScene("던전연결기");
+					return;
 
 				}
 			}

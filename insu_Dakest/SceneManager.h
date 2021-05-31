@@ -31,5 +31,7 @@ public:
 	HRESULT ChangeScene(string key);
 	HRESULT ChangeScene2(string key,Tile* tile);
 
+	HRESULT ChangeTile(Tile* tile);
+
 };
 

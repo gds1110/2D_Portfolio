@@ -155,18 +155,18 @@ void Character::SharedUpdate()
     abliiltyUpdate();
 
 
-    if (pos.x < CharArrPos[index])
-    {
-        pos.x += eltimes * 1/10;
-    }
-    else if(pos.x>CharArrPos[index])
-    {
-        pos.x -= eltimes * 1/10;
-    }
-    else
-    {
-        eltimes = 0;
-    }
+    //if (pos.x < CharArrPos[index])
+    //{
+    //    pos.x += eltimes * 1/10;
+    //}
+    //else if(pos.x>CharArrPos[index])
+    //{
+    //    pos.x -= eltimes * 1/10;
+    //}
+    //else
+    //{
+    //    eltimes = 0;
+    //}
        
 }
 

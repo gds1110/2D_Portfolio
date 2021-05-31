@@ -39,10 +39,11 @@ HRESULT MainGame::Init()
 	SceneManager::GetSingleton()->AddScene("스테이지1", new Dungeon_1_1());
 	SceneManager::GetSingleton()->AddScene("통로", new DungeonPath());
 	SceneManager::GetSingleton()->AddScene("마을", new Home());
-	SceneManager::GetSingleton()->AddScene("던정방", new DungeonRoom());
+	SceneManager::GetSingleton()->AddScene("던전방", new DungeonRoom());
 	SceneManager::GetSingleton()->AddScene("던전연결기", new DungeonConnect());
 
-	SceneManager::GetSingleton()->ChangeScene("던정방");
+	//SceneManager::GetSingleton()->ChangeScene("던전방");
+	SceneManager::GetSingleton()->ChangeScene("마을");
 	//SceneManager::GetSingleton()->ChangeScene("스테이지1");
 	//SceneManager::GetSingleton()->ChangeScene("맵생성");
 

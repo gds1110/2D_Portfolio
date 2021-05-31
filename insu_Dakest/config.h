@@ -40,6 +40,14 @@ extern enum DungeonType
 	ROOM,
 	END,
 };
+extern enum PathDir
+{
+	LEFT,
+	RIGHT,
+	TOP,
+	BOTTOM,
+	NONEDIR,
+};
 
 typedef struct tagFPoint
 {
@@ -53,16 +61,19 @@ typedef struct tagDungeon
 	bool isEnemyed = false;
 	bool isSuddenEnemy = false;
 	bool isCurios = false;
+	bool isCurrted = false;
 	int roomType = -1;
 	int pathType = -1;
 	int enemySize = 1;
 	int enemyArr[4] = { -1,-1,-1,-1 };
+	int canWay[4] = { -1,-1,-1,-1 };
 	bool tileDone = false;
-	DungeonType dType=DungeonType::END;
-	POINT prevAnNext = { -1,-1 }; //통로일때 어느방에서 왔는지x 와 어느방으로 이동하는지 y
-	DungeonType nextType = DungeonType::END;
 	int NextDestIndex = -1; // 방에서 다음 방을 선택시 이 부분에 인덱스를 채운다. 그 후 통로방으로 이동
-
+	DungeonType dType=DungeonType::END;
+	DungeonType nextType = DungeonType::END;
+	POINT prevAnNext = { -1,-1 }; //통로일때 어느방에서 왔는지x 와 어느방으로 이동하는지 y
+	POINT pos;
+	PathDir pathDir = PathDir::NONEDIR;
 } DUNGEONINFO, * PTR_DUNGEONINFO;
 
 

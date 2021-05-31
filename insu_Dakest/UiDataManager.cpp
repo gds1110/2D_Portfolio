@@ -19,13 +19,14 @@ HRESULT UiDataManager::Init()
 	selCheck = false;
 	map = nullptr;
 	Minimap = nullptr;
-
+	prevScene = SceneInfo::NONESCENE;
+	selScene = SceneInfo::NONESCENE;
 	SC_MGR = new CharacterManager;
 	SC_MGR->Init();
-	SC_MGR->AddCharacter(new H_BountyHunter, UnitType::HERO);
-	SC_MGR->AddCharacter(new H_Leaper, UnitType::HERO);
-	SC_MGR->AddCharacter(new H_HighWayMan, UnitType::HERO);
-	SC_MGR->AddCharacter(new H_Vestel, UnitType::HERO);
+	//SC_MGR->AddCharacter(new H_BountyHunter, UnitType::HERO);
+	//SC_MGR->AddCharacter(new H_Leaper, UnitType::HERO);
+	//SC_MGR->AddCharacter(new H_HighWayMan, UnitType::HERO);
+	//SC_MGR->AddCharacter(new H_Vestel, UnitType::HERO);
 
 	return S_OK;
 }

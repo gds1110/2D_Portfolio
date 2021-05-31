@@ -48,7 +48,6 @@ private:
 	float size;
 
 	TileStruct infoRoom;
-	DUNGEONINFO d_info;
 	//출발위치, 현재위치, 적이있는가,기습유무,방 타입, 통로 타입, 골동품 유무, 
 	bool roomInfo[7] = { 0,0,0,0,0,0,0 };
 	char szText[128];
@@ -72,9 +71,15 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
-	
+	void SetPathDir(PathDir dir)
+	{
+		d_info.pathDir = dir;
+	}
 
-	void SetPrevNnext(POINT prNne) { this->prevNnext = prNne; }
+	void SetPrevNnext(POINT prNne) {
+		this->prevNnext = prNne;
+		this->d_info.prevAnNext = prNne;
+	}
 	POINT GetPrevNnext() { return this->prevNnext; }
 
 	int* GetEnemyArr() { return this->enemyArr; }
@@ -99,10 +104,13 @@ public:
 	int GetIdY() { return this->idY; }
 
 	POINT getPos() { return this->center; }
+	POINT getPos2() { return this->d_info.pos; }
 	void SetPos(int x, int y)
 	{
 		center.x = x;
 		center.y = y;
+		d_info.pos.x = x;
+		d_info.pos.y = y;
 	}
 
 	int* GetFourDir() { return this->fourDir; }

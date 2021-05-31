@@ -148,3 +148,10 @@ HRESULT SceneManager::ChangeScene2(string key, Tile* tile)
     return E_FAIL;
 }
 
+HRESULT SceneManager::ChangeTile(Tile* tile)
+{
+
+
+    return S_OK;
+}
+

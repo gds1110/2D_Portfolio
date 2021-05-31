@@ -9,19 +9,17 @@
 
 HRESULT DungeonUi::Init()
 {
-	underUi = ImageManager::GetSingleton()->AddImage("유아이", "resource/dungeon/UI/D_under_ui2.BMP", 1280, 240, false);
+	underUi = ImageManager::GetSingleton()->FindImage("유아이");
 	underIcon = nullptr;
-	selSkillIcon = ImageManager::GetSingleton()->AddImage("스킬선택", "resource/sharedUi/sel_skill.BMP", 60, 60, true, RGB(88, 88, 88));
-	MapBG = ImageManager::GetSingleton()->AddImage("미니맵배경", "resource/sharedUi/downpanelmap.BMP", 480, 240, false);
+	selSkillIcon = ImageManager::GetSingleton()->FindImage("스킬선택");
+	MapBG = ImageManager::GetSingleton()->FindImage("미니맵배경");
 	selSkill = nullptr;
 	selSkillmgr = nullptr;
 	c_mgr = nullptr;
 	m_mgr = nullptr;
-	hdc2 = UiDataManager::GetSingleton()->GetHdc();
-	maps = UiDataManager::GetSingleton()->GetMapimg();
+
 	minmap = UiDataManager::GetSingleton()->GetMiniMap();
-	MiniMap = new Image();
-	MiniMap->Init(600, 600);
+	MiniMap = ImageManager::GetSingleton()->FindImage("미니맵배경색");
 	minimapposx = (WINSIZE_X / 2 + 10);
 	minimapposy = (WINSIZE_Y - WINSIZE_Y / 3) + 20;
 	mouseOffsetX = ((WINSIZE_X / 2 + 10));
@@ -32,19 +30,47 @@ HRESULT DungeonUi::Init()
 	return S_OK;
 }
 
+HRESULT DungeonUi::Init(CharacterManager* SC_MGR, CharacterManager* SM_MGR, DUNGEONINFO d_info, Tile* currTile)
+{
+	this->currTile = currTile;
+	this->d_info = d_info;
+	underUi = ImageManager::GetSingleton()->FindImage("유아이");
+	underIcon = nullptr;
+	selSkillIcon = ImageManager::GetSingleton()->FindImage("스킬선택");
+	MapBG = ImageManager::GetSingleton()->FindImage("미니맵배경");
+	selSkill = nullptr;
+	selSkillmgr = nullptr;
+	c_mgr = SC_MGR;
+	m_mgr = SM_MGR;
+
+	minmap = UiDataManager::GetSingleton()->GetMiniMap();
+	MiniMap = ImageManager::GetSingleton()->FindImage("미니맵배경색");
+	minimapposx = (WINSIZE_X / 2 + 10);
+	minimapposy = (WINSIZE_Y - WINSIZE_Y / 3) + 20;
+	mouseOffsetX = ((WINSIZE_X / 2 + 10));
+	mouseOffsetY = ((WINSIZE_Y - WINSIZE_Y / 3) + 20);
+	//currTile = UiDataManager::GetSingleton()->GetTile();
+	currTileChange = true;
+	firstTile = true;
+	return S_OK;
+	return S_OK;
+}
+
+
+
 void DungeonUi::Release()
 {
 }
 
 void DungeonUi::Update()
 {
-	mouseOffsetX = UiDataManager::GetSingleton()->GetTile()->getPos().x - 215;
-	mouseOffsetY = UiDataManager::GetSingleton()->GetTile()->getPos().y - 100;
-	if (UiDataManager::GetSingleton()->GetTile()) {
-		currTile = UiDataManager::GetSingleton()->GetTile();
-		//mouseOffsetX = (WINSIZE_X / 2 + 10);//+ 20;
-		//mouseOffsetY = (WINSIZE_Y - WINSIZE_Y / 3);//+ 20 + 20 ;
-	}
+	mouseOffsetX = d_info.pos.x-215; // UiDataManager::GetSingleton()->GetTile()->getPos().x - 215;
+	mouseOffsetY = d_info.pos.y-100; //UiDataManager::GetSingleton()->GetTile()->getPos().y - 100;
+	//if (UiDataManager::GetSingleton()->GetTile()) {
+	//	currTile = UiDataManager::GetSingleton()->GetTile();
+	//	//mouseOffsetX = (WINSIZE_X / 2 + 10);//+ 20;
+	//	//mouseOffsetY = (WINSIZE_Y - WINSIZE_Y / 3);//+ 20 + 20 ;
+	//}
 
 	/*for (int i = 0; i < minmap.size(); i++)
 	{
@@ -77,23 +103,6 @@ void DungeonUi::Update()
 	}
 
 
-	for (int i = 0; i < currTile->GetWay().size(); i++) {
-		if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_RBUTTON))
-		{
-
-			RECT rc = currTile->GetWay()[i]->GetRC();
-			if (PtInRect(&(rc), { g_ptMouse.x - minimapposx + mouseOffsetX,g_ptMouse.y - minimapposy + mouseOffsetY }))
-			{
-				currTile->SetIsCurrted(false);
-				currTile->GetWay()[i]->SetIsCurrted(true);
-				UiDataManager::GetSingleton()->SetCurrtile(currTile->GetWay()[i]);
-				SceneManager::GetSingleton()->ChangeScene2("스테이지1", currTile);
-				return;
-				//currTile = currTile->GetWay()[i];
-			}
-		}
-
-	}
 
 	if (selChr)
 	{

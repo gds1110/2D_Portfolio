@@ -39,6 +39,7 @@ private:
 
 public:
 	virtual HRESULT Init();
+	virtual HRESULT Init(CharacterManager* SC_MGR, CharacterManager* SM_MGR, DUNGEONINFO d_info,Tile* currTile);
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);

@@ -22,6 +22,7 @@ private:
 	CharacterManager* C_MGR;
 	CharacterManager* M_MGR;
 	DungeonUi* d_UI;
+	UnderUi* underUi;
 	int CamPos;
 	char szText[128] = "";
 
