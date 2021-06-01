@@ -151,26 +151,26 @@ HRESULT SceneManager::ChangeScene2(string key, Tile* tile)
 HRESULT SceneManager::ChangeTile(Tile* tile)
 {
     map<string, GameNode*>::iterator it;
-    if (UiDataManager::GetSingleton()->GetPrevScene() == UiDataManager::SceneInfo::ROOM) {
-        it = mSceneDatas.find("통로");
-    }
-    else if (UiDataManager::GetSingleton()->GetPrevScene() == UiDataManager::SceneInfo::PATH) {
-        it = mSceneDatas.find("던전방");
-    }
-    else
-    {
-        it = mSceneDatas.find("던전방");
+    //if (UiDataManager::GetSingleton()->GetPrevScene() == UiDataManager::SceneInfo::ROOM) {
+    //    it = mSceneDatas.find("통로");
+    //}
+    //else if (UiDataManager::GetSingleton()->GetPrevScene() == UiDataManager::SceneInfo::PATH) {
+    //    it = mSceneDatas.find("던전방");
+    //}
+    //else
+    //{
+    //    it = mSceneDatas.find("던전방");
 
-    }
-    /*if (tile->GetDinfo().dType == DungeonType::ROOM)
-    {
-        it = mSceneDatas.find("통로");
-    }
-    else
+    //}
+    if (tile->GetDinfo().dType == DungeonType::ROOM|| tile->GetDinfo().dType == DungeonType::START)
     {
         it = mSceneDatas.find("던전방");
     }
-    */
+    else
+    {
+        it = mSceneDatas.find("통로");
+    }
+    
     if (it == mSceneDatas.end())
     {
         return E_FAIL;

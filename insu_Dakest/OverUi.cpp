@@ -90,7 +90,7 @@ void OverUi::Render(HDC hdc)
 
 		}
 	}*/
-	flame->FrameRender(hdc, WINSIZE_X / 2+40, -20, sIconCurrFrame, 2,true);
+	flame->FrameRender(hdc, WINSIZE_X / 2+50, 35, sIconCurrFrame, 2,true);
 	torchFireUI->Render(hdc, WINSIZE_X / 2 + 25, 90, true);
 	if (combatCurrFrame<56) {
 		BattleStart->FrameRender(hdc, WINSIZE_X / 2, 300, combatCurrFrame, 0, true);

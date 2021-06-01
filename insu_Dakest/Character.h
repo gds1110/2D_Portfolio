@@ -22,8 +22,8 @@ protected:
 
 		Status()
 		{
-			int maxHp = 30;
-			int hp=maxHp;
+			float maxHp = 30;
+			float hp=maxHp;
 			int atkSpeed = 5;
 			int avd=1; //È¸ÇÇÀ²
 			int defense=1;
@@ -64,6 +64,8 @@ protected:
 	Image* img;
 	Image* targetIcon;
 	Image* selecetedIcon;
+	Image* hpBar;
+	Image* hpBarBG;
 	int sIconCurrFrame;
 	float eltimes;
 	float mTime;
@@ -84,7 +86,7 @@ protected:
 	//float size;
 	
 	//INDEX
-
+	bool battleState = false;
 
 	int index;
 	bool iconIsSeleceted;
@@ -108,6 +110,10 @@ public:
 	virtual void PartyRelease();
 	virtual void PartyUpdate();
 	virtual void PartyRender(HDC hdc);
+
+
+	bool GetBattleState() { return this->battleState; }
+	void SetBattleState(bool bat) { this->battleState = bat; }
 
 	void SetIconIsSelecetd(bool issel)	{this->iconIsSeleceted = issel;}
 	bool GetIconIsSelecetd(){return this->iconIsSeleceted;}
@@ -161,6 +167,7 @@ public:
 	
 	//State
 	virtual void SetCurrState(State state) { this->currstate = state; }
+	State GetCurrState() { return this->currstate; }
 
 	//Rect
 	virtual RECT GetRect() { return this->body; }
@@ -180,7 +187,7 @@ public:
 	//FrameRender Update : state :: combat or idle..
 	void IdleCombatUpdate();
 
-
+	Status GetStat() { return this->stat; }
 
 	//skill
 	SkillManager* getSkillMgr() { return this->S_MGR; }
@@ -188,6 +195,7 @@ public:
 	void abliiltyUpdate();
 
 	void Hurt();
+	void Hurt(int x);
 
 	Character();
 	virtual ~Character() {};

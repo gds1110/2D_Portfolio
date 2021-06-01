@@ -9,7 +9,7 @@ HRESULT skeleton_common::Init()
 	img = ImageManager::GetSingleton()->FindImage("½ºÄÌ·¹ÅæÄ¿¸Õ ÄÄ¹î");
 	currstate = State::COMBAT;
 	mkinds = MonsterKinds::SKELETON_COMMON;
-	size = 0.9;
+	size = 0.8f;
 
 	return S_OK;
 
@@ -28,6 +28,6 @@ void skeleton_common::Update()
 void skeleton_common::Render(HDC hdc)
 {
 	if(img)
-	img->FrameRender(hdc, pos.x, pos.y + 110, currFrameX, 0, true, size);
+	img->FrameRender(hdc, pos.x, pos.y + 130, currFrameX, 0, true, 0.9f);
 
 }

@@ -92,9 +92,9 @@ public:
 
 	void SetColor(COLORREF color);
 	void SetType(TileType type) { this->type = type; }
-
 	TileType GetType() { return this->type; }
-
+	void SetDinfoDtype(DungeonType type) { this->d_info.dType = type; }
+	DungeonType GetDungeonTypes() { return this->d_info.dType; }
 	int GetIdX() { return this->idX; }
 	int GetIdY() { return this->idY; }
 

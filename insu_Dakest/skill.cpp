@@ -193,7 +193,8 @@ void CombatAttack::run(int x, Character* target)
 {
 	owner->SetCurrState(State::SKILL1);
 	//target->SetCurrState(State::HURT);
-	target->Hurt();
+	//target->Hurt();
+	target->Hurt(x);
 	//for (int i = 0; i < UiDataManager::GetSingleton()->GetTarGet().size(); i++) {
 	//	//UiDataManager::GetSingleton()->GetTarGet()[i].setHp(gethp - 1);
 	//}

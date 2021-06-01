@@ -42,15 +42,31 @@ private:
 	HDC mapHdc;
 
 	MapGenManager* MapGen;
-
+	bool isBattleState;
+	int campos;
 	Tile** map;
 	Tile* currtile;
+	Tile* destTile;
 
+	SceneInfo currScene;
 public:
 	HRESULT Init();
 	void Release();
 	void Update();
+	
+	void SetCurrScene(SceneInfo scene) { this->currScene = scene; }
+	SceneInfo GetCurrScene() { return this->currScene; }
 
+	int GetCampos() { return this->campos; }
+	void SetCampos(int a) { this->campos = a; }
+
+	void SetBattleState(bool is) { this->isBattleState = is; }
+	bool GetBattleState() { return this->isBattleState; }
+
+	void SetDestTile(Tile* tile) { this->destTile = tile; }
+	Tile* GetDestTile() { return this->destTile; }
+
+	
 	SceneInfo GetPrevScene() { return this->prevScene; }
 
 	void SetCurrtile(Tile* tile) { this->currtile = tile; }

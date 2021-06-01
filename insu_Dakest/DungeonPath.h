@@ -28,6 +28,7 @@ private:
 	int CamPos;
 	char szText[128] = "";
 
+	bool battleState;
 public:
 	
 	virtual HRESULT Init();

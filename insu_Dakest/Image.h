@@ -95,7 +95,7 @@ public:
 		bool isCenterRenderring = false);
 	void AlphaFrameRender(HDC hdc, int destX, int destY, int currFrameX, int currFrameY, bool isCenterRenderring = true, float size=1);
 	void AlphaFrameRenders(HDC hdc, int destX, int destY, int currFrameX, int currFrameY, bool isCenterRenderring = true, float size = 1,int Alphas=255);
-
+	void HpBarRender(HDC hdc, int destX, int destY, float maxHP, float maxCurrHp);
 	void Render3(HDC hdc, int destX = 0, int destY = 0,
 		bool isCenterRenderring = false, float size = 1, int posX = 0, int posY = 0, int sizeX = 0,int sizeY=0,bool battle=false);
 	void Render4(HDC hdc, int destX = 0, int destY = 0,

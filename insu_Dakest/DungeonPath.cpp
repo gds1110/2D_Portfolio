@@ -85,7 +85,7 @@ HRESULT DungeonPath::DungoenInit(Tile* flowTile)
 
 	for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
 	{
-		C_MGR->GetCharacters()[i]->SetPos(90 + 150 * i);
+		C_MGR->GetCharacters()[i]->SetPos((WINSIZE_X / 2 - 150) - C_MGR->GetCharacters()[i]->GetIndex() * 130);
 	}
 	if (d_info.isEnemyed) {
 		M_MGR = new CharacterManager;
@@ -98,8 +98,8 @@ HRESULT DungeonPath::DungoenInit(Tile* flowTile)
 	//CamPos = WINSIZE_X / 2;
 	camBuffer = new Image();
 	camBuffer->Init(WINSIZE_X * 2, WINSIZE_Y);
-
-
+	UiDataManager::GetSingleton()->SetCurrScene(UiDataManager::SceneInfo::PATH);
+	battleState = false;
 	/*d_UI = new DungeonUi();
 	d_UI->Init(C_MGR, M_MGR, d_info,UiDataManager::GetSingleton()->GetTile());*/
 	bgThird = ImageManager::GetSingleton()->FindImage("원거리배경");
@@ -154,46 +154,64 @@ HRESULT DungeonPath::DungeonPathInit(CharacterManager cmgr, Tile* flowTile, DUNG
 void DungeonPath::Release()
 {
 	//SAFE_RELEASE(C_MGR);
-	SAFE_RELEASE(M_MGR);
+	/*SAFE_RELEASE(M_MGR);
 	SAFE_RELEASE(camBuffer);
-	SAFE_RELEASE(DM);
+	SAFE_RELEASE(DM);*/
 }
 
 void DungeonPath::Update()
 {
+	UiDataManager::GetSingleton()->SetCampos(CamPos);
 	if (!C_MGR)
 	{
 		C_MGR = UiDataManager::GetSingleton()->GetSC_MGR();
 	}
-
-	if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RIGHT) || KeyManager::GetSingleton()->IsStayKeyDown('D')) {
-		//
-		if (CamPos >-1790)
-		{
-			CamPos -= 5;
-
-			if ((CamPos - 2) < -WINSIZE_X * 2)
+	if (UiDataManager::GetSingleton()->GetBattleState() == false) {
+		if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RIGHT) || KeyManager::GetSingleton()->IsStayKeyDown('D')) {
+			//
+			if (CamPos > -1790)
 			{
-				CamPos = -WINSIZE_X * 2;
+				CamPos -= 5;
+
+				if ((CamPos - 2) < -WINSIZE_X * 2)
+				{
+					CamPos = -WINSIZE_X * 2;
+				}
+			}
+		}
+		else if (KeyManager::GetSingleton()->IsStayKeyDown(VK_LEFT) || KeyManager::GetSingleton()->IsStayKeyDown('A'))
+		{
+			//
+			if (CamPos < 400)
+			{
+				if (C_MGR->GetCharacters()[0]->GetPosx() <= (WINSIZE_X / 2 - 100) - C_MGR->GetCharacters()[0]->GetIndex() * 150)
+				CamPos += 5;
+				if (CamPos - 1 > WINSIZE_X / 2)
+				{
+					CamPos = WINSIZE_X / 2;
+				}
+
 			}
 		}
 	}
-	else if (KeyManager::GetSingleton()->IsStayKeyDown(VK_LEFT) || KeyManager::GetSingleton()->IsStayKeyDown('A'))
+	if (d_info.isEnemyed)
 	{
-		//
-		if (CamPos <400)
+		if (CamPos < -1000&&battleState==false&&d_info.isEnemyed==true)
 		{
-			CamPos += 5;
-			if (CamPos - 1 > WINSIZE_X / 2)
-			{
-				CamPos = WINSIZE_X / 2;
-			}
-
+			UiDataManager::GetSingleton()->SetBattleState(true);
 		}
 	}
+	if (UiDataManager::GetSingleton()->GetBattleState()==true)
+	{
+
+	}
+
 	if (DM)
 	{
+		DM->SetBattle(UiDataManager::GetSingleton()->GetBattleState());
+		DM->SetCampos(CamPos);
 		DM->Update();
+	
 	}
 
 }
@@ -211,10 +229,10 @@ void DungeonPath::Render(HDC hdc)
 	if (bgFirst) {
 		bgFirst->Render(camDC, CamPos , 0, false);
 	}
-	if (C_MGR)
+	/*if (C_MGR)
 	{
 		C_MGR->Render(hdc);
-	}
+	}*/
 
 	wsprintf(szText, "campos : %d", CamPos);
 

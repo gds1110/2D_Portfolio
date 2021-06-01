@@ -31,7 +31,7 @@ HRESULT H_Leaper::Init()
     S_MGR->AddSkill(new Skill);
     S_MGR->AddSkill(new Skill);*/
     
-    size = 1.0f;
+    size = 0.8f;
     //skillSeting();
 
 	return S_OK;
@@ -48,15 +48,10 @@ void H_Leaper::Update()
 
   
 
-  /*  switchSprite();
-
-    IdleCombatUpdate();
-
-    Move();*/
 }
 
 void H_Leaper::Render(HDC hdc)
 {
-    img->FrameRender(hdc, pos.x, pos.y + 80, currFrameX, 0, true, size);
+    img->FrameRender(hdc, pos.x, pos.y + 110, currFrameX, 0, true, 0.9);
 
 }

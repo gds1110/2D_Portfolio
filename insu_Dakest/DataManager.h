@@ -6,6 +6,7 @@ class SkillManager;
 class Character;
 class CharacterManager;
 class UnderUi;
+class OverUi;
 class DataManager : public GameNode
 {
 private:
@@ -20,14 +21,18 @@ private:
 	CharacterManager* C_MGR;
 	CharacterManager* M_MGR;
 	UnderUi* underUI;
+	OverUi* overUi;
 	bool selCheck;
 	bool targeton;
 	bool BattleStage;
 	RECT minimapZone;
 	RECT characterZone;
 	RECT statusZone;
+	RECT Door;
 	char szText[128];
 	Tile* thisTile;
+
+	bool isChange;
 
 	int mouseOffsetX;
 	int mouseOffsetY;

@@ -31,33 +31,8 @@ void H_Crusader::Update()
     SetRect(&body, pos.x - 20, pos.y - 50, pos.x + 80, pos.y + 200);
   
    
-    if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RETURN))
-    {
-      /*  for (int i = 0; i < v_Heros.size(); i++)
-        {
-            v_Heros[i]->SetState(Character::State::IDLE);
-        }*/
-        speed += 500 * TimerManager::GetSingleton()->GetElapsedTime();
-        SetCurrState(State::SKILL1);
-      
-    }
-   if (KeyManager::GetSingleton()->IsOnceKeyUp(VK_RETURN))
-    {
-      
-
-        SetPos(CharArrPos[index]);
-        speed = 100;
-        currFrameX = 0;
-        SetCurrState(State::COMBAT);
-
-    }
-
    SharedUpdate();
-   /*  switchSprite();
 
-     IdleCombatUpdate();
-
-     Move();*/
   /*  if (pos.x < WINSIZE_X / 2)
     {
 
@@ -68,9 +43,13 @@ void H_Crusader::Update()
 
 void H_Crusader::Render(HDC hdc)
 {
-  
+    if (currstate == State::COMBAT){
+        img->FrameRender(hdc, pos.x, pos.y + 80, currFrameX, 0, true, 1);
+    }
+    if (currstate == State::IDLE || currstate == State::WALK) {
+        img->FrameRender(hdc, pos.x, pos.y + 110, currFrameX, 0, true, 0.9);
 
-        //img->FrameRender(hdc, pos.x, pos.y+80, currFrameX, 0, true, 1);
+    }
         //Rectangle(hdc, body.left, body.top, body.right, body.bottom);
 
        // RenderRectToCenter(hdc, pos.x, pos.y + 50, 80, 300);

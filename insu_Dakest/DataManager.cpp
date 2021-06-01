@@ -6,6 +6,7 @@
 #include "CommonFunction.h"
 #include "UnderUI.h"
 #include "MapGenManager.h"
+#include "OverUi.h"
 HRESULT DataManager::Init()
 {
 	C_MGR = UiDataManager::GetSingleton()->GetSC_MGR();
@@ -30,6 +31,9 @@ HRESULT DataManager::Init(CharacterManager* C_MGR, CharacterManager* M_MGR,Tile*
 	SetRect(&statusZone, 0, (WINSIZE_Y - WINSIZE_Y / 3) + 10, WINSIZE_X / 2 , (WINSIZE_Y - WINSIZE_Y / 3) + 10 + 230);
 	SetRect(&characterZone, 0, 0, WINSIZE_X, (WINSIZE_Y - WINSIZE_Y / 3));
 	d_info = UiDataManager::GetSingleton()->GetTile()->GetDinfo();
+	isChange = false;
+	overUi = new OverUi();
+	overUi->Init();
 	return S_OK;
 }
 
@@ -48,8 +52,9 @@ HRESULT DataManager::Init(CharacterManager* SC_MGR, CharacterManager* SM_MGR, Un
 
 void DataManager::Release()
 {
+	//SAFE_RELEASE(underUI);
 	SAFE_RELEASE(underUI);
-	
+	SAFE_RELEASE(overUi);
 }
 
 void DataManager::Update()
@@ -65,21 +70,44 @@ void DataManager::Update()
 	{
 		minmap[i]->Update();
 	}
+	if (UiDataManager::GetSingleton()->GetCampos() <= -1780)
+	{
+		SetRect(&Door, 980, 100, 1160, (WINSIZE_Y - WINSIZE_Y / 3)-50);
+	}
+	else
+	{
+		SetRect(&Door, -100, -100, -100, -100);
+
+	}
+
 
 	if (C_MGR)
 	{
 		C_MGR->Update();
+		if (UiDataManager::GetSingleton()->GetBattleState() == true) {
+			if (C_MGR->GetCharacters().size() == 0)
+			{
+				UiDataManager::GetSingleton()->SetBattleState(false);
+			}
+		}
+		
 	}
 	if (M_MGR)
 	{
 		M_MGR->Update();
+		if (UiDataManager::GetSingleton()->GetBattleState() == true) {
+			if (M_MGR->GetCharacters().size() <1)
+			{
+				UiDataManager::GetSingleton()->SetBattleState(false);
+			}
+		}
 	}
 	if (selectedChr) {
 		S_MGR = selectedChr->getSkillMgr();
 	}
-	if (selctedSkill)
-	{
-		if (BattleStage) {
+	if (UiDataManager::GetSingleton()->GetBattleState()==true) {
+		if (selctedSkill)
+		{
 			if (selctedSkill->GetSkillType() == SKILLTYPE::COMBATSKILL || selctedSkill->GetSkillType() == SKILLTYPE::ARANGESKILL)
 			{
 				for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
@@ -101,8 +129,6 @@ void DataManager::Update()
 
 				for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
 				{
-
-
 					if (PointInRect(g_ptMouse, M_MGR->GetCharacters()[i]->GetRect())) {
 						if (M_MGR->GetCharacters()[i]->GetTargeted() == true && selctedSkill->GetSkillInfo().range > 1)
 						{
@@ -127,8 +153,6 @@ void DataManager::Update()
 											M_MGR->GetCharacters()[(i + j)]->SetFixed(true);
 										}
 										targeton = true;
-
-
 									}
 
 								}
@@ -176,23 +200,23 @@ void DataManager::Update()
 								int pry = minmap[j]->GetPrevNnext().y;
 								if ( (prx== thisTile->getindex() && pry == tempTile->getindex())) 
 								{
+									UiDataManager::GetSingleton()->SetCurrtile(minmap[j]);
+									UiDataManager::GetSingleton()->SetDestTile(tempTile);
 									SceneManager::GetSingleton()->ChangeTile(minmap[j]);
-
+									return;
 								}
 								if ((pry == thisTile->getindex() && prx == tempTile->getindex()))
 								{
+									UiDataManager::GetSingleton()->SetCurrtile(minmap[j]);
+									UiDataManager::GetSingleton()->SetDestTile(tempTile);
 									SceneManager::GetSingleton()->ChangeTile(minmap[j]);
 
+									return;
 								}
 							}
 						}
-						//SceneManager::GetSingleton()->ChangeTile();
 					}
 				}
-			}
-			else if (d_info.dType == DungeonType::PATH)
-			{
-
 			}
 			
 		}
@@ -215,6 +239,15 @@ void DataManager::Update()
 		}
 		else if (PtInRect(&characterZone,g_ptMouse))
 		{
+			if (d_info.dType == DungeonType::PATH)
+			{
+				if (PtInRect(&Door, g_ptMouse))
+				{
+					UiDataManager::GetSingleton()->SetCurrtile(UiDataManager::GetSingleton()->GetDestTile());
+					SceneManager::GetSingleton()->ChangeTile(UiDataManager::GetSingleton()->GetDestTile());
+					return;
+				}
+			}	
 			if (!C_MGR->GetCharacters().empty()) {
 				for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
 				{
@@ -245,7 +278,8 @@ void DataManager::Update()
 					{
 						if (M_MGR->GetCharacters()[i]->GetFixed() == true)
 						{
-							selctedSkill->run(0, M_MGR->GetCharacters()[i]);
+							int attdmg = rand() % selectedChr->GetStat().damage.y + selectedChr->GetStat().damage.x;
+							selctedSkill->run(attdmg, M_MGR->GetCharacters()[i]);
 							M_MGR->GetCharacters()[i]->SetPos(WINSIZE_X / 2 + 100 * i);
 							selectedChr->SetPos(WINSIZE_X / 2);
 							//selectedChr->SetCurrState(State::SKILL1);
@@ -260,7 +294,10 @@ void DataManager::Update()
 			}
 		}
     }
-
+	if (overUi)
+	{
+		overUi->Update();
+	}
 	
 	if (underUI)
 	{
@@ -274,9 +311,15 @@ void DataManager::Render(HDC hdc)
 	if (underUI) {
 		underUI->Render(hdc);
 	}
+	if (overUi)
+	{
+		overUi->Render(hdc);
+	}
 	if (M_MGR)
 	{
-		M_MGR->Render(hdc);
+		if (BattleStage) {
+			M_MGR->Render(hdc);
+		}
 	}
 	if (C_MGR)
 	{
@@ -288,6 +331,8 @@ void DataManager::Render(HDC hdc)
 	TextOut(hdc, 800, 100, szText, strlen(szText));
 	wsprintf(szText, "X : %d, Y : %d", UiDataManager::GetSingleton()->GetTile()->getindex(), UiDataManager::GetSingleton()->GetTile()->GetPrevNnext().y);
 	TextOut(hdc, 200, 500, szText, strlen(szText));
+
+	Rectangle(hdc, Door.left, Door.top, Door.right, Door.bottom);
 	/*Rectangle(hdc, statusZone.left, statusZone.top, statusZone.right, statusZone.bottom);
 	Rectangle(hdc, characterZone.left, characterZone.top, characterZone.right, characterZone.bottom);*/
 }

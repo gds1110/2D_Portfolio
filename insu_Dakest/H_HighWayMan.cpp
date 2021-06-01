@@ -29,16 +29,11 @@ void H_HighWayMan::Update()
     SetRect(&body, pos.x - 20, pos.y - 50, pos.x + 80, pos.y + 200);
     SharedUpdate();    
 
-    /*  switchSprite();
-
-      IdleCombatUpdate();
-
-      Move();*/
 }
 
 void H_HighWayMan::Render(HDC hdc)
 {
-    img->FrameRender(hdc, pos.x+30, pos.y + 110, currFrameX, 0, true, 0.9);
+    img->FrameRender(hdc, pos.x+30, pos.y + 140, currFrameX, 0, true, 0.8);
 
     //Rectangle(hdc, body.left, body.top, body.right, body.bottom);
 }

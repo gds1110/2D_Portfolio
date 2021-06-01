@@ -91,7 +91,7 @@ HRESULT DungeonRoom::DungoenInit(Tile* flowTile)
 
 	for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
 	{
-		C_MGR->GetCharacters()[i]->SetPos(90 + 150 * i);
+		C_MGR->GetCharacters()[i]->SetPos((WINSIZE_X / 2 - 150) - C_MGR->GetCharacters()[i]->GetIndex() * 130);
 	}
 	if (d_info.isEnemyed) {
 		M_MGR = new CharacterManager;
@@ -105,6 +105,7 @@ HRESULT DungeonRoom::DungoenInit(Tile* flowTile)
 	camBuffer = new Image();
 	camBuffer->Init(WINSIZE_X * 2, WINSIZE_Y);
 
+	UiDataManager::GetSingleton()->SetCurrScene(UiDataManager::SceneInfo::ROOM);
 
 	/*d_UI = new DungeonUi();
 	d_UI->Init(C_MGR, M_MGR, d_info,UiDataManager::GetSingleton()->GetTile());*/
@@ -178,16 +179,25 @@ void DungeonRoom::Release()
 
 void DungeonRoom::Update()
 {
-	if (d_info.isEnemyed)
+	if (!C_MGR)
 	{
+		C_MGR = UiDataManager::GetSingleton()->GetSC_MGR();
 	}
 
+	if (d_info.isEnemyed)
+	{
+		DM->SetBattle(true);
+	}
+
+
+	if (CamPos) {
+		DM->SetCampos(CamPos);
+	}
 	if (DM)
 	{
 		DM->Update();
-	}
 
-	
+	}
 }
 
 void DungeonRoom::Render(HDC hdc)

@@ -37,7 +37,7 @@ void CharacterManager::AddCharacter(Character* chr, UnitType type)
             v_Characters.push_back(chr);
             v_Characters[index]->SetType(type);
             v_Characters[index]->Init();
-            v_Characters[index]->SetCurrState(State::COMBAT);
+            v_Characters[index]->SetCurrState(State::IDLE);
 
             v_Characters[index]->SetIndex(index);
             v_Characters[index]->SetPos((WINSIZE_X / 2 - 100) - (index * 150));
@@ -90,7 +90,7 @@ void CharacterManager::AddMonster(int charIndex)
 
             break;
         case 1:
-            v_Characters.push_back(new skeleton_bearer);
+            v_Characters.push_back(new skeleton_common);
 
             break;
         case 2:
@@ -132,10 +132,45 @@ void CharacterManager::Release()
 
 void CharacterManager::Update()
 {
+
+    for (itChr = v_Characters.begin(); itChr != v_Characters.end();)
+    {
+        if ((*itChr)->GetStat().hp <= 0)
+        {
+            if (v_Characters.size() > 1) {
+                if (itChr + 1 != v_Characters.end())
+                {
+                    int tempindex = (*itChr+1)->GetIndex();
+                    (*itChr + 1)->SetIndex(tempindex - 1);
+                }
+            }
+            itChr = v_Characters.erase(itChr);
+            break;
+        
+        }
+        else {
+            itChr++;
+        }
+    }
+
+
     for (int i = 0; i < v_Characters.size(); i++)
     {
         v_Characters[i]->Update();
+        if (UiDataManager::GetSingleton()->GetBattleState()==true)
+        {
+            v_Characters[i]->SetCurrState(State::COMBAT);
+        }
+        if (v_Characters[i]->GetCurrState() == State::COMBAT && UiDataManager::GetSingleton()->GetBattleState() == false)
+        {
+            v_Characters[i]->SetCurrState(State::IDLE);
+        }
+        else
+        {
+
+        }
     }
+   
    
 
   /*  for (int i = 0; i < v_Characters.size(); i++)
@@ -191,23 +226,23 @@ void CharacterManager::Update()
 
 
 
-    if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_UP)) {
-      /*  if (UiDataManager::GetSingleton()->GetSelectedChar())
-        {
-            for (int i = 0; i < v_Heros.size(); i++)
-            {
-                if (UiDataManager::GetSingleton()->GetSelectedChar() != v_Heros[i])
-                {
-                    
+    //if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_UP)) {
+    //  /*  if (UiDataManager::GetSingleton()->GetSelectedChar())
+    //    {
+    //        for (int i = 0; i < v_Heros.size(); i++)
+    //        {
+    //            if (UiDataManager::GetSingleton()->GetSelectedChar() != v_Heros[i])
+    //            {
+    //                
 
-               }
-            }
-        }*/
-        swap(v_Characters[0], v_Characters[1]);
-    /*    v_Characters[0]->SetIndex(v_Characters[1]->GetIndex());
-        v_Characters[1]->SetIndex(v_Characters[0]->GetIndex());*/
-    
-    }
+    //           }
+    //        }
+    //    }*/
+    //    swap(v_Characters[0], v_Characters[1]);
+    ///*    v_Characters[0]->SetIndex(v_Characters[1]->GetIndex());
+    //    v_Characters[1]->SetIndex(v_Characters[0]->GetIndex());*/
+    //
+    //}
 
     
 
@@ -231,32 +266,39 @@ void CharacterManager::Render(HDC hdc)
    */
     for (int i = 0; i < v_Characters.size(); i++)
     {
-        if (v_Characters[i]->GetDepth() == 1)
-        {
-            v_Characters[i]->Render(hdc);
-            v_Characters[i]->ShareRender(hdc);
+        if (v_Characters[i]->GetStat().hp >= 1) {
+            if (v_Characters[i]->GetDepth() == 1)
+            {
+                v_Characters[i]->Render(hdc);
+                v_Characters[i]->ShareRender(hdc);
 
 
+            }
         }
     }
     for (int i = 0; i < v_Characters.size(); i++)
     {
-    if (v_Characters[i]->GetDepth() == 2)
-    {
-        v_Characters[i]->Render(hdc);
-        v_Characters[i]->ShareRender(hdc);
+        if (v_Characters[i]->GetStat().hp >= 1){
 
+            if (v_Characters[i]->GetDepth() == 2)
+            {
+                v_Characters[i]->Render(hdc);
+                v_Characters[i]->ShareRender(hdc);
 
-    }
+            }
+        }
     }
     for (int i = 0; i < v_Characters.size(); i++)
     {
-        if (v_Characters[i]->GetDepth() ==3)
-        {
-            v_Characters[i]->Render(hdc);
-            v_Characters[i]->ShareRender(hdc);
+        if (v_Characters[i]->GetStat().hp >= 1) {
+
+            if (v_Characters[i]->GetDepth() == 3)
+            {
+                v_Characters[i]->Render(hdc);
+                v_Characters[i]->ShareRender(hdc);
 
 
+            }
         }
     }
  /*   if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RETURN))

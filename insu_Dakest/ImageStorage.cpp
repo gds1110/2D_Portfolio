@@ -30,6 +30,9 @@ HRESULT ImageStorage::Init()
 	ImageManager::GetSingleton()->AddImage("타겟아이콘", "resource/sharedUi/target.BMP", 197, 412, 1, 2, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("힐아이콘", "resource/sharedUi/target_h.BMP", 175, 206, 1, 1, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("미니맵배경", "resource/sharedUi/downpanelmap.BMP", 480, 240, false);
+	ImageManager::GetSingleton()->AddImage("체력바", "resource/sharedUi/healthBar.BMP", 120, 10, false);
+	ImageManager::GetSingleton()->AddImage("체력바배경", "resource/sharedUi/healthBarBG.BMP", 100, 10, false);
+	ImageManager::GetSingleton()->AddImage("체력칸", "resource/sharedUi/health_pip.BMP", 8, 10, false);
 	ImageManager::GetSingleton()->AddImage("미니맵배경색", "resource/mapui/mapbg.BMP", 600, 600, 1, 1, true, RGB(255, 0, 255));
 	return S_OK;
 }

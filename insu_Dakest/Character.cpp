@@ -10,6 +10,8 @@ HRESULT Character::Init()
 
 void Character::Release()
 {
+    SAFE_RELEASE(rosterBg);
+    SAFE_RELEASE(rosterIcon);
 }
 
 void Character::Update()
@@ -95,10 +97,23 @@ void Character::ShareRender(HDC hdc)
         {
             alpha = 150;
         }
-        targetIcon->AlphaFrameRenders(hdc, pos.x + 30, 500, 0, 0, true, 0.8, alpha);
+        if (mkinds == MonsterKinds::SKELETON_CAPTAIN|| mkinds == MonsterKinds::SKELETON_COMMON)
+        {
+            targetIcon->AlphaFrameRenders(hdc, pos.x , 500, 0, 1, true, 0.8, alpha);
+
+        }
+        else
+        {
+            targetIcon->AlphaFrameRenders(hdc, pos.x + 30, 500, 0, 0, true, 0.8, alpha);
+        }
     }
     if (selected) {
-        selecetedIcon->FrameRender(hdc,pos.x + 50, 430, 0, sIconCurrFrame, true, 0.8);
+        selecetedIcon->FrameRender(hdc,pos.x + 50, 450, 0, sIconCurrFrame, true, 0.8);
+    }
+    if (hpBar)
+    {
+        hpBarBG->Render(hdc, pos.x-35, 460);
+        hpBar->HpBarRender(hdc, pos.x - 35, 460, stat.maxHp, stat.hp);
     }
 }
 
@@ -110,7 +125,6 @@ void Character::MUpdate()
 {
    // mTime += TimerManager::GetSingleton()->GetElapsedTime();
 
-    
  
     if (AbilOn == false) {
         IdleCombatUpdate();
@@ -118,11 +132,11 @@ void Character::MUpdate()
        
     }
     abliiltyUpdate();
-    if (pos.x < MonArrPos[index])
+    if (pos.x < (WINSIZE_X / 2 + 100) + (index * 150))
     {
         pos.x += 500*TimerManager::GetSingleton()->GetElapsedTime();//mTime * 1 / 10;
     }
-    else if (pos.x > MonArrPos[index])
+    else if (pos.x > (WINSIZE_X / 2 + 100) + (index * 150))
     {
         pos.x -= 500*TimerManager::GetSingleton()->GetElapsedTime();//mTime * 1 / 10;
     }
@@ -131,6 +145,7 @@ void Character::MUpdate()
 
 void Character::SharedUpdate()
 {
+    battleState = UiDataManager::GetSingleton()->GetBattleState();
     //if selected
     eltimes += TimerManager::GetSingleton()->GetElapsedTime();
     if (selected)
@@ -146,14 +161,18 @@ void Character::SharedUpdate()
     }
     S_MGR->SetHClass(hClass);
     if (AbilOn == false) {
+        if (battleState == false) {
+            Move();
+        }
+
         IdleCombatUpdate();
         switchSprite();
-        Move();
     }
     S_MGR->Update();
   
     abliiltyUpdate();
 
+   
 
     //if (pos.x < CharArrPos[index])
     //{
@@ -248,17 +267,62 @@ void Character::Move()
             currFrameX = 0;
         }
         // pos.x += 1;
+
+
+     
+    }
+    else if(currstate!=State::IDLE||currstate!=State::COMBAT)
+    {
+        if (currstate != State::IDLE) {
+            currstate = State::IDLE;
+            walkElapsed = 0;
+            currFrameX = 0;
+        }
     }
 
-    if (KeyManager::GetSingleton()->IsOnceKeyUp(VK_LEFT) || KeyManager::GetSingleton()->IsOnceKeyUp(VK_RIGHT)
-        || KeyManager::GetSingleton()->IsOnceKeyUp('A') || KeyManager::GetSingleton()->IsOnceKeyUp('D'))
+    if (UiDataManager::GetSingleton()->GetCampos() <= -1790)
     {
-        currstate = State::IDLE;
-        walkElapsed = 0;
-        currFrameX = 0;
-        elapsed = 0;
-        //SetCurrState(State::IDLE);
+        if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RIGHT) || KeyManager::GetSingleton()->IsStayKeyDown('D'))
+        {
+            if (pos.x < 1280 -50 - index * 120) {
+                pos.x += 3;
+            }
+        }
+        
+        if (KeyManager::GetSingleton()->IsStayKeyDown(VK_LEFT) ||
+            KeyManager::GetSingleton()->IsStayKeyDown('A'))
+        {
+            pos.x -= 3;
+        }
     }
+    
+    if (UiDataManager::GetSingleton()->GetCurrScene() == UiDataManager::SceneInfo::ROOM&&UiDataManager::GetSingleton()->GetBattleState()==false)
+    {
+        if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RIGHT) || KeyManager::GetSingleton()->IsStayKeyDown('D'))
+        {
+            if (pos.x < 1280 - 50 - index * 120) {
+                pos.x += 3;
+            }
+        }
+
+        if (KeyManager::GetSingleton()->IsStayKeyDown(VK_LEFT) ||
+            KeyManager::GetSingleton()->IsStayKeyDown('A'))
+        {
+            if (pos.x > 50 + index * 120) {
+                pos.x -= 3;
+            }
+        }
+    }
+    //if (KeyManager::GetSingleton()->IsOnceKeyUp(VK_LEFT) || KeyManager::GetSingleton()->IsOnceKeyUp(VK_RIGHT)
+    //    || KeyManager::GetSingleton()->IsOnceKeyUp('A') || KeyManager::GetSingleton()->IsOnceKeyUp('D'))
+    //{
+    //    currstate = State::IDLE;
+    //    walkElapsed = 0;
+    //    currFrameX = 0;
+    //    //elapsed = 0;
+    //    //SetCurrState(State::IDLE);
+    //}
+   
 }
 
 void Character::IdleCombatUpdate()
@@ -268,7 +332,7 @@ void Character::IdleCombatUpdate()
     if (currstate == State::IDLE || currstate == State::COMBAT) {
        
         size = 1.0f;
-        if (elapsed > 0.07f)
+        if (elapsed > 0.04f)
         {
             currFrameX++;
 
@@ -336,10 +400,37 @@ void Character::Hurt()
     }
 }
 
+void Character::Hurt(int x)
+{
+    float Mtime;
+    if (currstate != State::HURT)
+    {
+        Mtime = 0.0f;
+
+
+        currstate = State::HURT;
+    }
+    if (currstate == State::HURT)
+    {
+        Mtime += TimerManager::GetSingleton()->GetElapsedTime();
+        if (Mtime > 2.0f)
+        {
+            currstate = State::COMBAT;
+            Mtime = 0.0f;
+
+        }
+    }
+    stat.hp -= x;
+
+}
+
 Character::Character()
 {
-    selecetedIcon = ImageManager::GetSingleton()->AddImage("선택아이콘", "resource/sharedUi/selected_2-down.BMP", 236, 412, 1, 2, true, RGB(88, 88, 88));
-    targetIcon = ImageManager::GetSingleton()->AddImage("타겟아이콘", "resource/sharedUi/target.BMP", 197, 412, 1, 2, true, RGB(88, 88, 88));
+    selecetedIcon = ImageManager::GetSingleton()->FindImage("선택아이콘"); 
+    targetIcon = ImageManager::GetSingleton()->FindImage("타겟아이콘");    
+    hpBar = ImageManager::GetSingleton()->FindImage("체력바");
+    hpBarBG = ImageManager::GetSingleton()->FindImage("체력바배경");
+
     UiDataManager::GetSingleton()->SetClassArr(this->classArr);
 
     index = -1;
@@ -348,7 +439,6 @@ Character::Character()
     uType = NONETYPE;
     hClass = NONEHCLASS;
     currstate = NONESTATE;
-    mkinds = NONEKINDS;
     AbilOn = false;
     AbilTime = 0;
     currFrameX = 0;

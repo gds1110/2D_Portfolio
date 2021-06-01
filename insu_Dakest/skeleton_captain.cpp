@@ -21,12 +21,14 @@ void skeleton_captain::Release()
 
 void skeleton_captain::Update()
 {
+	mkinds = MonsterKinds::SKELETON_CAPTAIN;
+
 	SetRect(&body, pos.x - 20, pos.y - 50, pos.x + 80, pos.y + 200);
 	MUpdate();
 }
 
 void skeleton_captain::Render(HDC hdc)
 {
-	img->FrameRender(hdc, pos.x, pos.y + 50, currFrameX, 0, true, size);
+	img->FrameRender(hdc, pos.x, pos.y + 40, currFrameX, 0, true, size);
 
 }

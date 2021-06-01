@@ -140,7 +140,7 @@ void Tile::RandomSetTileInfo()
 		
 		randomn = rand() % 2;
 		random2 = rand() % 101;
-		randtype = rand() % 7;
+		randtype = rand() % 6+1;
 		if (type == TileType::Room)
 		{
 			d_info.dType = DungeonType::ROOM;
@@ -157,17 +157,20 @@ void Tile::RandomSetTileInfo()
 				d_info.isEnemyed = true;
 				d_info.roomType = randtype;
 			}
+			d_info.isEnemyed = true; // 지워야할거
 		}
 	}
 	if (d_info.isEnemyed)
 	{
-		monnum = rand() % 4;
+		monnum = rand() % 3+1;
 		d_info.enemySize = monnum;
+		d_info.enemySize = 2; // 지워야할거
 		for (int i = 0; i < d_info.enemySize; i++)
 		{
 			monrandom = rand() % 4;
 	
 			d_info.enemyArr[i] = monrandom;
+			d_info.enemyArr[i] = 1; //지워야할거
 		}
 		d_info.infoDone = true;
 
@@ -350,21 +353,21 @@ void MapGenManager::Update()
 		UiDataManager::GetSingleton()->SetMin(minIndex);
 		UiDataManager::GetSingleton()->SetMax(maxIndex);
 		UiDataManager::GetSingleton()->SetMapGeN(this);
-	/*	UiDataManager::GetSingleton()->SetSceneInfo(UiDataManager::SceneInfo::MAPGEN, UiDataManager::SceneInfo::ROOM);
-		SceneManager::GetSingleton()->ChangeTile(UiDataManager::GetSingleton()->GetTile());
-
-		return;*/
-	}
-
-	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_F1))
-	{
-		
-
 		UiDataManager::GetSingleton()->SetSceneInfo(UiDataManager::SceneInfo::MAPGEN, UiDataManager::SceneInfo::ROOM);
 		SceneManager::GetSingleton()->ChangeTile(UiDataManager::GetSingleton()->GetTile());
 
 		return;
 	}
+
+	//if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_F1))
+	//{
+	//	
+
+	//	UiDataManager::GetSingleton()->SetSceneInfo(UiDataManager::SceneInfo::MAPGEN, UiDataManager::SceneInfo::ROOM);
+	//	SceneManager::GetSingleton()->ChangeTile(UiDataManager::GetSingleton()->GetTile());
+
+	//	return;
+	//}
 
 }
 
@@ -423,6 +426,7 @@ void MapGenManager::MakePath(Tile& tile)
 				{
 					map[currIdY][currIdX + i].SetColor(RGB(0, 255, 0));
 					map[currIdY][currIdX + i].SetType(TileType::Path);
+					map[currIdY][currIdX + i].SetDinfoDtype(DungeonType::PATH);
 
 					if (map[currIdY][currIdX + i].GetIsInOpenlist() == false) {
 						map[currIdY][currIdX + i].SetIsInOpenlist(true);
@@ -448,6 +452,7 @@ void MapGenManager::MakePath(Tile& tile)
 				{
 					map[currIdY][currIdX - i].SetColor(RGB(0, 255, 0));
 					map[currIdY][currIdX - i].SetType(TileType::Path);
+					map[currIdY][currIdX - i].SetDinfoDtype(DungeonType::PATH);
 
 					if (map[currIdY][currIdX - i].GetIsInOpenlist() == false) {
 						map[currIdY][currIdX - i].SetIsInOpenlist(true);
@@ -473,6 +478,7 @@ void MapGenManager::MakePath(Tile& tile)
 				{
 					map[currIdY + i][currIdX].SetColor(RGB(0, 255, 0));
 					map[currIdY + i][currIdX].SetType(TileType::Path);
+					map[currIdY + i][currIdX].SetDinfoDtype(DungeonType::PATH);
 
 					if (map[currIdY + i][currIdX].GetIsInOpenlist() == false) {
 						map[currIdY + i][currIdX].SetIsInOpenlist(true);
@@ -500,6 +506,7 @@ void MapGenManager::MakePath(Tile& tile)
 				{
 					map[currIdY - i][currIdX].SetColor(RGB(0, 255, 0));
 					map[currIdY - i][currIdX].SetType(TileType::Path);
+					map[currIdY - i][currIdX].SetDinfoDtype(DungeonType::PATH);
 
 					if (map[currIdY - i][currIdX].GetIsInOpenlist() == false) {
 						map[currIdY - i][currIdX].SetIsInOpenlist(true);
@@ -524,6 +531,7 @@ void MapGenManager::MakePath(Tile& tile)
 		if (currTile->GetIsClosed() == false) {
 			index++;
 			currTile->SetType(TileType::Room);
+			currTile->SetDinfoDtype(DungeonType::ROOM);
 			currTile->SetIsClosed(true);
 			currTile->setindex(index);
 			currTile->getindex();

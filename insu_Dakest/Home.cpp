@@ -70,11 +70,12 @@ void Home::Update()
 		}
 	}
 	else {
-		if (PtInRect(&startRC, g_ptMouse))
-		{
-			buttonframe = 1;
-			if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
+		
+			if (PtInRect(&startRC, g_ptMouse))
 			{
+			buttonframe = 1;
+		if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
+		{
 				if (ready == true)
 				{
 					if (heroSlot[3].HeroNum > -1) {
@@ -138,24 +139,28 @@ void Home::Update()
 			}
 		}
 
+		if(KeyManager::GetSingleton()->IsStayKeyDown(VK_LBUTTON)){
+			for (int i = 0; i < rosterList->GetCharacters().size(); i++)
+			{
+				RECT tempRC = rosterList->GetCharacters()[i]->GetIconRC();
+				if (PtInRect(&tempRC, g_ptMouse)) {
+					if (PtInRect(&tempRC, g_ptMouse) && rosterList->GetCharacters()[i]->GetIconIsSelecetd() == false)
+					{
+						mouseIcon = rosterList->GetCharacters()[i]->GetIconImage();
+						selectNum = rosterList->GetCharacters()[i]->GetIndex();
+					}
 
-		for (int i = 0; i < rosterList->GetCharacters().size(); i++)
-		{
-			RECT tempRC = rosterList->GetCharacters()[i]->GetIconRC();
-			if (KeyManager::GetSingleton()->IsStayKeyDown(VK_LBUTTON) && PtInRect(&tempRC, g_ptMouse) && rosterList->GetCharacters()[i]->GetIconIsSelecetd() == false)
-			{
-				mouseIcon = rosterList->GetCharacters()[i]->GetIconImage();
-				selectNum = rosterList->GetCharacters()[i]->GetIndex();
-			}
-			else if (KeyManager::GetSingleton()->IsOnceKeyUp(VK_LBUTTON))
-			{
-				mouseIcon = nullptr;
-				selectNum = -1;
-			}
-			/*if (rosterList->GetCharacters()[i]->GetIconMouseOver() == true)
-			{
-			}*/
+				}
+				else if (KeyManager::GetSingleton()->IsOnceKeyUp(VK_LBUTTON))
+				{
+					mouseIcon = nullptr;
+					selectNum = -1;
+				}
+				/*if (rosterList->GetCharacters()[i]->GetIconMouseOver() == true)
+				{
+				}*/
 
+			}
 
 		}
 
@@ -185,26 +190,7 @@ void Home::Update()
 void Home::Render(HDC hdc)
 {
 	bg->Render(hdc);
-	for (int i = 0; i < 4; i++)
-	{
-		//Rectangle(hdc, heroSlot[i].rc.left, heroSlot[i].rc.top, heroSlot[i].rc.right, heroSlot[i].rc.bottom);
-		if (heroSlot[i].icon != nullptr)
-		{
-			heroSlot[i].icon->Render(hdc, heroSlot[i].pos.x, heroSlot[i].pos.y);
-		}
-	}
-	
 
-	for (int i = 0; i < rosterList->GetCharacters().size(); i++)
-	{
-		rosterList->GetCharacters()[i]->RosterRender(hdc);
-	}
-
-	if (mouseIcon != nullptr)
-	{
-		mouseIcon->Render(hdc, g_ptMouse.x, g_ptMouse.y);
-	}
-	//Rectangle(hdc, startRC.left, startRC.top, startRC.right, startRC.bottom);
 	if (startButton != nullptr)
 	{
 		if (buttonframe == 0) {
@@ -216,6 +202,27 @@ void Home::Render(HDC hdc)
 
 		}
 	}
+
+	if (mouseIcon != nullptr)
+	{
+		mouseIcon->Render(hdc, g_ptMouse.x, g_ptMouse.y);
+	}
+	//Rectangle(hdc, startRC.left, startRC.top, startRC.right, startRC.bottom);
+
+	for (int i = 0; i < rosterList->GetCharacters().size(); i++)
+	{
+		rosterList->GetCharacters()[i]->RosterRender(hdc);
+	}	
+	for (int i = 0; i < 4; i++)
+	{
+		//Rectangle(hdc, heroSlot[i].rc.left, heroSlot[i].rc.top, heroSlot[i].rc.right, heroSlot[i].rc.bottom);
+		if (heroSlot[i].icon != nullptr)
+		{
+			heroSlot[i].icon->Render(hdc, heroSlot[i].pos.x, heroSlot[i].pos.y);
+		}
+	}
+
+
 	//Rectangle(hdc, divideRc.left, divideRc.top, divideRc.right, divideRc.bottom);
 	wsprintf(szText, "campos : %d", ready);
 	TextOut(hdc, WINSIZE_X / 2, 100, szText, strlen(szText));
