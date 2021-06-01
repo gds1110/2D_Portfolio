@@ -8,6 +8,7 @@ HRESULT ImageStorage::Init()
 	ImageManager::GetSingleton()->AddImage("½ºÄÌ·¹Åæ¾ÆÃ³ ÇÇ°Ý", "resource/monster/skeleton_arbalista/defend/hurt.BMP", 300, 400, 1, 1, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("½ºÄÌ·¹ÅæÄ¿¸Õ ÄÄ¹î", "resource/monster/skeleton_common/combat/combat.BMP", 2324, 250, 14, 1, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("½ºÄÌ·¹ÅæÄ¿¸Õ ÇÇ°Ý", "resource/monster/skeleton_common/defend/hurt.BMP", 300, 400, 1, 1, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("½ºÄÌ·¹ÅæÄ¿¸Õ ½ºÅ³1", "resource/monster/skeleton_common/attack.BMP", 578, 551, 1, 1, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("½ºÄÌ·¹Åæ±³±º ÄÄ¹î", "resource/monster/skeleton_bearer/combat/combat.BMP", 5468, 500,17, 1, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("½ºÄÌ·¹Åæ±³±º ÇÇ°Ý", "resource/monster/skeleton_bearer/defend/hurt.BMP", 300, 400, 1, 1, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("¹æ¼¼Æ®", "resource/dungeon/Stage1/rooms.BMP", 1920, 4320, 1, 6, true, RGB(88, 88, 88));

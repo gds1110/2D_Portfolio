@@ -213,6 +213,12 @@ void Character::switchSprite()
         AbilOn = true;
         depth = 3;
         break;
+    case HURT:
+        currFrameX = 0;
+        img = ImageManager::GetSingleton()->FindImage(classArr[hClass] + "피격");
+        AbilOn = true;
+        depth = 2;
+        break;
     case NONESTATE:
         break;
     default:
@@ -233,7 +239,8 @@ void Character::MswitchSprite()
     case SKILL1:
         currFrameX = 0;
         img = ImageManager::GetSingleton()->FindImage(MonArr[mkinds] + "스킬1");
-        
+        AbilOn = true;
+        depth = 3;
         break;
     case HURT:
         currFrameX = 0;
@@ -422,6 +429,21 @@ void Character::Hurt(int x)
     }
     stat.hp -= x;
 
+}
+
+int Character::Dice()
+{
+    int randomdice;
+    randomdice = rand() % 8 + 1;
+    
+    this->dice = stat.atkSpeed + randomdice;
+    return this->dice;
+}
+
+void Character::Attack(Character* target)
+{
+    int randdom = rand() % stat.damage.y + stat.damage.x;
+    target->Hurt(randdom);
 }
 
 Character::Character()

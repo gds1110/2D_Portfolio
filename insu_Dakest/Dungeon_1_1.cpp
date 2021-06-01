@@ -17,6 +17,7 @@
 #include "MapGenManager.h"
 #include "SkillManager.h"
 #include "DataManager.h"
+#include <algorithm>
 
 HRESULT Dungeon_1_1::Init()
 {
@@ -37,14 +38,14 @@ HRESULT Dungeon_1_1::Init()
 		battlePos[i] = (WINSIZE_X/2) - (i * 100);
 	}
 
-	//C_MGR = new CharacterManager;
-	//C_MGR->Init();
-	//C_MGR->AddCharacter(new H_BountyHunter, UnitType::HERO);
+	C_MGR = new CharacterManager;
+	C_MGR->Init();
+	C_MGR->AddCharacter(new H_BountyHunter, UnitType::HERO);
 	//C_MGR->AddCharacter(new H_Leaper,UnitType::HERO);
 	//C_MGR->AddCharacter(new H_HighWayMan, UnitType::HERO);
 	//C_MGR->AddCharacter(new H_Vestel, UnitType::HERO);
 
-	C_MGR = UiDataManager::GetSingleton()->GetSC_MGR();
+	//C_MGR = UiDataManager::GetSingleton()->GetSC_MGR();
 
 	M_MGR = new CharacterManager;
 	M_MGR->Init();
@@ -67,8 +68,8 @@ HRESULT Dungeon_1_1::Init()
 	underUI = new UnderUi;
 	underUI->Init();
 
-	DM = new DataManager();
-	DM->Init(C_MGR, M_MGR, thisTile);
+	//DM = new DataManager();
+	//DM->Init(C_MGR, M_MGR, thisTile);
 	return S_OK;
 }
 
@@ -181,23 +182,53 @@ void Dungeon_1_1::Release()
 }
 
 void Dungeon_1_1::Update()
-{
+{/*
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_F1))
 	{
 		SceneManager::GetSingleton()->ChangeScene("¸Ê»ý¼º");
 		return;
-	}
+	}*/
+	
 
-	if (DM)
-	{
-		DM->Update();
-		//DM->SetCampos(CamPos);
-	}
+	//if (DM)
+	//{
+	//	DM->Update();
+	//	//DM->SetCampos(CamPos);
+	////}
+
+
+	//vector<dices> dice2;
+	//for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
+	//{
+	//	dice2.push_back(make_pair(M_MGR->GetCharacters()[i], M_MGR->GetCharacters()[i]->Dice()));
+
+	//}
+	//for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
+	//{
+	//	dice2.push_back(make_pair(C_MGR->GetCharacters()[i], C_MGR->GetCharacters()[i]->Dice()));
+	//}
+	//
+	//std::sort(dice2.begin(), dice2.end(), compare);
+	
+
+	//for (int i = 0; i <= dice.size(); i++)
+	//{
+	//	Character* tempchar = dice.back().first;
+	//	dice.pop_back();
+	//}
+	//vector<dices>::reverse_iterator riter;
+	//for (riter=dice2.rbegin(); riter!=dice2.rend();++riter)
+	//{
+	//	Character* tempchars2;
+	//	tempchars2 = dice2.back().first();
+	//	dice2.pop_back();
+	//	
+	//}
+	
 	if (overUi)
 	{
 		overUi->Update();
 	}
-	if (thisTile->GetType() != TileType::Room) {
 		if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RIGHT) || KeyManager::GetSingleton()->IsStayKeyDown('D')) {
 			//
 			if (CamPos > -WINSIZE_X * 2)
@@ -222,7 +253,7 @@ void Dungeon_1_1::Update()
 
 			}
 		}
-	}
+	
 
 }
 
@@ -266,8 +297,6 @@ void Dungeon_1_1::Render(HDC hdc)
 	wsprintf(szText, "campos : %d",CamPos);
 	TextOut(hdc, WINSIZE_X/2, 100, szText, strlen(szText));
 
-	wsprintf(szText, "campos : %d", UiDataManager::GetSingleton()->GetTile()->getindex());
-	TextOut(hdc, WINSIZE_X / 2, 300, szText, strlen(szText));
 
 	
 }

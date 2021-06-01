@@ -14,6 +14,7 @@ HRESULT H_Leaper::Init()
     ImageManager::GetSingleton()->AddImage("나병환자 아이콘", "resource/hero/Leaper/icon.BMP", 65, 65, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("나병환자 스킬셋", "resource/hero/Leaper/skill/skillset.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("나병환자 스킬1", "resource/hero/Leaper/skill/chop/hchop.BMP", 707, 545,1, 1, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("나병환자 피격", "resource/hero/Leaper/hurt.BMP", 503, 699,1, 1, true, RGB(88, 88, 88));
 
     currstate = State::IDLE;
     hClass = HCLASS::LEAPER;

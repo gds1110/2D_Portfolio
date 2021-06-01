@@ -31,3 +31,4 @@ void skeleton_common::Render(HDC hdc)
 	img->FrameRender(hdc, pos.x, pos.y + 130, currFrameX, 0, true, 0.9f);
 
 }
+

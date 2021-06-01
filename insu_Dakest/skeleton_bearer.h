@@ -14,6 +14,8 @@ public:
 
 	skeleton_bearer()
 	{
+		uType = UnitType::MONSTER;
+
 
 		stat.maxHp = 40;
 		//stat.hp = stat.maxHp;

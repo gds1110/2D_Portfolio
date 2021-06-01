@@ -17,13 +17,7 @@ public:
 
 
 protected:
-	struct skillInfo
-	{
 
-		POINT skillRank;
-		POINT targetRank;
-		int range;
-	};
 
 	Image* iconImg;
 	RECT iconRC;
@@ -33,6 +27,7 @@ protected:
 	SKILLTYPE type;
 
 	HCLASS hClass;
+	MonsterKinds mkinds;
 	int skillNum;
 	int slotNum;
 	int index;

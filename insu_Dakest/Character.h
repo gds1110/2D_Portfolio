@@ -82,11 +82,12 @@ protected:
 	int walkElapsed;
 	int speed = 100;
 	int depth;
-
+	int dice;
 	//float size;
 	
 	//INDEX
 	bool battleState = false;
+	bool haveTurn;
 
 	int index;
 	bool iconIsSeleceted;
@@ -111,6 +112,11 @@ public:
 	virtual void PartyUpdate();
 	virtual void PartyRender(HDC hdc);
 
+	bool GetHaveTurn() { return this->haveTurn; }
+	void SetHaveTurn(bool turn) { this->haveTurn = turn; }
+
+
+	UnitType GetUnitType() { return this->uType; }
 
 	bool GetBattleState() { return this->battleState; }
 	void SetBattleState(bool bat) { this->battleState = bat; }
@@ -196,6 +202,12 @@ public:
 
 	void Hurt();
 	void Hurt(int x);
+
+
+	virtual int Dice();
+	/// 영웅은 커맨드 패턴으로 제작
+	/// 몬스터는 그냥 제작.
+	virtual void Attack(Character* target);
 
 	Character();
 	virtual ~Character() {};

@@ -59,6 +59,8 @@ void Home::Release()
 
 void Home::Update()
 {
+
+
 	if (PtInRect(&divideRc, g_ptMouse))
 	{
 		if (KeyManager::GetSingleton()->IsOnceKeyUp(VK_LBUTTON)) {

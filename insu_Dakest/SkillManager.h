@@ -12,6 +12,7 @@ private:
 	int skillPos[6];
 	int index;
 	HCLASS hclass;
+	MonsterKinds mkinds;
 	Character* owner;
 public:
 	virtual HRESULT Init();
@@ -28,5 +29,8 @@ public:
 	
 	void SetHClass(HCLASS hclass) { this->hclass = hclass; }
 	HCLASS GetHClass() { return this->hclass; }
+
+	void SetKinds(MonsterKinds kinds) { this->mkinds = kinds; }
+	MonsterKinds GetMkinds() { return this->mkinds; }
 };
 

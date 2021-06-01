@@ -49,6 +49,14 @@ extern enum PathDir
 	NONEDIR,
 };
 
+struct skillInfo
+{
+
+	POINT skillRank;
+	POINT targetRank;
+	int range;
+};
+
 typedef struct tagFPoint
 {
 	float x;

@@ -10,11 +10,12 @@ private:
 public:
 	H_Crusader()
 	{
-		
-		 stat.maxHp = 40;
+		uType = UnitType::HERO;
+
+		 stat.maxHp = 50;
 		 //stat.hp = stat.maxHp;
-		 stat.hp = 40;
-		 stat.atkSpeed = 2;
+		 stat.hp = 50;
+		 stat.atkSpeed = 1;
 		 stat.avd = 1; //회피율
 		 stat.defense = 1;
 		 stat.damage = { 5,10 }; //데미지 x <- low y <- high

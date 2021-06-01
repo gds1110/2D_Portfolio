@@ -1,18 +1,37 @@
 #pragma once
 #include "GameNode.h"
-
+#include <utility>
+#include <algorithm>
 class Skill;
 class SkillManager;
 class Character;
 class CharacterManager;
 class UnderUi;
 class OverUi;
+
+using BODER = pair<Character*, int>;
+
 class DataManager : public GameNode
 {
+	enum BattleProGress
+	{
+		BSTART,
+		ING,
+		BEND,
+		NOBATTLE
+	};
+	enum TurnType
+	{
+		PLAYERTURN,
+		MONTURN,
+		NONETURN
+	};
+
 private:
 	int camPos;
 	Character* selectedChr;
 	Character* cursorChar;
+	Character* MselctetChr;
 	vector<Character*> targetChr;
 	vector<Tile*> minmap;
 	Skill* selctedSkill;
@@ -31,9 +50,12 @@ private:
 	RECT Door;
 	char szText[128];
 	Tile* thisTile;
-
+	BattleProGress BPG =NOBATTLE;
+	TurnType TTYPE = NONETURN;
 	bool isChange;
-
+	int battleTurn;
+	vector<BODER> BDice;
+	vector<BODER>::iterator boiter;
 	int mouseOffsetX;
 	int mouseOffsetY;
 	int minimapposx;
@@ -46,6 +68,11 @@ public:
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
+
+
+	static bool compare(const BODER& a, const BODER& b);
+
+	void BattleStages();
 
 	bool GetBattle() { return BattleStage; }
 	void SetBattle(bool setbatte) { this->BattleStage = setbatte; }

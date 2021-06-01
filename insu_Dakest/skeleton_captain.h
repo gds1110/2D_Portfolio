@@ -9,6 +9,7 @@ private:
 public:
 	skeleton_captain()
 	{
+		uType = UnitType::MONSTER;
 
 		stat.maxHp = 40;
 		//stat.hp = stat.maxHp;

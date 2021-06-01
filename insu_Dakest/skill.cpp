@@ -17,6 +17,7 @@ void Skill::Release()
 
 void Skill::Update()
 {
+	
 	if (hClass == HCLASS::NONEHCLASS)
 	{
 		hClass = owner->GetClass();
@@ -39,85 +40,162 @@ void Skill::Render(HDC hdc)
 
 void Skill::SkillInit()
 {
-	switch (type)
-	{
-	case COMBATSKILL:
-		switch (hClass)
+	if (owner->GetUnitType() == UnitType::HERO) {
+		switch (type)
 		{
-		case CRUSADER:
-			break;
-		case BOUNTYHUNTER:
-			break;
-		case HIGHWAYMAN:
-			break;
-		case LEAPER:
-			if (skillNum == 0) {
-				s_info.skillRank = { 0,1 };
-				s_info.targetRank = { 0,1 };
-				s_info.range = 1;
-			}
-			 if (skillNum == 4)
+		case COMBATSKILL:
+			switch (hClass)
 			{
-				s_info.skillRank = { 0,1 };
-				s_info.targetRank = { 0,1 };
-				s_info.range = 2;
+			case CRUSADER:
+				break;
+			case BOUNTYHUNTER:
+				break;
+			case HIGHWAYMAN:
+				break;
+			case LEAPER:
+				if (skillNum == 0) {
+					s_info.skillRank = { 0,1 };
+					s_info.targetRank = { 0,1 };
+					s_info.range = 1;
+				}
+				if (skillNum == 4)
+				{
+					s_info.skillRank = { 0,1 };
+					s_info.targetRank = { 0,1 };
+					s_info.range = 2;
+				}
+				break;
+			case VESTEL:
+				break;
+			case NONEHCLASS:
+				break;
+			default:
+				break;
 			}
 			break;
-		case VESTEL:
+		case ARANGESKILL:
+			switch (hClass)
+			{
+			case CRUSADER:
+				break;
+			case BOUNTYHUNTER:
+				break;
+			case HIGHWAYMAN:
+				break;
+			case LEAPER:
+				s_info.skillRank = { 0,1 };
+				s_info.targetRank = { 1,3 };
+				s_info.range = 2;
+				break;
+			case VESTEL:
+				break;
+			case NONEHCLASS:
+				break;
+			default:
+				break;
+			}
 			break;
-		case NONEHCLASS:
+		case CHARGESKILL:
+			switch (hClass)
+			{
+			case CRUSADER:
+				break;
+			case BOUNTYHUNTER:
+				break;
+			case HIGHWAYMAN:
+				break;
+			case LEAPER:
+				break;
+			case VESTEL:
+				break;
+			case NONEHCLASS:
+				break;
+			default:
+				break;
+			}
 			break;
-		default:
-			break;
-		}
-		break;
-	case ARANGESKILL:
-		switch (hClass)
-		{
-		case CRUSADER:
-			break;
-		case BOUNTYHUNTER:
-			break;
-		case HIGHWAYMAN:
-			break;
-		case LEAPER:
-			s_info.skillRank = { 0,1 };
-			s_info.targetRank = { 1,3 };
-			s_info.range = 2;
-			break;
-		case VESTEL:
-			break;
-		case NONEHCLASS:
-			break;
-		default:
-			break;
-		}
-		break;
-	case CHARGESKILL:
-		switch (hClass)
-		{
-		case CRUSADER:
-			break;
-		case BOUNTYHUNTER:
-			break;
-		case HIGHWAYMAN:
-			break;
-		case LEAPER:
-			break;
-		case VESTEL:
-			break;
-		case NONEHCLASS:
+		case NONESKILLTYPE:
 			break;
 		default:
 			break;
 		}
-		break;
-	case NONESKILLTYPE:
-		break;
-	default:
-		break;
 	}
-
+	else if(owner->GetUnitType()==UnitType::MONSTER)
+	{
+		switch (type)
+		{
+		case COMBATSKILL:
+			switch (mkinds)
+			{
+			case SKELETON_ARBALISTAR:
+				break;
+			case SKELETON_BEARER:
+				break;
+			case SKELETON_CAPTAIN:
+				break;
+			case SKELETON_COMMON:
+				break;
+			case NONEKINDS:
+				break;
+			default:
+				break;
+			}
+			break;
+		case ARANGESKILL:
+			switch (mkinds)
+			{
+			case SKELETON_ARBALISTAR:
+				break;
+			case SKELETON_BEARER:
+				break;
+			case SKELETON_CAPTAIN:
+				break;
+			case SKELETON_COMMON:
+				break;
+			case NONEKINDS:
+				break;
+			default:
+				break;
+			}
+			break;
+		case CHARGESKILL:
+			switch (mkinds)
+			{
+			case SKELETON_ARBALISTAR:
+				break;
+			case SKELETON_BEARER:
+				break;
+			case SKELETON_CAPTAIN:
+				break;
+			case SKELETON_COMMON:
+				break;
+			case NONEKINDS:
+				break;
+			default:
+				break;
+			}
+			break;
+		case NONESKILLTYPE:
+			switch (mkinds)
+			{
+			case SKELETON_ARBALISTAR:
+				break;
+			case SKELETON_BEARER:
+				break;
+			case SKELETON_CAPTAIN:
+				break;
+			case SKELETON_COMMON:
+				break;
+			case NONEKINDS:
+				break;
+			default:
+				break;
+			}
+			break;
+		default:
+			break;
+		}
+	}
 	//switch (hClass)
 	//{
 	//case CRUSADER:

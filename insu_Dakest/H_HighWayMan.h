@@ -14,11 +14,13 @@ public:
 
 	H_HighWayMan()
 	{
+		uType = UnitType::HERO;
 
-		stat.maxHp = 40;
+
+		stat.maxHp = 30;
 		//stat.hp = stat.maxHp;
-		stat.hp = 40;
-		stat.atkSpeed = 2;
+		stat.hp = 30;
+		stat.atkSpeed = 5;
 		stat.avd = 1; //회피율
 		stat.defense = 1;
 		stat.damage = { 5,10 }; //데미지 x <- low y <- high
