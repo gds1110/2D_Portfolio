@@ -60,6 +60,7 @@ private:
 	int mouseOffsetY;
 	int minimapposx;
 	int	minimapposy;
+	float eltimess = 0;
 
 public:
 	virtual HRESULT Init();
@@ -72,7 +73,10 @@ public:
 
 	static bool compare(const BODER& a, const BODER& b);
 
-	void BattleStages();
+	void BattleStages(CharacterManager& C_MGR,CharacterManager& M_MGR);
+	void BattleStages(CharacterManager* C_MGR,CharacterManager* M_MGR, Character* turnchr);
+	bool BattleStages2(CharacterManager* C_MGR,CharacterManager* M_MGR, Character* turnchr);
+
 
 	bool GetBattle() { return BattleStage; }
 	void SetBattle(bool setbatte) { this->BattleStage = setbatte; }

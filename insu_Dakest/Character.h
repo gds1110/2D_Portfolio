@@ -79,6 +79,8 @@ protected:
 	int maxFrameX;
 	int maxFrameArr[State::NONESTATE] = { 0 };
 	float elapsed;
+	float Mtime=0.0f;
+
 	int walkElapsed;
 	int speed = 100;
 	int depth;
@@ -111,6 +113,8 @@ public:
 	virtual void PartyRelease();
 	virtual void PartyUpdate();
 	virtual void PartyRender(HDC hdc);
+
+	virtual Character* GetThis() { return this; }
 
 	bool GetHaveTurn() { return this->haveTurn; }
 	void SetHaveTurn(bool turn) { this->haveTurn = turn; }

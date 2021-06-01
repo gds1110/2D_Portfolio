@@ -80,7 +80,90 @@ void DataManager::Update()
 		SetRect(&Door, -100, -100, -100, -100);
 
 	}
+	if (UiDataManager::GetSingleton()->GetBattleState() == false) {
+		if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
+		{
+			if (PtInRect(&minimapZone, g_ptMouse)) {
+				//Tile* tempTile = UiDataManager::GetSingleton()->GetTile();
+				if (d_info.dType == DungeonType::ROOM || d_info.dType == DungeonType::START)
+				{
+					for (int i = 0; i < thisTile->GetWay().size(); i++) {
 
+						Tile* tempTile = thisTile->GetWay()[i];
+						RECT rc = tempTile->GetRC();
+						int ptmousetestx = g_ptMouse.x - minimapposx + mouseOffsetX;
+						int ptmousetesty = g_ptMouse.y - minimapposy + mouseOffsetY;
+						if (PtInRect(&(rc), { ptmousetestx , ptmousetesty }))
+						{
+							for (int j = 0; j < minmap.size(); j++)
+							{
+								if (minmap[j]->GetIsPath())
+								{
+									int prx = minmap[j]->GetPrevNnext().x;
+									int pry = minmap[j]->GetPrevNnext().y;
+									if ((prx == thisTile->getindex() && pry == tempTile->getindex()))
+									{
+										UiDataManager::GetSingleton()->SetCurrtile(minmap[j]);
+										UiDataManager::GetSingleton()->SetDestTile(tempTile);
+										SceneManager::GetSingleton()->ChangeTile(minmap[j]);
+										return;
+									}
+									if ((pry == thisTile->getindex() && prx == tempTile->getindex()))
+									{
+										UiDataManager::GetSingleton()->SetCurrtile(minmap[j]);
+										UiDataManager::GetSingleton()->SetDestTile(tempTile);
+										SceneManager::GetSingleton()->ChangeTile(minmap[j]);
+
+										return;
+									}
+								}
+							}
+						}
+					}
+				}
+
+			}
+			if (PtInRect(&characterZone, g_ptMouse))
+			{
+				if (d_info.dType == DungeonType::PATH)
+				{
+					if (PtInRect(&Door, g_ptMouse))
+					{
+						UiDataManager::GetSingleton()->SetCurrtile(UiDataManager::GetSingleton()->GetDestTile());
+						SceneManager::GetSingleton()->ChangeTile(UiDataManager::GetSingleton()->GetDestTile());
+						return;
+					}
+				}
+			}
+
+			 if (PtInRect(&characterZone, g_ptMouse))
+			{
+
+				if (!C_MGR->GetCharacters().empty()) {
+					for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
+					{
+						RECT tempRC = C_MGR->GetCharacters()[i]->GetRect();
+						if (PtInRect(&tempRC, g_ptMouse))
+						{
+
+							if (selectedChr) {
+								selectedChr->SetSelected(false);
+							}
+							SelectChar(C_MGR->GetCharacters()[i]);
+							selctedSkill = nullptr;
+							selectedChr->SetSelected(true);
+							underUI->SetSelChr(C_MGR->GetCharacters()[i]);
+
+							if (!selectedChr)
+							{
+								selctedSkill = nullptr;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 
 	if (C_MGR)
 	{
@@ -106,169 +189,55 @@ void DataManager::Update()
 	if (selectedChr) {
 		S_MGR = selectedChr->getSkillMgr();
 	}
-	if (UiDataManager::GetSingleton()->GetBattleState()==true) {
-	
-
-	}
+	/*if (UiDataManager::GetSingleton()->GetBattleState() == true) {
+		BattleStages((*C_MGR),(*M_MGR));
+    }*/
 	if (UiDataManager::GetSingleton()->GetBattleState() == true) {
-		BattleStages();
-	//	if (BPG == NOBATTLE || BPG == BEND) {
+		if (BPG == NOBATTLE || BPG == BEND) {
 
-	//		for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
-	//		{
-	//			C_MGR->GetCharacters()[i]->SetHaveTurn(true);
-	//			BDice.push_back((make_pair(C_MGR->GetCharacters()[i], C_MGR->GetCharacters()[i]->Dice())));
-	//		}
-	//		for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
-	//		{
-	//			M_MGR->GetCharacters()[i]->SetHaveTurn(true);
-	//			BDice.push_back((make_pair(M_MGR->GetCharacters()[i], M_MGR->GetCharacters()[i]->Dice())));
-	//		}
+			for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
+			{
+				C_MGR->GetCharacters()[i]->SetHaveTurn(true);
+				BDice.push_back((make_pair(C_MGR->GetCharacters()[i], C_MGR->GetCharacters()[i]->Dice())));
+				
+			}
+			for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
+			{
+				M_MGR->GetCharacters()[i]->SetHaveTurn(true);
+				BDice.push_back((make_pair(M_MGR->GetCharacters()[i], M_MGR->GetCharacters()[i]->Dice())));
+				
+			}
 
-	//		sort(BDice.begin(), BDice.end(), compare);
-	//		BPG = BSTART;
-	//	}
-	//	//for (boiter = BDice.begin(); boiter != BDice.end();) {
+			sort(BDice.begin(), BDice.end(), compare);
+			BPG = BSTART;
 
-	//	//}
-	//	if (BDice.front().first->GetUnitType() == UnitType::MONSTER)
-	//	{
-	//		TTYPE = MONTURN;
-	//	}
-	//	else if (BDice.front().first->GetUnitType() == UnitType::HERO)
-	//	{
-	//		TTYPE = PLAYERTURN;
-	//	}
+			//boiter = BDice.begin();
+		}
+		if (BPG == BSTART) {
+		/*	vector<BODER>::reverse_iterator rbitor;
+			for (rbitor = BDice.rbegin(); rbitor != BDice.rend();++rbitor)
+			{
+				BattleStages((C_MGR), (M_MGR), (*rbitor).first);
+			}*/
+			
+			if (BattleStages2((C_MGR), (M_MGR), BDice.back().first->GetThis()) == true) {
+				BDice.pop_back();
+			}
+				
+			
+				
+				
+		
+			if (UiDataManager::GetSingleton()->GetBattleState() != false && BDice.size()==0)
+			{
+				BPG = BEND;
+			}
+			else
+			{
+				BPG = BSTART;
 
-	//	if (TTYPE == MONTURN)
-	//	{
-	//		int randomhero;
-	//		randomhero = rand() % C_MGR->GetCharacters().size();
-	//		MselctetChr = C_MGR->GetCharacters()[randomhero];
-	//		MselctetChr->SetTargeted(true);
-	//		BDice.front().first->Attack(MselctetChr);
-	//		BDice.front().first->SetCurrState(State::SKILL1);
-	//	}
-
-	//}
-
-	//if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
-	//{
-	//	if (PtInRect(&minimapZone, g_ptMouse)) {
-	//		//Tile* tempTile = UiDataManager::GetSingleton()->GetTile();
-	//		if (d_info.dType == DungeonType::ROOM || d_info.dType == DungeonType::START)
-	//		{
-	//			for (int i = 0; i < thisTile->GetWay().size(); i++) {
-
-	//				Tile* tempTile = thisTile->GetWay()[i];
-	//				RECT rc = tempTile->GetRC();
-	//				int ptmousetestx = g_ptMouse.x - minimapposx + mouseOffsetX;
-	//				int ptmousetesty = g_ptMouse.y - minimapposy + mouseOffsetY;
-	//				if (PtInRect(&(rc), { ptmousetestx , ptmousetesty }))
-	//				{
-	//					for (int j = 0; j < minmap.size(); j++)
-	//					{
-	//						if (minmap[j]->GetIsPath())
-	//						{
-	//							int prx = minmap[j]->GetPrevNnext().x;
-	//							int pry = minmap[j]->GetPrevNnext().y;
-	//							if ((prx == thisTile->getindex() && pry == tempTile->getindex()))
-	//							{
-	//								UiDataManager::GetSingleton()->SetCurrtile(minmap[j]);
-	//								UiDataManager::GetSingleton()->SetDestTile(tempTile);
-	//								SceneManager::GetSingleton()->ChangeTile(minmap[j]);
-	//								return;
-	//							}
-	//							if ((pry == thisTile->getindex() && prx == tempTile->getindex()))
-	//							{
-	//								UiDataManager::GetSingleton()->SetCurrtile(minmap[j]);
-	//								UiDataManager::GetSingleton()->SetDestTile(tempTile);
-	//								SceneManager::GetSingleton()->ChangeTile(minmap[j]);
-
-	//								return;
-	//							}
-	//						}
-	//					}
-	//				}
-	//			}
-	//		}
-
-	//	}
-	//	else if (PtInRect(&statusZone, g_ptMouse)) {
-
-	//		if (S_MGR)
-	//		{
-	//			for (int i = 0; i < S_MGR->GetSkillSlot().size(); i++)
-	//			{
-	//				RECT tempRC = S_MGR->GetSkillSlot()[i]->GetRect();
-	//				if (PtInRect(&tempRC, g_ptMouse)) {
-	//					if (S_MGR->GetSkillSlot()[i]->GetSkillState() == Skill::SkillState::ON) {
-	//						underUI->setSelSkill(S_MGR->GetSkillSlot()[i]);
-	//						selectSkill(S_MGR->GetSkillSlot()[i]);
-	//					}
-	//				}
-	//			}
-	//		}
-
-	//	}
-	//	else if (PtInRect(&characterZone, g_ptMouse))
-	//	{
-	//		if (d_info.dType == DungeonType::PATH)
-	//		{
-	//			if (PtInRect(&Door, g_ptMouse))
-	//			{
-	//				UiDataManager::GetSingleton()->SetCurrtile(UiDataManager::GetSingleton()->GetDestTile());
-	//				SceneManager::GetSingleton()->ChangeTile(UiDataManager::GetSingleton()->GetDestTile());
-	//				return;
-	//			}
-	//		}
-	//		if (!C_MGR->GetCharacters().empty()) {
-	//			for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
-	//			{
-	//				RECT tempRC = C_MGR->GetCharacters()[i]->GetRect();
-	//				if (PtInRect(&tempRC, g_ptMouse))
-	//				{
-
-	//					if (selectedChr) {
-	//						selectedChr->SetSelected(false);
-	//					}
-	//					SelectChar(C_MGR->GetCharacters()[i]);
-	//					selctedSkill = nullptr;
-	//					selectedChr->SetSelected(true);
-	//					underUI->SetSelChr(C_MGR->GetCharacters()[i]);
-
-	//					if (!selectedChr)
-	//					{
-	//						selctedSkill = nullptr;
-	//					}
-	//				}
-	//			}
-	//		}
-
-	//		if (selectedChr && selctedSkill)
-	//		{
-	//			if (M_MGR) {
-	//				for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
-	//				{
-	//					if (M_MGR->GetCharacters()[i]->GetFixed() == true)
-	//					{
-	//						int attdmg = rand() % selectedChr->GetStat().damage.y + selectedChr->GetStat().damage.x;
-	//						selctedSkill->run(attdmg, M_MGR->GetCharacters()[i]);
-	//						M_MGR->GetCharacters()[i]->SetPos(WINSIZE_X / 2 + 100 * i);
-
-	//						//selectedChr->SetPos(WINSIZE_X / 2);
-	//						//selectedChr->SetCurrState(State::SKILL1);
-	//					}
-	//					else
-	//					{
-
-	//					}
-	//				}
-	//			}
-
-	//		}
-
-	//	}
+			}
+		}
     }
 	if (overUi)
 	{
@@ -318,10 +287,10 @@ bool DataManager::compare(const BODER& a, const BODER& b)
 	{
 		if (a.second == b.second)
 		{
-			return a.first->GetStat().atkSpeed > b.first->GetStat().atkSpeed;
+			return a.first->GetStat().atkSpeed < b.first->GetStat().atkSpeed;
 		}
 		else {
-			return a.second > b.second;
+			return a.second < b.second;
 		}
 
 		return false;
@@ -329,50 +298,524 @@ bool DataManager::compare(const BODER& a, const BODER& b)
 
 }
 
-void DataManager::BattleStages()
+void DataManager::BattleStages(CharacterManager& C_MGR, CharacterManager& M_MGR)
 {
-	while (UiDataManager::GetSingleton()->GetBattleState()==false)
-	{
+	int num = 0;
+	bool monfindTarget = false;
+	if (BPG == NOBATTLE || BPG == BEND) {
 
-		if (BPG == NOBATTLE || BPG == BEND) {
-
-			for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
-			{
-				C_MGR->GetCharacters()[i]->SetHaveTurn(true);
-				BDice.push_back((make_pair(C_MGR->GetCharacters()[i], C_MGR->GetCharacters()[i]->Dice())));
-			}
-			for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
-			{
-				M_MGR->GetCharacters()[i]->SetHaveTurn(true);
-				BDice.push_back((make_pair(M_MGR->GetCharacters()[i], M_MGR->GetCharacters()[i]->Dice())));
-			}
-
-			sort(BDice.begin(), BDice.end(), compare);
-			BPG = BSTART;
+		for (int i = 0; i < C_MGR.GetCharacters().size(); i++)
+		{
+			C_MGR.GetCharacters()[i]->SetHaveTurn(true);
+			BDice.push_back((make_pair(C_MGR.GetCharacters()[i], C_MGR.GetCharacters()[i]->Dice())));
+			num += 1;
 		}
-		//for (boiter = BDice.begin(); boiter != BDice.end();) {
+		for (int i = 0; i < M_MGR.GetCharacters().size(); i++)
+		{
+			M_MGR.GetCharacters()[i]->SetHaveTurn(true);
+			BDice.push_back((make_pair(M_MGR.GetCharacters()[i], M_MGR.GetCharacters()[i]->Dice())));
+			num += 1;
+		}
 
-		//}
-		if (BDice.front().first->GetUnitType() == UnitType::MONSTER)
+		sort(BDice.begin(), BDice.end(), compare);
+		BPG = BSTART;
+
+		//boiter = BDice.begin();
+	}
+
+
+	//boiter = BDice.begin();
+
+	//for (boiter = BDice.begin(); boiter != BDice.end();) {
+
+	//}
+
+	if (!BDice.empty()) {
+		if (BDice.back().first->GetUnitType() == UnitType::MONSTER)//(*boiter).first->GetUnitType() == UnitType::MONSTER)
 		{
 			TTYPE = MONTURN;
+			if (TTYPE == MONTURN && BDice.back().first->GetHaveTurn() == true)//(*boiter).first->GetHaveTurn() == true)
+			{
+				int randomhero;
+				randomhero = rand() % C_MGR.GetCharacters().size();
+				MselctetChr = C_MGR.GetCharacters()[randomhero];
+				BDice.back().first->SetHaveTurn(false);
+				eltimess += TimerManager::GetSingleton()->GetElapsedTime();
+				if (monfindTarget == false) {
+					MselctetChr->SetTargeted(true);
+					monfindTarget = true;
+
+				}
+				if (monfindTarget == true) {
+					BDice.back().first->Attack(MselctetChr);
+					BDice.back().first->SetCurrState(State::SKILL1);
+					MselctetChr->SetTargeted(false);
+					monfindTarget = false;
+					eltimess += TimerManager::GetSingleton()->GetElapsedTime();
+					MselctetChr = nullptr;
+					if (eltimess > 1.5f) {
+						UiDataManager::GetSingleton()->SetTurnExit(true);
+						eltimess = 0;
+					}
+						BDice.pop_back();
+					if (UiDataManager::GetSingleton()->GetTurnExit() == true) {
+						UiDataManager::GetSingleton()->SetTurnExit(false);
+						return;
+					}
+
+				}
+			}
+
+
 		}
-		else if (BDice.front().first->GetUnitType() == UnitType::HERO)
+	}
+	if (!BDice.empty()) {
+		if (BDice.back().first->GetUnitType() == UnitType::HERO)
 		{
 			TTYPE = PLAYERTURN;
-		}
+			//selectedChr=;
+			if (selectedChr) {
+				selectedChr->SetSelected(false);
+				underUI->SetSelChr(selectedChr);
+			}
+			SelectChar(BDice.back().first->GetThis());
+			selectedChr->SetSelected(true);
+			//selctedSkill = nullptr;
+			if (selectedChr->GetHaveTurn() == true) {
+				BDice.back().first->SetHaveTurn(false);
+			}
 
-		if (TTYPE == MONTURN)
+
+		}
+		if (!selectedChr)
 		{
-			int randomhero;
-			randomhero = rand() % C_MGR->GetCharacters().size();
-			MselctetChr = C_MGR->GetCharacters()[randomhero];
-			MselctetChr->SetTargeted(true);
-			BDice.front().first->Attack(MselctetChr);
-			BDice.front().first->SetCurrState(State::SKILL1);
+			selctedSkill = nullptr;
 		}
 
 	}
+
+		
+
+	if (!BDice.empty()) {
+		if (selctedSkill)
+		{
+			if (selctedSkill->GetSkillType() == SKILLTYPE::COMBATSKILL || selctedSkill->GetSkillType() == SKILLTYPE::ARANGESKILL)
+			{
+				for (int i = 0; i < M_MGR.GetCharacters().size(); i++)
+				{
+					M_MGR.GetCharacters()[i]->SetFixed(false);
+
+					if (selctedSkill->GetSkillInfo().targetRank.x <= M_MGR.GetCharacters()[i]->GetIndex()
+						&& selctedSkill->GetSkillInfo().targetRank.y >= M_MGR.GetCharacters()[i]->GetIndex())
+					{
+						M_MGR.GetCharacters()[i]->SetTargeted(true);
+
+
+					}
+					else
+					{
+						M_MGR.GetCharacters()[i]->SetTargeted(false);
+					}
+				}
+
+				for (int i = 0; i < M_MGR.GetCharacters().size(); i++)
+				{
+					if (PointInRect(g_ptMouse, M_MGR.GetCharacters()[i]->GetRect())) {
+						if (M_MGR.GetCharacters()[i]->GetTargeted() == true && selctedSkill->GetSkillInfo().range > 1)
+						{
+							for (int j = 0; j < selctedSkill->GetSkillInfo().range; j++)
+							{
+
+								if (M_MGR.GetCharacters()[i]->GetIndex() + j >= 4)
+								{
+									break;
+								}
+								else {
+									if (i + j >= M_MGR.GetCharacters().size())
+									{
+
+									}
+									else if (M_MGR.GetCharacters()[(i + j)])
+									{
+										/*if (i + j < selctedSkill->GetSkillInfo().range) {
+											M_MGR->GetCharacters()[(i + j)]->SetFixed(true);
+										}*/
+										if (M_MGR.GetCharacters()[(i + j)]->GetTargeted() == true) {
+											M_MGR.GetCharacters()[(i + j)]->SetFixed(true);
+										}
+										targeton = true;
+									}
+
+								}
+
+							}
+						}
+						else if (M_MGR.GetCharacters()[i]->GetTargeted() == true)
+						{
+							M_MGR.GetCharacters()[i]->SetFixed(true);
+							targeton = true;
+						}
+						else
+						{
+							targeton = false;
+						}
+					}
+
+				}
+
+			}
+		}
+	}
+	if (!BDice.empty()) {
+		if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
+		{
+
+			if (PtInRect(&statusZone, g_ptMouse)) {
+
+				if (S_MGR)
+				{
+					for (int i = 0; i < S_MGR->GetSkillSlot().size(); i++)
+					{
+						RECT tempRC = S_MGR->GetSkillSlot()[i]->GetRect();
+						if (PtInRect(&tempRC, g_ptMouse)) {
+							if (S_MGR->GetSkillSlot()[i]->GetSkillState() == Skill::SkillState::ON) {
+								underUI->setSelSkill(S_MGR->GetSkillSlot()[i]);
+								selectSkill(S_MGR->GetSkillSlot()[i]);
+							}
+						}
+					}
+				}
+
+			}
+			else if (PtInRect(&characterZone, g_ptMouse))
+			{
+
+
+				if (selectedChr && selctedSkill)
+				{
+					if (!M_MGR.GetCharacters().empty()) {
+						for (int i = 0; i < M_MGR.GetCharacters().size(); i++)
+						{
+							if (M_MGR.GetCharacters()[i]->GetFixed() == true)
+							{
+								int attdmg = rand() % selectedChr->GetStat().damage.y + selectedChr->GetStat().damage.x;
+								selctedSkill->run(attdmg, M_MGR.GetCharacters()[i]);
+								M_MGR.GetCharacters()[i]->SetPos(WINSIZE_X / 2 + 100 * i);
+
+
+								//selectedChr->SetPos(WINSIZE_X / 2);
+								//selectedChr->SetCurrState(State::SKILL1);
+							}
+							else
+							{
+
+							}
+						}
+
+						selectedChr->SetSelected(false);
+						selectedChr = nullptr;
+						if (eltimess > 1.5f) {
+							UiDataManager::GetSingleton()->SetTurnExit(true);
+							eltimess = 0;
+							BDice.pop_back();
+						}
+						if (UiDataManager::GetSingleton()->GetTurnExit() == true) {
+							UiDataManager::GetSingleton()->SetTurnExit(false);
+							TTYPE = NONETURN;
+							//return;
+						}
+
+
+					}
+
+				}
+
+			}
+		}
+	}
+	if (UiDataManager::GetSingleton()->GetBattleState() != false &&BDice.empty())
+	{
+		BPG = BEND;
+	}
+}
+
+void DataManager::BattleStages(CharacterManager* C_MGR, CharacterManager* M_MGR, Character* turnchr)
+{
+	int num = 0;
+	bool monfindTarget = false;
+	
+
+	//boiter = BDice.begin();
+
+	//for (boiter = BDice.begin(); boiter != BDice.end();) {
+
+	//}
+
+	if (turnchr->GetUnitType() == UnitType::MONSTER)//(*boiter).first->GetUnitType() == UnitType::MONSTER)
+	{
+		TTYPE = MONTURN;
+
+	}
+	else if (turnchr->GetUnitType() == UnitType::HERO)
+	{
+		TTYPE = PLAYERTURN;
+	}
+			if (TTYPE == MONTURN && turnchr->GetHaveTurn() == true)//(*boiter).first->GetHaveTurn() == true)
+			{
+				int randomhero;
+				randomhero = rand() % C_MGR->GetCharacters().size();
+				MselctetChr = C_MGR->GetCharacters()[randomhero];
+				turnchr->SetHaveTurn(false);
+				if (monfindTarget == false) {
+					MselctetChr->SetTargeted(true);
+					monfindTarget = true;
+
+				}
+					if (monfindTarget == true) {
+						turnchr->Attack(MselctetChr);
+						turnchr->SetCurrState(State::SKILL1);
+						MselctetChr->SetTargeted(false);
+						monfindTarget = false;
+						MselctetChr = nullptr;
+
+					}
+					UiDataManager::GetSingleton()->SetTurnExit(true);
+					eltimess = 0;
+					return;
+				
+			}
+			
+			
+		
+
+		if (turnchr->GetUnitType() == UnitType::HERO)
+		{
+			TTYPE = PLAYERTURN;
+			//selectedChr=;
+			if (selectedChr) {
+				selectedChr->SetSelected(false);
+				underUI->SetSelChr(selectedChr);
+			}
+			SelectChar(turnchr->GetThis());
+			selectedChr->SetSelected(true);
+			//selctedSkill = nullptr;
+			if (selectedChr->GetHaveTurn() == true) {
+				turnchr->SetHaveTurn(false);
+			}
+
+
+
+			if (!selectedChr)
+			{
+				selctedSkill = nullptr;
+			}
+		}
+
+
+
+			if (selctedSkill)
+			{
+				if (selctedSkill->GetSkillType() == SKILLTYPE::COMBATSKILL || selctedSkill->GetSkillType() == SKILLTYPE::ARANGESKILL)
+				{
+					for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
+					{
+						M_MGR->GetCharacters()[i]->SetFixed(false);
+
+						if (selctedSkill->GetSkillInfo().targetRank.x <= M_MGR->GetCharacters()[i]->GetIndex()
+							&& selctedSkill->GetSkillInfo().targetRank.y >= M_MGR->GetCharacters()[i]->GetIndex())
+						{
+							M_MGR->GetCharacters()[i]->SetTargeted(true);
+
+
+						}
+						else
+						{
+							M_MGR->GetCharacters()[i]->SetTargeted(false);
+						}
+					}
+
+					for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
+					{
+						if (PointInRect(g_ptMouse, M_MGR->GetCharacters()[i]->GetRect())) {
+							if (M_MGR->GetCharacters()[i]->GetTargeted() == true && selctedSkill->GetSkillInfo().range > 1)
+							{
+								for (int j = 0; j < selctedSkill->GetSkillInfo().range; j++)
+								{
+
+									if (M_MGR->GetCharacters()[i]->GetIndex() + j >= 4)
+									{
+										break;
+									}
+									else {
+										if (i + j >= M_MGR->GetCharacters().size())
+										{
+
+										}
+										else if (M_MGR->GetCharacters()[(i + j)])
+										{
+											/*if (i + j < selctedSkill->GetSkillInfo().range) {
+												M_MGR->GetCharacters()[(i + j)]->SetFixed(true);
+											}*/
+											if (M_MGR->GetCharacters()[(i + j)]->GetTargeted() == true) {
+												M_MGR->GetCharacters()[(i + j)]->SetFixed(true);
+											}
+											targeton = true;
+										}
+
+									}
+
+								}
+							}
+							else if (M_MGR->GetCharacters()[i]->GetTargeted() == true)
+							{
+								M_MGR->GetCharacters()[i]->SetFixed(true);
+								targeton = true;
+							}
+							else
+							{
+								targeton = false;
+							}
+						}
+
+					}
+
+				}
+			}
+
+			if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
+			{
+
+				if (PtInRect(&statusZone, g_ptMouse)) {
+
+					if (S_MGR)
+					{
+						for (int i = 0; i < S_MGR->GetSkillSlot().size(); i++)
+						{
+							RECT tempRC = S_MGR->GetSkillSlot()[i]->GetRect();
+							if (PtInRect(&tempRC, g_ptMouse)) {
+								if (S_MGR->GetSkillSlot()[i]->GetSkillState() == Skill::SkillState::ON) {
+									underUI->setSelSkill(S_MGR->GetSkillSlot()[i]);
+									selectSkill(S_MGR->GetSkillSlot()[i]);
+								}
+							}
+						}
+					}
+
+				}
+				else if (PtInRect(&characterZone, g_ptMouse))
+				{
+
+
+					if (selectedChr && selctedSkill)
+					{
+						if (!M_MGR->GetCharacters().empty()) {
+							for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
+							{
+								if (M_MGR->GetCharacters()[i]->GetFixed() == true)
+								{
+									int attdmg = rand() % selectedChr->GetStat().damage.y + selectedChr->GetStat().damage.x;
+									selctedSkill->run(attdmg, M_MGR->GetCharacters()[i]);
+									M_MGR->GetCharacters()[i]->SetPos(WINSIZE_X / 2 + 100 * i);
+
+
+								}
+								else
+								{
+
+								}
+							}
+					
+							selectedChr->SetSelected(true);
+							selectedChr = nullptr;
+							return;
+
+
+						}
+
+
+					}
+
+				}
+
+			}
+		
+}
+
+bool DataManager::BattleStages2(CharacterManager* C_MGR, CharacterManager* M_MGR, Character* turnchr)
+{
+	int num = 0;
+	bool monfindTarget = false;
+	
+	bool itouch = false;
+	//boiter = BDice.begin();
+
+	//for (boiter = BDice.begin(); boiter != BDice.end();) {
+
+	//}
+
+	if (turnchr->GetUnitType() == UnitType::MONSTER)//(*boiter).first->GetUnitType() == UnitType::MONSTER)
+	{
+		TTYPE = MONTURN;
+
+	}
+	else if (turnchr->GetUnitType() == UnitType::HERO)
+	{
+		TTYPE = PLAYERTURN;
+	}
+	if (TTYPE == MONTURN && turnchr->GetHaveTurn() == true)//(*boiter).first->GetHaveTurn() == true)
+	{
+		int randomhero;
+		randomhero = rand() % C_MGR->GetCharacters().size();
+		MselctetChr = C_MGR->GetCharacters()[randomhero];
+		turnchr->SetHaveTurn(false);
+		if (monfindTarget == false) {
+			MselctetChr->SetTargeted(true);
+			monfindTarget = true;
+
+		}
+		if (monfindTarget == true) {
+			eltimess += TimerManager::GetSingleton()->GetElapsedTime();
+			turnchr->Attack(MselctetChr);
+			turnchr->SetCurrState(State::SKILL1);
+			MselctetChr->SetTargeted(false);
+			monfindTarget = false;
+			MselctetChr = nullptr;
+
+		}
+		if (eltimess >= 3.0f) {
+			eltimess = 0;
+			return true;
+		}
+		
+
+	}
+
+
+
+
+	if (turnchr->GetUnitType() == UnitType::HERO)
+	{
+		TTYPE = PLAYERTURN;
+		//selectedChr=;
+		if (selectedChr) {
+			selectedChr->SetSelected(false);
+			underUI->SetSelChr(selectedChr);
+		}
+		SelectChar(turnchr->GetThis());
+		selectedChr->SetSelected(true);
+		//selctedSkill = nullptr;
+		if (selectedChr->GetHaveTurn() == true) {
+			turnchr->SetHaveTurn(false);
+		}
+
+
+
+		if (!selectedChr)
+		{
+			selctedSkill = nullptr;
+		}
+	}
+
 
 
 	if (selctedSkill)
@@ -443,56 +886,18 @@ void DataManager::BattleStages()
 
 		}
 	}
+	if (itouch == true) {
+		eltimess += TimerManager::GetSingleton()->GetElapsedTime();
 
-
-
-
-
-
-
+		if (eltimess > 2.0f) {
+			UiDataManager::GetSingleton()->SetTurnExit(true);
+			eltimess = 0;
+		}
+	}
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
 	{
-		if (PtInRect(&minimapZone, g_ptMouse)) {
-			//Tile* tempTile = UiDataManager::GetSingleton()->GetTile();
-			if (d_info.dType == DungeonType::ROOM || d_info.dType == DungeonType::START)
-			{
-				for (int i = 0; i < thisTile->GetWay().size(); i++) {
 
-					Tile* tempTile = thisTile->GetWay()[i];
-					RECT rc = tempTile->GetRC();
-					int ptmousetestx = g_ptMouse.x - minimapposx + mouseOffsetX;
-					int ptmousetesty = g_ptMouse.y - minimapposy + mouseOffsetY;
-					if (PtInRect(&(rc), { ptmousetestx , ptmousetesty }))
-					{
-						for (int j = 0; j < minmap.size(); j++)
-						{
-							if (minmap[j]->GetIsPath())
-							{
-								int prx = minmap[j]->GetPrevNnext().x;
-								int pry = minmap[j]->GetPrevNnext().y;
-								if ((prx == thisTile->getindex() && pry == tempTile->getindex()))
-								{
-									UiDataManager::GetSingleton()->SetCurrtile(minmap[j]);
-									UiDataManager::GetSingleton()->SetDestTile(tempTile);
-									SceneManager::GetSingleton()->ChangeTile(minmap[j]);
-									return;
-								}
-								if ((pry == thisTile->getindex() && prx == tempTile->getindex()))
-								{
-									UiDataManager::GetSingleton()->SetCurrtile(minmap[j]);
-									UiDataManager::GetSingleton()->SetDestTile(tempTile);
-									SceneManager::GetSingleton()->ChangeTile(minmap[j]);
-
-									return;
-								}
-							}
-						}
-					}
-				}
-			}
-
-		}
-		else if (PtInRect(&statusZone, g_ptMouse)) {
+		if (PtInRect(&statusZone, g_ptMouse)) {
 
 			if (S_MGR)
 			{
@@ -511,41 +916,11 @@ void DataManager::BattleStages()
 		}
 		else if (PtInRect(&characterZone, g_ptMouse))
 		{
-			if (d_info.dType == DungeonType::PATH)
-			{
-				if (PtInRect(&Door, g_ptMouse))
-				{
-					UiDataManager::GetSingleton()->SetCurrtile(UiDataManager::GetSingleton()->GetDestTile());
-					SceneManager::GetSingleton()->ChangeTile(UiDataManager::GetSingleton()->GetDestTile());
-					return;
-				}
-			}
-			if (!C_MGR->GetCharacters().empty()) {
-				for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
-				{
-					RECT tempRC = C_MGR->GetCharacters()[i]->GetRect();
-					if (PtInRect(&tempRC, g_ptMouse))
-					{
 
-						if (selectedChr) {
-							selectedChr->SetSelected(false);
-						}
-						SelectChar(C_MGR->GetCharacters()[i]);
-						selctedSkill = nullptr;
-						selectedChr->SetSelected(true);
-						underUI->SetSelChr(C_MGR->GetCharacters()[i]);
-
-						if (!selectedChr)
-						{
-							selctedSkill = nullptr;
-						}
-					}
-				}
-			}
 
 			if (selectedChr && selctedSkill)
 			{
-				if (M_MGR) {
+				if (!M_MGR->GetCharacters().empty()) {
 					for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
 					{
 						if (M_MGR->GetCharacters()[i]->GetFixed() == true)
@@ -553,19 +928,29 @@ void DataManager::BattleStages()
 							int attdmg = rand() % selectedChr->GetStat().damage.y + selectedChr->GetStat().damage.x;
 							selctedSkill->run(attdmg, M_MGR->GetCharacters()[i]);
 							M_MGR->GetCharacters()[i]->SetPos(WINSIZE_X / 2 + 100 * i);
-
-							//selectedChr->SetPos(WINSIZE_X / 2);
-							//selectedChr->SetCurrState(State::SKILL1);
-						}
-						else
-						{
-
+							itouch = true;
 						}
 					}
+					
+					selectedChr->SetSelected(true);
+					selectedChr = nullptr;
+					return true;
+
+					if (UiDataManager::GetSingleton()->GetTurnExit() == true) {
+						UiDataManager::GetSingleton()->SetTurnExit(false);
+					}
+
+
 				}
+
 
 			}
 
 		}
+
 	}
 }
+
+
+
+

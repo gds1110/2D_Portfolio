@@ -152,10 +152,10 @@ void DungeonUi::Render(HDC hdc)
 	{
 		selSkillIcon->Render(hdc, selSkill->GetPos().x, selSkill->GetPos().y, true);
 	}
-	wsprintf(szText, "X : %d, Y : %d", g_ptMouse.x - minimapposx, g_ptMouse.y - minimapposy);
-	TextOut(hdc, 200, 60, szText, strlen(szText));
-	wsprintf(szText, "X : %d, Y : %d", g_ptMouse.x - minimapposx + mouseOffsetX, g_ptMouse.y - minimapposy + mouseOffsetY);
-	TextOut(hdc, 800, 100, szText, strlen(szText));
+	//wsprintf(szText, "X : %d, Y : %d", g_ptMouse.x - minimapposx, g_ptMouse.y - minimapposy);
+	//TextOut(hdc, 200, 60, szText, strlen(szText));
+	//wsprintf(szText, "X : %d, Y : %d", g_ptMouse.x - minimapposx + mouseOffsetX, g_ptMouse.y - minimapposy + mouseOffsetY);
+	//TextOut(hdc, 800, 100, szText, strlen(szText));
 	if (!minmap.empty())
 	{
 

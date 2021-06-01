@@ -374,7 +374,7 @@ void Character::abliiltyUpdate()
         AbilTime += TimerManager::GetSingleton()->GetElapsedTime();
 
         size -= AbilTime*0.001f;
-        if (AbilTime > 1.3f)
+        if (AbilTime > 2.0f)
         {
             AbilTime = 0;
             AbilOn = false;
@@ -402,14 +402,13 @@ void Character::Hurt()
         {
             currstate = State::COMBAT;
             Mtime = 0.0f;
-
+            
         }
     }
 }
 
 void Character::Hurt(int x)
 {
-    float Mtime;
     if (currstate != State::HURT)
     {
         Mtime = 0.0f;
@@ -424,7 +423,9 @@ void Character::Hurt(int x)
         {
             currstate = State::COMBAT;
             Mtime = 0.0f;
-
+            if (UiDataManager::GetSingleton()->GetTurnExit() == false) {
+                UiDataManager::GetSingleton()->SetTurnExit(true);
+            }
         }
     }
     stat.hp -= x;

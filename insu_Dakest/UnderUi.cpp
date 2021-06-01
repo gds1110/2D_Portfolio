@@ -121,7 +121,6 @@ void UnderUi::Render(HDC hdc)
 			if (minmap[i]->GetType() == TileType::Room) {
 	
 				minmap[i]->Render(miniDC);
-				minmap[i]->Render(hdc);
 			}
 		}
 

@@ -99,8 +99,8 @@ void Tile::Render(HDC hdc)
 	TextOut(hdc, center.x-5, center.y-5, szText, strlen(szText));*/
 	if (tileImg) {
 		tileImg->Render2(hdc, center.x, center.y, true, size);
-		wsprintf(szText, "%d", index);
-				TextOut(hdc, center.x-5, center.y-5, szText, strlen(szText));
+	/*	wsprintf(szText, "%d", index);
+				TextOut(hdc, center.x-5, center.y-5, szText, strlen(szText));*/
 		if (index > -1) {
 	
 		}

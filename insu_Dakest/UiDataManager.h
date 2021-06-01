@@ -48,11 +48,16 @@ private:
 	Tile* currtile;
 	Tile* destTile;
 
+	bool turnexitCheck = false;	
+
 	SceneInfo currScene;
 public:
 	HRESULT Init();
 	void Release();
 	void Update();
+
+	void SetTurnExit(bool set) { turnexitCheck = set; }
+	bool GetTurnExit() { return this->turnexitCheck; }
 	
 	void SetCurrScene(SceneInfo scene) { this->currScene = scene; }
 	SceneInfo GetCurrScene() { return this->currScene; }
