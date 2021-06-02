@@ -99,13 +99,14 @@ private:
 public:
 	ArangeAttack(Character* owner);
 
-	void run(int x, Character* target) {
-		//if(hClass==)
-		//for (int i = 0; i < UiDataManager::GetSingleton()->GetTarGet().size(); i++) {
-		//	//UiDataManager::GetSingleton()->GetTarGet()[i].setHp(gethp - 1);
-		//}
-		//
-	}
+	void run(int x, Character* target);
+	//{
+	//	//if(hClass==)
+	//	//for (int i = 0; i < UiDataManager::GetSingleton()->GetTarGet().size(); i++) {
+	//	//	//UiDataManager::GetSingleton()->GetTarGet()[i].setHp(gethp - 1);
+	//	//}
+	//	//
+	//}
 
 };
 
@@ -128,6 +129,16 @@ public:
 	}
 
 };
+class StunSkill :public Skill
+{
+private:
+
+public:
+	StunSkill(Character* owner);
+
+	virtual void run(int x, Character* target);
+
+};
 class SwapSkill : public Skill {
 private:
 
@@ -137,6 +148,15 @@ public:
 	{
 		return;
 	}
+};
+class HealSkill :public Skill {
+private:
+
+public:
+	HealSkill(Character* owner);
+
+	virtual void run(int x, Character* target);
+
 };
 
 class NoTurn : public Skill {

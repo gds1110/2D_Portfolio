@@ -149,6 +149,12 @@ void SkillManager::AddSkill3(SKILLTYPE type, int skillNum, int index)
 			break;
 		case NONESKILLTYPE:
 			break;
+		case HEALSKILL:
+			skillSlot.push_back(new HealSkill(this->owner));
+			break;
+		case STUNSKILL:
+			skillSlot.push_back(new StunSkill(this->owner));
+			break;
 		default:
 			break;
 		}

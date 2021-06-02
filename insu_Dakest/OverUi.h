@@ -11,6 +11,8 @@ private:
 	Image* flame;
 	Image* BattleStart;
 
+	Image* HitEffect;
+
 	bool battle = false;
 
 	int sIconCurrFrame;

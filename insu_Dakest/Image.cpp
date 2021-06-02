@@ -379,6 +379,8 @@ void Image::Render2(HDC hdc, int destX, int destY, bool isCenterRenderring, floa
     {
         if (size > 0)
         {
+            SetStretchBltMode(hdc, COLORONCOLOR);
+
             StretchBlt(hdc,
                 x, y,
                 imageInfo->width*size, imageInfo->height*size,

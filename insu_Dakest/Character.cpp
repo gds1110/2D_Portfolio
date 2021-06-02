@@ -99,30 +99,54 @@ void Character::ShareRender(HDC hdc)
         }
         if (mkinds == MonsterKinds::SKELETON_CAPTAIN|| mkinds == MonsterKinds::SKELETON_COMMON)
         {
-            targetIcon->AlphaFrameRenders(hdc, pos.x , 500, 0, 1, true, 0.8, alpha);
+            targetIcon->AlphaFrameRenders(hdc, pos.x , 505, 0, 1, true, 0.8, alpha);
 
         }
         else
         {
-            targetIcon->AlphaFrameRenders(hdc, pos.x + 30, 500, 0, 0, true, 0.8, alpha);
+            targetIcon->AlphaFrameRenders(hdc, pos.x + 30, 505, 0, 0, true, 0.8, alpha);
         }
     }
-    if (selected) {
-        selecetedIcon->FrameRender(hdc,pos.x + 50, 450, 0, sIconCurrFrame, true, 0.8);
-    }
+    if (htarget)
+    {
+        if (hfixedTarget)
+        {
+            alpha = 255;
+        }
+        else
+        {
+            alpha = 150;
+        }
+    
+          htargetIcon->AlphaFrameRenders(hdc, pos.x + 30, 400, 0, 0, true, 0.8, alpha);
+       
+     }
+
+
     if (hpBar)
     {
-        hpBarBG->Render(hdc, pos.x-45, 460);
-        hpBar->HpBarRender(hdc, pos.x - 45, 460, stat.maxHp, stat.hp);
+        hpBarBG->Render(hdc, pos.x-35, 480);
+        hpBar->HpBarRender(hdc, pos.x - 35, 470, stat.maxHp, stat.hp);
+    } 
+    if (stun)
+    {
+        stunImage->Render(hdc, pos.x, 440);
+    }
+    if (mark)
+    {
+        markImage->Render(hdc, pos.x + 25, 440);
+    }
+    if (selected) {
+        selecetedIcon->FrameRender(hdc, pos.x + 40, 440, 0, sIconCurrFrame, true, 0.8);
     }
     if (haveTurn)
     {
         if (HCLASS::LEAPER) {
-            haveturnimg->Render(hdc, pos.x + 60, 450);
+            haveturnimg->Render(hdc, pos.x + 60, 455);
 
         }
         else {
-            haveturnimg->Render(hdc, pos.x + 70, 450);
+            haveturnimg->Render(hdc, pos.x + 70, 455);
         }
     }
 }
@@ -220,6 +244,24 @@ void Character::switchSprite()
     case SKILL1:
         currFrameX = 0;
         img = ImageManager::GetSingleton()->FindImage(classArr[hClass] + "스킬1");
+        AbilOn = true;
+        depth = 3;
+        break;
+    case SKILL2:
+        currFrameX = 0;
+        img = ImageManager::GetSingleton()->FindImage(classArr[hClass] + "스킬2");
+        AbilOn = true;
+        depth = 3;
+        break;
+    case SKILL3:
+        currFrameX = 0;
+        img = ImageManager::GetSingleton()->FindImage(classArr[hClass] + "스킬3");
+        AbilOn = true;
+        depth = 3;
+        break;
+    case SKILL4:
+        currFrameX = 0;
+        img = ImageManager::GetSingleton()->FindImage(classArr[hClass] + "스킬4");
         AbilOn = true;
         depth = 3;
         break;
@@ -461,9 +503,12 @@ Character::Character()
 {
     selecetedIcon = ImageManager::GetSingleton()->FindImage("선택아이콘"); 
     targetIcon = ImageManager::GetSingleton()->FindImage("타겟아이콘");    
+    htargetIcon = ImageManager::GetSingleton()->FindImage("힐아이콘");    
     hpBar = ImageManager::GetSingleton()->FindImage("체력바");
     hpBarBG = ImageManager::GetSingleton()->FindImage("체력바배경");
     haveturnimg = ImageManager::GetSingleton()->FindImage("턴틱");
+    stunImage = ImageManager::GetSingleton()->FindImage("스턴아이콘");
+    markImage = ImageManager::GetSingleton()->FindImage("마크아이콘");
     UiDataManager::GetSingleton()->SetClassArr(this->classArr);
 
     index = -1;
@@ -481,6 +526,8 @@ Character::Character()
     target = false;
     selected = false;
     fixedTarget = false;
+    mark = false;
+    stun = false;
     alpha = 150;
     depth = 1;
     SetRect(&body, pos.x - 45, pos.y - 40, pos.x + 45, pos.y + 40);

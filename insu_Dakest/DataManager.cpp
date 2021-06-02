@@ -116,7 +116,7 @@ void DataManager::Update()
 									if ((pry == thisTile->getindex() && prx == tempTile->getindex()))
 									{
 										thisTile->SetIsCurrted(false);
-
+										
 										thisTile->SetIsVisited(true);
 										UiDataManager::GetSingleton()->SetCurrtile(minmap[j]);
 										UiDataManager::GetSingleton()->SetDestTile(tempTile);
@@ -139,6 +139,7 @@ void DataManager::Update()
 					if (PtInRect(&Door, g_ptMouse))
 					{
 						UiDataManager::GetSingleton()->GetDestTile()->SetIsDest(false);
+						UiDataManager::GetSingleton()->GetTile()->SetIsDest(false);
 						UiDataManager::GetSingleton()->SetCurrtile(UiDataManager::GetSingleton()->GetDestTile());
 						SceneManager::GetSingleton()->ChangeTile(UiDataManager::GetSingleton()->GetDestTile());
 						return;
@@ -830,6 +831,12 @@ bool DataManager::BattleStages2(CharacterManager* C_MGR, CharacterManager* M_MGR
 	bool monfindTarget = false;
 	
 	bool itouch = false;
+	
+	if (turnchr->GetStun() == true)
+	{
+		turnchr->setStun(false);
+		return true;
+	}
 
 	if (M_MGR->GetCharacters().empty())
 	{
@@ -933,6 +940,79 @@ bool DataManager::BattleStages2(CharacterManager* C_MGR, CharacterManager* M_MGR
 
 	if (selctedSkill)
 	{
+		if (selctedSkill->GetSkillType() == SKILLTYPE::HEALSKILL)
+		{
+			for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
+			{
+				C_MGR->GetCharacters()[i]->SetHFixed(false);
+
+				if (selctedSkill->GetSkillInfo().targetRank.x <= C_MGR->GetCharacters()[i]->GetIndex()
+					&& selctedSkill->GetSkillInfo().targetRank.y >= C_MGR->GetCharacters()[i]->GetIndex())
+				{
+					C_MGR->GetCharacters()[i]->SetHTargeted(true);
+
+
+				}
+				else
+				{
+					C_MGR->GetCharacters()[i]->SetHTargeted(false);
+				}
+
+			}
+			for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
+			{
+				if (PointInRect(g_ptMouse, C_MGR->GetCharacters()[i]->GetRect())) {
+					if (C_MGR->GetCharacters()[i]->GetHTargeted() == true && selctedSkill->GetSkillInfo().range >= 4)
+					{
+						for (int j = 0; j < C_MGR->GetCharacters().size(); j++)
+						{
+							C_MGR->GetCharacters()[j]->SetHFixed(true);
+						}
+						targeton = true;
+					}
+					else if (C_MGR->GetCharacters()[i]->GetHTargeted() == true && selctedSkill->GetSkillInfo().range > 1&& selctedSkill->GetSkillInfo().range < 4)
+					{
+						for (int j = 0; j < selctedSkill->GetSkillInfo().range; j++)
+						{
+
+							if (C_MGR->GetCharacters()[i]->GetIndex() + j >= 4)
+							{
+								break;
+							}
+							else {
+								if (i + j >= C_MGR->GetCharacters().size())
+								{
+
+								}
+								else if (C_MGR->GetCharacters()[(i + j)])
+								{
+									/*if (i + j < selctedSkill->GetSkillInfo().range) {
+										M_MGR->GetCharacters()[(i + j)]->SetFixed(true);
+									}*/
+									if (C_MGR->GetCharacters()[(i + j)]->GetHTargeted() == true) {
+										C_MGR->GetCharacters()[(i + j)]->SetHFixed(true);
+									}
+									targeton = true;
+								}
+
+							}
+
+						}
+					}
+					else if (C_MGR->GetCharacters()[i]->GetHTargeted() == true)
+					{
+						C_MGR->GetCharacters()[i]->SetHFixed(true);
+						targeton = true;
+					}
+					else
+					{
+						targeton = false;
+					}
+				}
+
+			}
+		}
+
 		if (selctedSkill->GetSkillType() == SKILLTYPE::COMBATSKILL || selctedSkill->GetSkillType() == SKILLTYPE::ARANGESKILL)
 		{
 			for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
@@ -1017,7 +1097,24 @@ bool DataManager::BattleStages2(CharacterManager* C_MGR, CharacterManager* M_MGR
 				for (int i = 0; i < S_MGR->GetSkillSlot().size(); i++)
 				{
 					RECT tempRC = S_MGR->GetSkillSlot()[i]->GetRect();
+				
 					if (PtInRect(&tempRC, g_ptMouse)) {
+						if (i == 5)
+						{
+							underUI->setSelSkill(nullptr);
+							selectedChr->SetSelected(false);
+							selectedChr = nullptr;
+							selctedSkill = nullptr;
+							return true;
+						}
+						if (i == 4)
+						{
+							underUI->setSelSkill(nullptr);
+							selectedChr->SetSelected(false);
+							selectedChr = nullptr;
+							selctedSkill = nullptr;
+							return true;
+						}
 						if (S_MGR->GetSkillSlot()[i]->GetSkillState() == Skill::SkillState::ON) {
 							underUI->setSelSkill(S_MGR->GetSkillSlot()[i]);
 							selectSkill(S_MGR->GetSkillSlot()[i]);
@@ -1034,48 +1131,106 @@ bool DataManager::BattleStages2(CharacterManager* C_MGR, CharacterManager* M_MGR
 
 			if (selectedChr && selctedSkill)
 			{
-				if (!M_MGR->GetCharacters().empty()) {
-					for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
-					{
-						if (M_MGR->GetCharacters()[i]->GetFixed() == true)
+				if (selctedSkill->GetSkillType() == SKILLTYPE::HEALSKILL)
+				{
+					if (!C_MGR->GetCharacters().empty()) {
+						for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
 						{
-							int attdmg = rand() % selectedChr->GetStat().damage.y + selectedChr->GetStat().damage.x;
-							selctedSkill->run(attdmg, M_MGR->GetCharacters()[i]);
-							M_MGR->GetCharacters()[i]->SetPos(WINSIZE_X / 2 + 100 * i);
-							itouch = true;
+							if (C_MGR->GetCharacters()[i]->GetHFixed() == true)
+							{
+								int attdmg = rand() % selectedChr->GetStat().damage.y + selectedChr->GetStat().damage.x;
+								selctedSkill->run(attdmg, C_MGR->GetCharacters()[i]);
+								itouch = true;
+							}
 						}
+						if (itouch == true) {
+							for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
+							{
+								if (C_MGR->GetCharacters()[i]->GetHTargeted() == true)
+								{
+									C_MGR->GetCharacters()[i]->SetHTargeted(false);
+								}
+								if (C_MGR->GetCharacters()[i]->GetHFixed() == true)
+								{
+									C_MGR->GetCharacters()[i]->SetHFixed(false);
+								}
+							}
+							underUI->setSelSkill(nullptr);
+							selectedChr->SetSelected(false);
+							selectedChr = nullptr;
+							selctedSkill = nullptr;
+							itouch = false;
+							return true;
+						}
+
+						if (UiDataManager::GetSingleton()->GetTurnExit() == true) {
+							UiDataManager::GetSingleton()->SetTurnExit(false);
+						}
+
+
 					}
-					if (itouch == true) {
+				}
+				else {
+					if (!M_MGR->GetCharacters().empty()) {
 						for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
 						{
-							if (M_MGR->GetCharacters()[i]->GetTargeted() == true)
-							{
-								M_MGR->GetCharacters()[i]->SetTargeted(false);
-							}
 							if (M_MGR->GetCharacters()[i]->GetFixed() == true)
 							{
-								M_MGR->GetCharacters()[i]->SetFixed(false);
+								int attdmg = rand() % selectedChr->GetStat().damage.y + selectedChr->GetStat().damage.x;
+								selctedSkill->run(attdmg, M_MGR->GetCharacters()[i]);
+								M_MGR->GetCharacters()[i]->SetPos(WINSIZE_X / 2 + 100 * i);
+								itouch = true;
 							}
 						}
-						underUI->setSelSkill(nullptr);
-						selectedChr->SetSelected(false);
-						selectedChr = nullptr;
-						selctedSkill = nullptr;
-						itouch = false;
-						return true;
+						if (itouch == true) {
+							for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
+							{
+								if (M_MGR->GetCharacters()[i]->GetTargeted() == true)
+								{
+									M_MGR->GetCharacters()[i]->SetTargeted(false);
+								}
+								if (M_MGR->GetCharacters()[i]->GetFixed() == true)
+								{
+									M_MGR->GetCharacters()[i]->SetFixed(false);
+								}
+							}
+							underUI->setSelSkill(nullptr);
+							selectedChr->SetSelected(false);
+							selectedChr = nullptr;
+							selctedSkill = nullptr;
+							itouch = false;
+							return true;
+						}
+
+						if (UiDataManager::GetSingleton()->GetTurnExit() == true) {
+							UiDataManager::GetSingleton()->SetTurnExit(false);
+						}
+
+
 					}
-
-					if (UiDataManager::GetSingleton()->GetTurnExit() == true) {
-						UiDataManager::GetSingleton()->SetTurnExit(false);
-					}
-
-
 				}
-
 
 			}
 
 		}
+
+	}
+	
+}
+
+void DataManager::DoHitEffect(TurnType types)
+{
+	if (HitEffect)
+	{
+		HitTimes += TimerManager::GetSingleton()->GetElapsedTime()*100;
+	}
+	if (types == PLAYERTURN)
+	{
+		HitEffect = ImageManager::GetSingleton()->FindImage("««∞›¿Ã∆Â∆Æø¿");
+	}
+	else
+	{
+		HitEffect = ImageManager::GetSingleton()->FindImage("««∞›¿Ã∆Â∆Æøﬁ");
 
 	}
 	

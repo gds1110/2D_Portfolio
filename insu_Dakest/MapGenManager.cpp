@@ -83,6 +83,7 @@ void Tile::Update()
 		tileIconFX=ImageManager::GetSingleton()->FindImage("¹«ºù·ë");
 	}
 
+
 	if (canWay)
 	{
 		size += TimerManager::GetSingleton()->GetElapsedTime();
@@ -113,7 +114,9 @@ void Tile::Render(HDC hdc)
 		}
 		if (tileIconFX)
 		{
-			tileIconFX->Render(hdc, center.x, center.y, true);
+			if (isDest == true) {
+				tileIconFX->Render(hdc, center.x, center.y, true);
+			}
 		}
 	}
 	//Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);

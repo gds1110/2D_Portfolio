@@ -15,7 +15,7 @@ HRESULT H_Crusader::Init()
     ImageManager::GetSingleton()->AddImage("크루세이더 아이들", "resource/hero/crusader/idle/idle.BMP", 5808, 300, 33, 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("크루세이더 아이콘", "resource/hero/crusader/icon.BMP", 65, 65, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("크루세이더 기본공격", "resource/hero/crusader/attack.BMP", 295, 295,1,1, true, RGB(88, 88, 88));
-    ImageManager::GetSingleton()->AddImage("크루세이더 스킬", "resource/hero/crusader/skill/skillset.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("크루세이더 스킬셋", "resource/hero/crusader/skill/skillset.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
 
     currstate = State::IDLE;
     hClass = HCLASS::CRUSADER;
@@ -25,6 +25,8 @@ HRESULT H_Crusader::Init()
     S_MGR->AddSkill3(ARANGESKILL, 1, 1);
     S_MGR->AddSkill3(COMBATSKILL, 4, 2);
     S_MGR->AddSkill3(COMBATSKILL, 5, 3);
+    S_MGR->AddSkill3(SWAPSKILL, 5, 4);
+    S_MGR->AddSkill3(NOTURNSKILL, 5, 5);
 
     return S_OK;
 }

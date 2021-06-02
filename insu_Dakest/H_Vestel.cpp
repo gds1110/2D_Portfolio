@@ -13,17 +13,17 @@ HRESULT H_Vestel::Init()
     ImageManager::GetSingleton()->AddImage("¼º³à ¿öÅ©", "resource/hero/Vestel/walk/walk.BMP", 3072, 300, maxFrameArr[State::WALK], 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("¼º³à ¾ÆÀÌÄÜ", "resource/hero/Vestel/icon.BMP", 65, 65, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("¼º³à ÇÇ°Ý", "resource/hero/Vestel/hurt.BMP", 373, 556,1,1, true, RGB(88, 88, 88));
-    ImageManager::GetSingleton()->AddImage("¼º³à ½ºÅ³¼Â", "resource/hero/Vestel/skill/skillset.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
-
-    skillSeting();
-
-    S_MGR->AddSkill3(COMBATSKILL, 0, 0);
-    S_MGR->AddSkill3(ARANGESKILL, 1, 1);
-    S_MGR->AddSkill3(COMBATSKILL, 4, 2);
-    S_MGR->AddSkill3(COMBATSKILL, 5, 3);
+    ImageManager::GetSingleton()->AddImage("¼º³à ½ºÅ³¼Â", "resource/hero/Vestel/skill/skills.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
     currstate = State::IDLE;
     hClass = HCLASS::VESTEL;
     skillSeting();
+    S_MGR->AddSkill3(STUNSKILL, 0, 0);
+    S_MGR->AddSkill3(COMBATSKILL, 4, 1);
+    S_MGR->AddSkill3(HEALSKILL, 5, 2);
+    S_MGR->AddSkill3(HEALSKILL, 6, 3);
+    S_MGR->AddSkill3(SWAPSKILL, 10, 4);
+    S_MGR->AddSkill3(NOTURNSKILL, 11, 5);
+   
 
 	return S_OK;
 }

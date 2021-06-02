@@ -62,6 +62,9 @@ private:
 	int	minimapposy;
 	float eltimess = 0;
 
+	Image* HitEffect;
+	float HitTimes;
+
 public:
 	virtual HRESULT Init();
 	virtual HRESULT Init(CharacterManager* SC_MGR,CharacterManager* SM_MGR,Tile* currTile);
@@ -109,6 +112,8 @@ public:
 	string* GetClassArr() { if (arrClass)return this->arrClass; }
 
 	void AddTarget(Character* target) { targetChr.push_back(target); }
+
+	void DoHitEffect(TurnType types);
 
 };
 

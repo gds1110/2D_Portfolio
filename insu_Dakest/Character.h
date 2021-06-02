@@ -51,8 +51,12 @@ protected:
 	string MonArr[15] = { "½ºÄÌ·¹Åæ¾ÆÃ³ ","½ºÄÌ·¹Åæ±³±º ","½ºÄÌ·¹ÅæÄ¸Æ¾ ","½ºÄÌ·¹ÅæÄ¿¸Õ " };
 	//SelectCheck
 	bool selected;
+
 	bool target;
 	bool fixedTarget;
+
+	bool htarget;
+	bool hfixedTarget;
 
 	//skill
 	bool AbilOn;
@@ -63,6 +67,7 @@ protected:
 	//UI
 	Image* img;
 	Image* targetIcon;
+	Image* htargetIcon;
 	Image* selecetedIcon;
 	Image* hpBar;
 	Image* hpBarBG;
@@ -74,6 +79,8 @@ protected:
 	Image* rosterIcon;
 	Image* rosterBg;
 	Image* haveturnimg;
+	Image* stunImage;
+	Image* markImage;
 	//Frame
 	int currFrameX;
 	int maxFrameX;
@@ -87,6 +94,8 @@ protected:
 	int dice;
 	//float size;
 	
+	bool stun;
+	bool mark;
 	//INDEX
 	bool battleState = false;
 	bool haveTurn;
@@ -113,6 +122,13 @@ public:
 	virtual void PartyRelease();
 	virtual void PartyUpdate();
 	virtual void PartyRender(HDC hdc);
+
+	void SetHp(int x) { this->stat.hp = x; }
+
+	void setStun(bool stun) { this->stun = stun; }
+	bool GetStun() { return this->stun; }
+	void setMark(bool mark) { this->mark = mark; }
+	bool GetMark() { return this->mark; }
 
 	virtual Character* GetThis() { return this; }
 
@@ -152,6 +168,11 @@ public:
 	bool GetTargeted() { return this->target; }
 	void SetFixed(bool fix) { this->fixedTarget = fix; }
 	bool GetFixed() { return this->fixedTarget; }
+
+	void SetHTargeted(bool target) { this->htarget = target; }
+	bool GetHTargeted() { return this->htarget; }
+	void SetHFixed(bool fix) { this->hfixedTarget = fix; }
+	bool GetHFixed() { return this->hfixedTarget; }
 
 
 	//HeroUpdate
