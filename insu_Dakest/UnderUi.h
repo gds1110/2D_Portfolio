@@ -36,6 +36,9 @@ private:
 	RECT minimapZone;
 	bool currTileChange;
 	bool firstTile;
+
+	POINT currposinminimap;
+	Image* currflame;
 public:
 	virtual HRESULT Init();
 	virtual HRESULT Init(Tile* currTile, vector<Tile*> minmap);

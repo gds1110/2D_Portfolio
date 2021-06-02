@@ -25,6 +25,7 @@ private:
 	vector<Tile*> Path;
 	Image* tileImg;
 	Image* tileIcon;
+	Image* tileIconFX;
 	bool isInOpenlist;
 	bool isClosed;
 	char szText[128];
@@ -36,11 +37,13 @@ private:
 	HBRUSH hBrush;
 	HBRUSH hOldBrush;
 
+	bool isDest;
 	bool isStarted;
 	bool isCurrted;
 	bool canWay;
 	bool isPath;
-	
+	bool isVisited;
+
 	float size;
 
 	Tile* prevTile;
@@ -55,6 +58,11 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 	
+	void SetIsEnemy(bool is) { this->d_info.isEnemyed = is; }
+
+	void SetIsVisited(bool is) { this->isVisited = is; }
+	void SetIsDest(bool is) { this->isDest = is; }
+
 	void SetIsPath(bool is) { this->isPath = is; }
 	bool GetIsPath() { return this->isPath; }
 

@@ -67,6 +67,7 @@ void DataManager::Update()
 	minimapposx = (WINSIZE_X / 2 + 10);
 	minimapposy = (WINSIZE_Y - WINSIZE_Y / 3) + 20;
 	
+	UiDataManager::GetSingleton()->SetCampos(camPos);
 	for (int i = 0; i < minmap.size(); i++)
 	{
 		minmap[i]->Update();
@@ -103,15 +104,23 @@ void DataManager::Update()
 									int pry = minmap[j]->GetPrevNnext().y;
 									if ((prx == thisTile->getindex() && pry == tempTile->getindex()))
 									{
+										thisTile->SetIsCurrted(false);
+
+										thisTile->SetIsVisited(true);
 										UiDataManager::GetSingleton()->SetCurrtile(minmap[j]);
 										UiDataManager::GetSingleton()->SetDestTile(tempTile);
+										UiDataManager::GetSingleton()->GetDestTile()->SetIsDest(true);
 										SceneManager::GetSingleton()->ChangeTile(minmap[j]);
 										return;
 									}
 									if ((pry == thisTile->getindex() && prx == tempTile->getindex()))
 									{
+										thisTile->SetIsCurrted(false);
+
+										thisTile->SetIsVisited(true);
 										UiDataManager::GetSingleton()->SetCurrtile(minmap[j]);
 										UiDataManager::GetSingleton()->SetDestTile(tempTile);
+										UiDataManager::GetSingleton()->GetDestTile()->SetIsDest(true);
 										SceneManager::GetSingleton()->ChangeTile(minmap[j]);
 
 										return;
@@ -129,6 +138,7 @@ void DataManager::Update()
 				{
 					if (PtInRect(&Door, g_ptMouse))
 					{
+						UiDataManager::GetSingleton()->GetDestTile()->SetIsDest(false);
 						UiDataManager::GetSingleton()->SetCurrtile(UiDataManager::GetSingleton()->GetDestTile());
 						SceneManager::GetSingleton()->ChangeTile(UiDataManager::GetSingleton()->GetDestTile());
 						return;
@@ -183,6 +193,9 @@ void DataManager::Update()
 			if (M_MGR->GetCharacters().size() <1)
 			{
 				UiDataManager::GetSingleton()->SetBattleState(false);
+				d_info.isEnemyed = false;
+				thisTile->SetIsEnemy(false);
+		
 			}
 		}
 	}
@@ -193,49 +206,102 @@ void DataManager::Update()
 		BattleStages((*C_MGR),(*M_MGR));
     }*/
 	if (UiDataManager::GetSingleton()->GetBattleState() == true) {
-		if (BPG == NOBATTLE || BPG == BEND) {
+	
+		
+		if (overUi->GetDoneStart() == true) {
+			if (BPG == NOBATTLE || BPG == ING) {
+
+				for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
+				{
+					//Character* tempChr = C_MGR->GetCharacters()[i];
+					//tempChr->SetHaveTurn(true);
+					C_MGR->GetCharacters()[i]->SetHaveTurn(true);
+					BDice.push_back((make_pair(C_MGR->GetCharacters()[i], C_MGR->GetCharacters()[i]->Dice())));
+					//BDice.push_back((make_pair(tempChr, tempChr->Dice())));
+
+				}
+				for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
+				{
+					M_MGR->GetCharacters()[i]->SetHaveTurn(true);
+					BDice.push_back((make_pair(M_MGR->GetCharacters()[i], M_MGR->GetCharacters()[i]->Dice())));
+
+				}
+
+				sort(BDice.begin(), BDice.end(), compare);
+				BPG = BSTART;
+
+				//boiter = BDice.begin();
+			}
+			if (BPG == BSTART) {
+				/*	vector<BODER>::reverse_iterator rbitor;
+					for (rbitor = BDice.rbegin(); rbitor != BDice.rend();++rbitor)
+					{
+						BattleStages((C_MGR), (M_MGR), (*rbitor).first);
+					}*/
+
+			/*	if (BattleStages2((C_MGR), (M_MGR), BDice.back().first->GetThis()) == true) {
+					BDice.pop_back();
+				}*/
+				if (BDice.back().first->GetUnitType() == UnitType::HERO)
+				{
+					BDice.back().first->SetHaveTurn(false);
+					if (BattleStages2((C_MGR), (M_MGR), BDice.back().first->GetThis()) == true)
+					{
+						BDice.pop_back();
+					}
+				
+		
+				}
+
+				else if(BDice.back().first->GetUnitType() == UnitType::MONSTER) {
+					eltimess += TimerManager::GetSingleton()->GetElapsedTime();
+					BDice.back().first->SetHaveTurn(false);
+					{
+						if (eltimess > 0.8f) {
+							if (BDice.back().first->GetStat().hp > 0) {
+
+								if (BattleStages2((C_MGR), (M_MGR), BDice.back().first->GetThis()) == true)
+								{
+									BDice.pop_back();
+									eltimess = 0;
+								}
+							}
+							else
+							{
+								BDice.pop_back();
+								eltimess = 0;
+							}
+						}
+					}
+
+				}
+				else
+				{
+					BPG = ING;
+				}
+
+
+
+				if (UiDataManager::GetSingleton()->GetBattleState() != false && BDice.size() == 0)
+				{
+					BPG = ING;
+				}
+				else
+				{
+					BPG = BSTART;
+
+				}
+			}
+
+		}
+		if (BPG == BEND) {
+			UiDataManager::GetSingleton()->SetBattleState(false);
+			thisTile->SetIsEnemy(false);
 
 			for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
 			{
-				C_MGR->GetCharacters()[i]->SetHaveTurn(true);
-				BDice.push_back((make_pair(C_MGR->GetCharacters()[i], C_MGR->GetCharacters()[i]->Dice())));
-				
-			}
-			for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
-			{
-				M_MGR->GetCharacters()[i]->SetHaveTurn(true);
-				BDice.push_back((make_pair(M_MGR->GetCharacters()[i], M_MGR->GetCharacters()[i]->Dice())));
-				
-			}
-
-			sort(BDice.begin(), BDice.end(), compare);
-			BPG = BSTART;
-
-			//boiter = BDice.begin();
-		}
-		if (BPG == BSTART) {
-		/*	vector<BODER>::reverse_iterator rbitor;
-			for (rbitor = BDice.rbegin(); rbitor != BDice.rend();++rbitor)
-			{
-				BattleStages((C_MGR), (M_MGR), (*rbitor).first);
-			}*/
-			
-			if (BattleStages2((C_MGR), (M_MGR), BDice.back().first->GetThis()) == true) {
-				BDice.pop_back();
-			}
-				
-			
-				
-				
-		
-			if (UiDataManager::GetSingleton()->GetBattleState() != false && BDice.size()==0)
-			{
-				BPG = BEND;
-			}
-			else
-			{
-				BPG = BSTART;
-
+				C_MGR->GetCharacters()[i]->SetCurrState(State::IDLE);
+				BPG = NOBATTLE;
 			}
 		}
     }
@@ -253,13 +319,33 @@ void DataManager::Update()
 
 void DataManager::Render(HDC hdc)
 {
+	SetBkMode(hdc, TRANSPARENT);
+	SetTextColor(hdc, RGB(255, 255, 255));
+	wsprintf(szText, "X : %d, Y : %d", thisTile->getindex(), thisTile->getindex());
+	TextOut(hdc, 200, 60, szText, strlen(szText));
+	wsprintf(szText, "X : %d, Y : %d", g_ptMouse.x - minimapposx + mouseOffsetX, g_ptMouse.y - minimapposy + mouseOffsetY);
+	TextOut(hdc, 800, 100, szText, strlen(szText));
+	wsprintf(szText, "X : %d, Y : %d", UiDataManager::GetSingleton()->GetTile()->getindex(), UiDataManager::GetSingleton()->GetTile()->GetPrevNnext().y);
+	TextOut(hdc, 200, 500, szText, strlen(szText));
+	SetBkMode(hdc, TRANSPARENT);
+
 	if (underUI) {
 		underUI->Render(hdc);
+
+		if (selectedChr)
+		{
+			wsprintf(szText, "HP : %d", selectedChr->GetStat().hp);
+			TextOut(hdc, 210, 580, szText, strlen(szText));
+			wsprintf(szText, "ATK : %d", selectedChr->GetStat().damage.x);
+			TextOut(hdc, 190, 630, szText, strlen(szText));
+			wsprintf(szText, " ~  %d", selectedChr->GetStat().damage.y);
+			TextOut(hdc, 240, 630, szText, strlen(szText));
+			//190 , 630
+
+		}
+
 	}
-	if (overUi)
-	{
-		overUi->Render(hdc);
-	}
+
 	if (M_MGR)
 	{
 		if (BattleStage) {
@@ -270,14 +356,11 @@ void DataManager::Render(HDC hdc)
 	{
 		C_MGR->Render(hdc);
 	}
-	wsprintf(szText, "X : %d, Y : %d", thisTile->getindex(), thisTile->getindex());
-	TextOut(hdc, 200, 60, szText, strlen(szText));
-	wsprintf(szText, "X : %d, Y : %d", g_ptMouse.x - minimapposx + mouseOffsetX, g_ptMouse.y - minimapposy + mouseOffsetY);
-	TextOut(hdc, 800, 100, szText, strlen(szText));
-	wsprintf(szText, "X : %d, Y : %d", UiDataManager::GetSingleton()->GetTile()->getindex(), UiDataManager::GetSingleton()->GetTile()->GetPrevNnext().y);
-	TextOut(hdc, 200, 500, szText, strlen(szText));
-
-	Rectangle(hdc, Door.left, Door.top, Door.right, Door.bottom);
+	if (overUi)
+	{
+		overUi->Render(hdc);
+	}
+	//Rectangle(hdc, Door.left, Door.top, Door.right, Door.bottom);
 	/*Rectangle(hdc, statusZone.left, statusZone.top, statusZone.right, statusZone.bottom);
 	Rectangle(hdc, characterZone.left, characterZone.top, characterZone.right, characterZone.bottom);*/
 }
@@ -747,12 +830,44 @@ bool DataManager::BattleStages2(CharacterManager* C_MGR, CharacterManager* M_MGR
 	bool monfindTarget = false;
 	
 	bool itouch = false;
+
+	if (M_MGR->GetCharacters().empty())
+	{
+		BPG = BEND;
+		UiDataManager::GetSingleton()->SetBattleState(false);
+		return true;
+	}
+	if (M_MGR->GetCharacters().size() == 0)
+	{
+		BPG = BEND;
+		UiDataManager::GetSingleton()->SetBattleState(false);
+		return true;
+	}
+	/*if (C_MGR)
+	{
+		C_MGR->Update();
+	}*/
+	vector<BODER>::iterator tempits;
+	//for (tempits = BDice.begin(); tempits != BDice.end();)
+	//{
+	//	if ((*tempits).first->GetStat().hp <= 0)
+	//	{
+	//		BDice.erase(tempits);
+	//	}
+	//	else
+	//	{
+	//		++tempits;
+	//	}
+	//}
 	//boiter = BDice.begin();
 
 	//for (boiter = BDice.begin(); boiter != BDice.end();) {
 
 	//}
-
+	//if (turnchr->GetHaveTurn() == true) {
+	//	turnchr->SetHaveTurn(false);
+	//	//Sleep(500);
+	//}
 	if (turnchr->GetUnitType() == UnitType::MONSTER)//(*boiter).first->GetUnitType() == UnitType::MONSTER)
 	{
 		TTYPE = MONTURN;
@@ -762,12 +877,12 @@ bool DataManager::BattleStages2(CharacterManager* C_MGR, CharacterManager* M_MGR
 	{
 		TTYPE = PLAYERTURN;
 	}
-	if (TTYPE == MONTURN && turnchr->GetHaveTurn() == true)//(*boiter).first->GetHaveTurn() == true)
+
+	if (TTYPE == MONTURN)//(*boiter).first->GetHaveTurn() == true)
 	{
 		int randomhero;
 		randomhero = rand() % C_MGR->GetCharacters().size();
 		MselctetChr = C_MGR->GetCharacters()[randomhero];
-		turnchr->SetHaveTurn(false);
 		if (monfindTarget == false) {
 			MselctetChr->SetTargeted(true);
 			monfindTarget = true;
@@ -780,11 +895,11 @@ bool DataManager::BattleStages2(CharacterManager* C_MGR, CharacterManager* M_MGR
 			MselctetChr->SetTargeted(false);
 			monfindTarget = false;
 			MselctetChr = nullptr;
+			return true;
 
 		}
 		if (eltimess >= 3.0f) {
 			eltimess = 0;
-			return true;
 		}
 		
 
@@ -804,9 +919,7 @@ bool DataManager::BattleStages2(CharacterManager* C_MGR, CharacterManager* M_MGR
 		SelectChar(turnchr->GetThis());
 		selectedChr->SetSelected(true);
 		//selctedSkill = nullptr;
-		if (selectedChr->GetHaveTurn() == true) {
-			turnchr->SetHaveTurn(false);
-		}
+	
 
 
 
@@ -887,12 +1000,12 @@ bool DataManager::BattleStages2(CharacterManager* C_MGR, CharacterManager* M_MGR
 		}
 	}
 	if (itouch == true) {
-		eltimess += TimerManager::GetSingleton()->GetElapsedTime();
+	/*	eltimess += TimerManager::GetSingleton()->GetElapsedTime();
 
 		if (eltimess > 2.0f) {
 			UiDataManager::GetSingleton()->SetTurnExit(true);
 			eltimess = 0;
-		}
+		}*/
 	}
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
 	{
@@ -911,6 +1024,7 @@ bool DataManager::BattleStages2(CharacterManager* C_MGR, CharacterManager* M_MGR
 						}
 					}
 				}
+				
 			}
 
 		}
@@ -931,10 +1045,25 @@ bool DataManager::BattleStages2(CharacterManager* C_MGR, CharacterManager* M_MGR
 							itouch = true;
 						}
 					}
-					
-					selectedChr->SetSelected(true);
-					selectedChr = nullptr;
-					return true;
+					if (itouch == true) {
+						for (int i = 0; i < M_MGR->GetCharacters().size(); i++)
+						{
+							if (M_MGR->GetCharacters()[i]->GetTargeted() == true)
+							{
+								M_MGR->GetCharacters()[i]->SetTargeted(false);
+							}
+							if (M_MGR->GetCharacters()[i]->GetFixed() == true)
+							{
+								M_MGR->GetCharacters()[i]->SetFixed(false);
+							}
+						}
+						underUI->setSelSkill(nullptr);
+						selectedChr->SetSelected(false);
+						selectedChr = nullptr;
+						selctedSkill = nullptr;
+						itouch = false;
+						return true;
+					}
 
 					if (UiDataManager::GetSingleton()->GetTurnExit() == true) {
 						UiDataManager::GetSingleton()->SetTurnExit(false);
@@ -949,6 +1078,7 @@ bool DataManager::BattleStages2(CharacterManager* C_MGR, CharacterManager* M_MGR
 		}
 
 	}
+	
 }
 
 

@@ -1,6 +1,8 @@
 #include "H_Crusader.h"
 #include "Image.h"
 #include "CommonFunction.h"
+#include "SkillManager.h"
+#include "skill.h"
 HRESULT H_Crusader::Init()
 {
 
@@ -18,6 +20,11 @@ HRESULT H_Crusader::Init()
     currstate = State::IDLE;
     hClass = HCLASS::CRUSADER;
     skillSeting();
+
+    S_MGR->AddSkill3(COMBATSKILL, 0, 0);
+    S_MGR->AddSkill3(ARANGESKILL, 1, 1);
+    S_MGR->AddSkill3(COMBATSKILL, 4, 2);
+    S_MGR->AddSkill3(COMBATSKILL, 5, 3);
 
     return S_OK;
 }

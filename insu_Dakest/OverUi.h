@@ -27,6 +27,7 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
+	bool GetDoneStart();
 	void SetBattle(bool battle) { this->battle = battle; }
 	bool GetBattle() { return this->battle; }
 

@@ -1,5 +1,7 @@
 #include "H_HighWayMan.h"
 #include "Image.h"
+#include "SkillManager.h"
+#include "skill.h"
 HRESULT H_HighWayMan::Init()
 {
     maxFrameArr[State::IDLE] = 15;
@@ -15,6 +17,11 @@ HRESULT H_HighWayMan::Init()
     currstate = State::IDLE;
     hClass = HCLASS::HIGHWAYMAN;
     skillSeting();
+
+    S_MGR->AddSkill3(COMBATSKILL, 0, 0);
+    S_MGR->AddSkill3(ARANGESKILL, 1, 1);
+    S_MGR->AddSkill3(COMBATSKILL, 4, 2);
+    S_MGR->AddSkill3(COMBATSKILL, 5, 3);
 
 	return S_OK;
 }

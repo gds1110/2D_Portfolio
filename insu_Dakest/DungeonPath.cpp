@@ -162,6 +162,7 @@ void DungeonPath::Release()
 void DungeonPath::Update()
 {
 	UiDataManager::GetSingleton()->SetCampos(CamPos);
+	thisTile = UiDataManager::GetSingleton()->GetTile();
 	if (!C_MGR)
 	{
 		C_MGR = UiDataManager::GetSingleton()->GetSC_MGR();
@@ -194,17 +195,15 @@ void DungeonPath::Update()
 			}
 		}
 	}
-	if (d_info.isEnemyed)
+	
+	
+	if (CamPos < -1000 && battleState == false)
 	{
-		if (CamPos < -1000&&battleState==false&&d_info.isEnemyed==true)
-		{
+		if (thisTile->GetDinfo().isEnemyed == true) {
 			UiDataManager::GetSingleton()->SetBattleState(true);
 		}
 	}
-	if (UiDataManager::GetSingleton()->GetBattleState()==true)
-	{
-
-	}
+	
 
 	if (DM)
 	{
@@ -229,10 +228,7 @@ void DungeonPath::Render(HDC hdc)
 	if (bgFirst) {
 		bgFirst->Render(camDC, CamPos , 0, false);
 	}
-	/*if (C_MGR)
-	{
-		C_MGR->Render(hdc);
-	}*/
+
 
 	wsprintf(szText, "campos : %d", CamPos);
 

@@ -1,6 +1,7 @@
 #include "H_Vestel.h"
 #include "Image.h"
-
+#include "SkillManager.h"
+#include "skill.h"
 HRESULT H_Vestel::Init()
 {
     maxFrameArr[State::IDLE] = 18;
@@ -11,9 +12,15 @@ HRESULT H_Vestel::Init()
     img = ImageManager::GetSingleton()->AddImage("¼º³à ÄÄ¹î", "resource/hero/Vestel/combat/combat.BMP", 2565, 300, maxFrameArr[State::COMBAT], 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("¼º³à ¿öÅ©", "resource/hero/Vestel/walk/walk.BMP", 3072, 300, maxFrameArr[State::WALK], 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("¼º³à ¾ÆÀÌÄÜ", "resource/hero/Vestel/icon.BMP", 65, 65, true, RGB(88, 88, 88));
-    ImageManager::GetSingleton()->AddImage("¼º³à ½ºÅ³", "resource/hero/Vestel/skill/skillset.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("¼º³à ÇÇ°Ý", "resource/hero/Vestel/hurt.BMP", 373, 556,1,1, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("¼º³à ½ºÅ³¼Â", "resource/hero/Vestel/skill/skillset.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
 
+    skillSeting();
 
+    S_MGR->AddSkill3(COMBATSKILL, 0, 0);
+    S_MGR->AddSkill3(ARANGESKILL, 1, 1);
+    S_MGR->AddSkill3(COMBATSKILL, 4, 2);
+    S_MGR->AddSkill3(COMBATSKILL, 5, 3);
     currstate = State::IDLE;
     hClass = HCLASS::VESTEL;
     skillSeting();

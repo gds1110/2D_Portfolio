@@ -137,14 +137,20 @@ void CharacterManager::Update()
     {
         if ((*itChr)->GetStat().hp <= 0)
         {
-            if (v_Characters.size() > 1) {
+            /*if (v_Characters.size() > 1) {
                 if (itChr + 1 != v_Characters.end())
                 {
-                    int tempindex = (*itChr+1)->GetIndex();
-                    (*itChr + 1)->SetIndex(tempindex - 1);
+
+                    int tempindex;
+                    if ((*itChr + 1)) {
+                        tempindex = (*itChr + 1)->GetIndex();
+                        (*itChr + 1)->SetIndex(tempindex - 1);
+
+                    }
                 }
             }
-            itChr = v_Characters.erase(itChr);
+            itChr = v_Characters.erase(itChr);*/
+            v_Characters.erase(itChr);
             break;
         
         }
@@ -152,8 +158,11 @@ void CharacterManager::Update()
             itChr++;
         }
     }
-
-
+  /*  for (int i = 0; i < v_Characters.size(); i++)
+    {
+        
+    }*/
+ 
     for (int i = 0; i < v_Characters.size(); i++)
     {
         v_Characters[i]->Update();
@@ -270,7 +279,7 @@ void CharacterManager::Render(HDC hdc)
             if (v_Characters[i]->GetDepth() == 1)
             {
                 v_Characters[i]->Render(hdc);
-                v_Characters[i]->ShareRender(hdc);
+               // v_Characters[i]->ShareRender(hdc);
 
 
             }
@@ -283,7 +292,7 @@ void CharacterManager::Render(HDC hdc)
             if (v_Characters[i]->GetDepth() == 2)
             {
                 v_Characters[i]->Render(hdc);
-                v_Characters[i]->ShareRender(hdc);
+              //  v_Characters[i]->ShareRender(hdc);
 
             }
         }
@@ -295,12 +304,21 @@ void CharacterManager::Render(HDC hdc)
             if (v_Characters[i]->GetDepth() == 3)
             {
                 v_Characters[i]->Render(hdc);
-                v_Characters[i]->ShareRender(hdc);
+               // v_Characters[i]->ShareRender(hdc);
 
 
             }
         }
     }
+    for (int i = 0; i < v_Characters.size(); i++)
+    {
+        if (v_Characters[i]->GetStat().hp >= 1) {
+     
+                v_Characters[i]->ShareRender(hdc);   
+        }
+
+    }
+
  /*   if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RETURN))
     {
         for (int i = 0; i < v_Characters.size(); i++)

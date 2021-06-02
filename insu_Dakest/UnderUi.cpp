@@ -57,6 +57,7 @@ HRESULT UnderUi::Init(Tile* currTile, vector<Tile*> minmap)
 	this->currTile = currTile;
 	currTileChange = true;
 	firstTile = true;
+	currflame = ImageManager::GetSingleton()->FindImage("현재위치");
 	return S_OK;
 }
 
@@ -79,7 +80,14 @@ void UnderUi::Update()
 		}
 		
 	}
-	
+	if (currTile->GetType() == TileType::Path)
+	{
+		
+		for (int i = 0; i < currTile->GetPath().size(); i++)
+		{
+			currTile->GetPath()[i]->SetIsVisited(true);
+		}
+	}
 
 }
 
@@ -123,9 +131,27 @@ void UnderUi::Render(HDC hdc)
 				minmap[i]->Render(miniDC);
 			}
 		}
-
+	
 		MiniMap->MinimapRender(hdc, minimapposx, minimapposy, currTile , false);
 
+	}
+	
+	if (currTile->GetType() == TileType::Room)
+	{
+		if (currflame)
+		{
+			//currflame->Render(miniDC, minimapposx + 205, minimapposy + 90);
+			currflame->Render(hdc, minimapposx + 205, minimapposy + 90);
+		}
+	}
+	else if (currTile->GetType() == TileType::Path)
+	{
+		if (currflame)
+		{
+			//currflame->Render(hdc, minimapposx + currTile->GetPath()[0]->getPos().x, minimapposy + currTile->GetPath()[0]->getPos().y);
+			//currflame->flameRender(miniDC, minimapposx + 205, minimapposy + 90, currTile);
+			currflame->flameRender(hdc, minimapposx-50, minimapposy, currTile);
+		}
 	}
 
 }

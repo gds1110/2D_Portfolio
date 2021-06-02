@@ -32,6 +32,7 @@ HRESULT Home::Init()
 	rosterList->AddCharacter2(new H_HighWayMan,4);
 	rosterList->AddCharacter2(new H_Vestel,5);
 	rosterList->AddCharacter2(new H_Leaper,6);
+	rosterList->AddCharacter2(new H_Leaper,7);
 	startButton = ImageManager::GetSingleton()->FindImage("출발버튼");
 	for (int i = 0; i < 4; i++)
 	{

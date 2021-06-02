@@ -68,7 +68,7 @@ public:
 	void SetBattleState(bool is) { this->isBattleState = is; }
 	bool GetBattleState() { return this->isBattleState; }
 
-	void SetDestTile(Tile* tile) { this->destTile = tile; }
+	void SetDestTile(Tile* tile);
 	Tile* GetDestTile() { return this->destTile; }
 
 	

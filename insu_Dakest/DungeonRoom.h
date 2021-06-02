@@ -25,6 +25,7 @@ private:
 	//UnderUi* underUi;
 	int CamPos;
 	char szText[128] = "";
+	bool battleState;
 
 public:
 

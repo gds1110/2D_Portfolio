@@ -69,6 +69,8 @@ private:
 	COLORREF transColor;
 
 	BLENDFUNCTION blendFunc;
+	HBRUSH hBrush;
+	HBRUSH hOldBrush;
 
 public:
 	// 빈 비트맵 이미지를 만드는 함수
@@ -86,6 +88,8 @@ public:
 	void Render(HDC hdc, int destX = 0, int destY = 0,
 		bool isCenterRenderring = false);
 	void MinimapRender(HDC hdc, int destX = 0, int destY = 0,Tile* currTile=nullptr,
+		bool isCenterRenderring = false);
+	void flameRender(HDC hdc, int destX = 0, int destY = 0,Tile* currTile=nullptr,
 		bool isCenterRenderring = false);
 	void Render2(HDC hdc, int destX = 0, int destY = 0,
 		bool isCenterRenderring = false, float size = 1);

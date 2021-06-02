@@ -1,6 +1,7 @@
 #include "H_BountyHunter.h"
 #include "Image.h"
-
+#include "SkillManager.h"
+#include "skill.h"
 HRESULT H_BountyHunter::Init()
 {
     maxFrameArr[State::IDLE] = 18;
@@ -17,7 +18,11 @@ HRESULT H_BountyHunter::Init()
     hClass = HCLASS::BOUNTYHUNTER;
     skillSeting();
 
-
+    S_MGR->AddSkill3(COMBATSKILL, 0, 0);
+    S_MGR->AddSkill3(ARANGESKILL, 1, 1);
+    S_MGR->AddSkill3(COMBATSKILL, 4, 2);
+    S_MGR->AddSkill3(COMBATSKILL, 5, 3);
+    
     return S_OK;
 }
 

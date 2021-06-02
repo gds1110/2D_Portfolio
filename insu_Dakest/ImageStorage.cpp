@@ -26,6 +26,8 @@ HRESULT ImageStorage::Init()
 	ImageManager::GetSingleton()->AddImage("출발버튼", "resource/StartTown/startButton.bmp",225 , 94,1,2,false);
 
 	ImageManager::GetSingleton()->AddImage("스킬선택", "resource/sharedUi/sel_skill.BMP", 60, 60, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("스왑스킬", "resource/sharedUi/swap.BMP", 60, 60, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("노턴스킬", "resource/sharedUi/noturn.BMP", 60, 60, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("유아이", "resource/dungeon/UI/D_under_ui2.BMP", 1280, 240, false);
 	ImageManager::GetSingleton()->AddImage("선택아이콘", "resource/sharedUi/selected_2-down.BMP", 236, 412, 1, 2, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("타겟아이콘", "resource/sharedUi/target.BMP", 197, 412, 1, 2, true, RGB(88, 88, 88));
@@ -33,8 +35,12 @@ HRESULT ImageStorage::Init()
 	ImageManager::GetSingleton()->AddImage("미니맵배경", "resource/sharedUi/downpanelmap.BMP", 480, 240, false);
 	ImageManager::GetSingleton()->AddImage("체력바", "resource/sharedUi/healthBar.BMP", 120, 10, false);
 	ImageManager::GetSingleton()->AddImage("체력바배경", "resource/sharedUi/healthBarBG.BMP", 100, 10, false);
+	ImageManager::GetSingleton()->AddImage("턴틱", "resource/sharedUi/turntick.BMP", 24, 27, true,RGB(255,0,255));
 	ImageManager::GetSingleton()->AddImage("체력칸", "resource/sharedUi/health_pip.BMP", 8, 10, false);
-	ImageManager::GetSingleton()->AddImage("미니맵배경색", "resource/mapui/mapbg.BMP", 600, 600, 1, 1, true, RGB(255, 0, 255));
+	ImageManager::GetSingleton()->AddImage("미니맵배경색", "resource/mapui/mapbg.BMP", 1000, 1000, 1, 1, true, RGB(255, 0, 255));
+	ImageManager::GetSingleton()->AddImage("무빙룸", "resource/mapui/movingrooom.BMP", 30, 30, 1, 1, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("방문룸", "resource/mapui/roomvisited.BMP", 30, 30, 1, 1, true, RGB(88,88, 88));
+	ImageManager::GetSingleton()->AddImage("방문통로", "resource/mapui/pathvisited.BMP", 20, 20, 1, 1, true, RGB(88, 88, 88));
 	return S_OK;
 }
 

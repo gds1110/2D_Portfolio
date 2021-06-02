@@ -112,8 +112,18 @@ void Character::ShareRender(HDC hdc)
     }
     if (hpBar)
     {
-        hpBarBG->Render(hdc, pos.x-35, 460);
-        hpBar->HpBarRender(hdc, pos.x - 35, 460, stat.maxHp, stat.hp);
+        hpBarBG->Render(hdc, pos.x-45, 460);
+        hpBar->HpBarRender(hdc, pos.x - 45, 460, stat.maxHp, stat.hp);
+    }
+    if (haveTurn)
+    {
+        if (HCLASS::LEAPER) {
+            haveturnimg->Render(hdc, pos.x + 60, 450);
+
+        }
+        else {
+            haveturnimg->Render(hdc, pos.x + 70, 450);
+        }
     }
 }
 
@@ -453,7 +463,7 @@ Character::Character()
     targetIcon = ImageManager::GetSingleton()->FindImage("타겟아이콘");    
     hpBar = ImageManager::GetSingleton()->FindImage("체력바");
     hpBarBG = ImageManager::GetSingleton()->FindImage("체력바배경");
-
+    haveturnimg = ImageManager::GetSingleton()->FindImage("턴틱");
     UiDataManager::GetSingleton()->SetClassArr(this->classArr);
 
     index = -1;

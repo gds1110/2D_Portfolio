@@ -61,6 +61,13 @@ void UiDataManager::Update()
 	}*/
 }
 
+void UiDataManager::SetDestTile(Tile* tile)
+{
+	{
+		this->destTile = tile;
+	}
+}
+
 void UiDataManager::AddTarget(Character* target)
 {
 	targetChr.push_back(target);

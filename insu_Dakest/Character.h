@@ -73,7 +73,7 @@ protected:
 	
 	Image* rosterIcon;
 	Image* rosterBg;
-
+	Image* haveturnimg;
 	//Frame
 	int currFrameX;
 	int maxFrameX;

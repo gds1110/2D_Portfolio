@@ -68,6 +68,7 @@ public:
 	void SetIndex(int index) { this->index = index; }
 	virtual void run(int x, Character* target);
 	virtual void MotionRun();
+	virtual void justRun() {};
 
 	Skill();
 	Skill(Character* owner);
@@ -124,6 +125,27 @@ public:
 		//	//UiDataManager::GetSingleton()->GetTarGet()[i].setHp(gethp - 1);
 		//}
 		//
+	}
+
+};
+class SwapSkill : public Skill {
+private:
+
+public:
+
+	virtual void justRun()
+	{
+		return;
+	}
+};
+
+class NoTurn : public Skill {
+private:
+
+public:
+	virtual void justRun()
+	{
+		return;
 	}
 
 };

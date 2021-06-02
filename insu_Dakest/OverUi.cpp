@@ -65,18 +65,9 @@ void OverUi::Update()
 	{
 		ePos = -200;
 	}*/
-	if (battle == true)
+	if (UiDataManager::GetSingleton()->GetBattleState()==true)
 	{
-		combattimer += TimerManager::GetSingleton()->GetElapsedTime();
-		if (combattimer > 0.04f)
-		{
-			combatCurrFrame += 1;
-			combattimer = 0;
-			if (combatCurrFrame > 56)
-			{
-				battle = false;
-			}
-		}
+		
 	}
 }
 
@@ -94,5 +85,19 @@ void OverUi::Render(HDC hdc)
 	torchFireUI->Render(hdc, WINSIZE_X / 2 + 25, 90, true);
 	if (combatCurrFrame<56) {
 		BattleStart->FrameRender(hdc, WINSIZE_X / 2, 300, combatCurrFrame, 0, true);
+	}
+}
+
+bool OverUi::GetDoneStart()
+{
+	combattimer += TimerManager::GetSingleton()->GetElapsedTime();
+	if (combattimer > 0.04f)
+	{
+		combatCurrFrame += 1;
+		combattimer = 0;
+		if (combatCurrFrame > 56)
+		{
+			return true;
+		}
 	}
 }

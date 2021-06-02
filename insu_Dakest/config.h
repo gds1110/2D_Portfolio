@@ -82,6 +82,8 @@ typedef struct tagDungeon
 	POINT prevAnNext = { -1,-1 }; //통로일때 어느방에서 왔는지x 와 어느방으로 이동하는지 y
 	POINT pos;
 	PathDir pathDir = PathDir::NONEDIR;
+	bool isVisited = false;
+	bool isDestroom = false;
 } DUNGEONINFO, * PTR_DUNGEONINFO;
 
 
@@ -134,6 +136,9 @@ extern enum SKILLTYPE
 	COMBATSKILL,
 	ARANGESKILL,
 	CHARGESKILL,
+	HEALSKILL,
+	SWAPSKILL,
+	NOTURNSKILL,
 	NONESKILLTYPE
 };
 

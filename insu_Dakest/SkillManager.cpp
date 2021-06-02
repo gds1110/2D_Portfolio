@@ -106,9 +106,32 @@ void SkillManager::AddSkill2(Skill* skill, int skillNum, int index)
 
 void SkillManager::AddSkill3(SKILLTYPE type, int skillNum, int index)
 {
-	if (skillSlot.size() > 3)
+	if (type==SWAPSKILL)
 	{
-		return;
+		skillSlot.push_back(new SwapSkill());
+		skillSlot[4]->Init();
+		skillSlot[4]->SetOwner(this->owner);
+		skillSlot[4]->SetSkillType(type);
+		skillSlot[4]->SetHClass(hclass);
+		skillSlot[4]->SetskillNum(skillNum);
+		skillSlot[4]->SkillInit();
+
+		//skillSlot[4]->SetIndex(4);
+		skillSlot[4]->SetPos(skillPos[4]);
+	}
+	else if (type == NOTURNSKILL)
+	{
+		skillSlot.push_back(new NoTurn());
+		skillSlot[5]->Init();
+		skillSlot[5]->SetOwner(this->owner);
+		skillSlot[5]->SetSkillType(type);
+		skillSlot[5]->SetHClass(hclass);
+		skillSlot[5]->SetskillNum(skillNum);
+		skillSlot[5]->SkillInit();
+
+		//skillSlot[5]->SetIndex(5);
+		skillSlot[5]->SetPos(skillPos[5]);
+
 	}
 	else
 	{

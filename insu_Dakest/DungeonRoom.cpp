@@ -109,7 +109,7 @@ HRESULT DungeonRoom::DungoenInit(Tile* flowTile)
 
 	/*d_UI = new DungeonUi();
 	d_UI->Init(C_MGR, M_MGR, d_info,UiDataManager::GetSingleton()->GetTile());*/
-
+	flowTile->SetIsCurrted(true);
 	FindFirstBg(this->d_info);
 	DM = new DataManager();
 	DM->Init(C_MGR, M_MGR,flowTile);
@@ -189,12 +189,22 @@ void DungeonRoom::Update()
 		DM->SetBattle(true);
 	}
 
+	thisTile = UiDataManager::GetSingleton()->GetTile();
+
+	if(battleState == false)
+	{
+		if (thisTile->GetDinfo().isEnemyed == true) {
+		UiDataManager::GetSingleton()->SetBattleState(true);
+		}
+	}
 
 	if (CamPos) {
 		DM->SetCampos(CamPos);
 	}
 	if (DM)
 	{
+
+		DM->SetBattle(UiDataManager::GetSingleton()->GetBattleState());
 		DM->Update();
 
 	}

@@ -55,6 +55,11 @@ void Tile::Update()
 	if (type == TileType::Path)
 	{
 		tileImg = ImageManager::GetSingleton()->FindImage("Åë·Î");
+		if (isVisited == true)
+		{
+
+			tileImg = ImageManager::GetSingleton()->FindImage("¹æ¹®Åë·Î");
+		}
 	}
 	else if (type == TileType::Room)
 	{
@@ -63,11 +68,21 @@ void Tile::Update()
 		rc.right = center.x + TILE_SIZE ;
 		rc.top = center.y - TILE_SIZE;
 		rc.bottom = center.y + TILE_SIZE ;
+		if (isVisited == true)
+		{
+
+			tileImg = ImageManager::GetSingleton()->FindImage("¹æ¹®·ë");
+		}
 	}
 	if (isCurrted==true)
 	{
 		tileIcon = ImageManager::GetSingleton()->FindImage("ÇöÀçÀ§Ä¡");
 	}
+	if (isDest == true)
+	{
+		tileIconFX=ImageManager::GetSingleton()->FindImage("¹«ºù·ë");
+	}
+
 	if (canWay)
 	{
 		size += TimerManager::GetSingleton()->GetElapsedTime();
@@ -78,29 +93,13 @@ void Tile::Update()
 		
 	}
 	
-	//if (openList[i]->GetIsCurrted() == true)
-	//{
-	//	for (int j = 0; j < openList[i]->GetWay().size(); j++)
-	//	{
-	//		openList[i]->GetWay()[j]->SetIsWay(true);
-	//	}
-	//}
 }
 
 void Tile::Render(HDC hdc)
 {
-	//hOldBrush = (HBRUSH)SelectObject(hdc, hBrush);
-	//FillRect(hdc, &rc, hBrush);
-	
-	//SelectObject(hdc, hOldBrush);
-	//wsprintf(szText, "%d", idX);
-	//TextOut(hdc, center.x, center.y, szText, strlen(szText));
-	/*wsprintf(szText, "%d", idY);
-	TextOut(hdc, center.x-5, center.y-5, szText, strlen(szText));*/
 	if (tileImg) {
 		tileImg->Render2(hdc, center.x, center.y, true, size);
-	/*	wsprintf(szText, "%d", index);
-				TextOut(hdc, center.x-5, center.y-5, szText, strlen(szText));*/
+
 		if (index > -1) {
 	
 		}
@@ -112,8 +111,12 @@ void Tile::Render(HDC hdc)
 	
 			}
 		}
-
+		if (tileIconFX)
+		{
+			tileIconFX->Render(hdc, center.x, center.y, true);
+		}
 	}
+	//Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
 }
 
 
@@ -260,7 +263,7 @@ void MapGenManager::Update()
 	else
 		{
 			minimapdone = true;
-			map[startPoint.y][startPoint.x].SetIsCurrted(true);
+			//map[startPoint.y][startPoint.x].SetIsCurrted(true);
 			map[startPoint.y][startPoint.x].SetIsStarted(true);
 
 			for (int i = 0; i < openList.size(); i++)
@@ -268,7 +271,7 @@ void MapGenManager::Update()
 				openList[i]->SetPos(20+(openList[i]->GetIdX() * TILE_SIZE) - (minIndex.x * TILE_SIZE), 20+(openList[i]->GetIdY() * TILE_SIZE) - (minIndex.y * TILE_SIZE));
 				openList[i]->RandomSetTileInfo();
 					if (openList[i]->GetIsCurrted()) {
-						openList[i]->SetIsCurrted(true);
+						//openList[i]->SetIsCurrted(true);
 					}
 			}
 	}
@@ -390,6 +393,7 @@ void MapGenManager::Render(HDC hdc)
 			TextOut(hdc, i * 20, 30*i%10, szText, strlen(szText));
 		}
 	}
+
 	
 }
 
@@ -427,12 +431,14 @@ void MapGenManager::MakePath(Tile& tile)
 					map[currIdY][currIdX + i].SetColor(RGB(0, 255, 0));
 					map[currIdY][currIdX + i].SetType(TileType::Path);
 					map[currIdY][currIdX + i].SetDinfoDtype(DungeonType::PATH);
-
 					if (map[currIdY][currIdX + i].GetIsInOpenlist() == false) {
+						map[currIdY][currIdX + 1].addPath(&map[currIdY][currIdX + i]);
+
 						map[currIdY][currIdX + i].SetIsInOpenlist(true);
 						if (i == 1) {
 							map[currIdY][currIdX + 1].SetPrevAndNextTile(&map[currIdY][currIdX], &map[currIdY][currIdX + 5]);
 							map[currIdY][currIdX + 1].SetIsPath(true);
+							
 						}
 						AddOpenList(&map[currIdY][currIdX + i]);
 					}
@@ -455,6 +461,8 @@ void MapGenManager::MakePath(Tile& tile)
 					map[currIdY][currIdX - i].SetDinfoDtype(DungeonType::PATH);
 
 					if (map[currIdY][currIdX - i].GetIsInOpenlist() == false) {
+						map[currIdY][currIdX - 1].addPath(&map[currIdY][currIdX - i]);
+
 						map[currIdY][currIdX - i].SetIsInOpenlist(true);
 						if (i == 1) {
 							map[currIdY][currIdX - 1].SetPrevAndNextTile(&map[currIdY][currIdX], &map[currIdY][currIdX - 5]);
@@ -481,6 +489,8 @@ void MapGenManager::MakePath(Tile& tile)
 					map[currIdY + i][currIdX].SetDinfoDtype(DungeonType::PATH);
 
 					if (map[currIdY + i][currIdX].GetIsInOpenlist() == false) {
+						map[currIdY+1][currIdX ].addPath(&map[currIdY+i][currIdX ]);
+
 						map[currIdY + i][currIdX].SetIsInOpenlist(true);
 						if (i == 1) {
 
@@ -509,6 +519,8 @@ void MapGenManager::MakePath(Tile& tile)
 					map[currIdY - i][currIdX].SetDinfoDtype(DungeonType::PATH);
 
 					if (map[currIdY - i][currIdX].GetIsInOpenlist() == false) {
+						map[currIdY - 1][currIdX].addPath(&map[currIdY - i][currIdX]);
+
 						map[currIdY - i][currIdX].SetIsInOpenlist(true);
 						if (i == 1) {
 							map[currIdY - 1][currIdX].SetPrevAndNextTile(&map[currIdY][currIdX], &map[currIdY - 5][currIdX]);

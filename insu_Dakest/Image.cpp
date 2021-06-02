@@ -37,6 +37,8 @@ HRESULT Image::Init(int width, int height)
     this->blendFunc.BlendOp = AC_SRC_OVER;
     this->blendFunc.SourceConstantAlpha = 255;
 
+    hBrush = CreateSolidBrush(RGB(255, 0, 255));
+
     return S_OK;
 }
 
@@ -85,6 +87,8 @@ HRESULT Image::Init(const char* fileName, int width, int height,
     this->blendFunc.BlendOp = AC_SRC_OVER;
     this->blendFunc.SourceConstantAlpha = 255;
 
+    hBrush = CreateSolidBrush(RGB(255, 0, 255));
+
     return S_OK;
 }
 
@@ -132,6 +136,8 @@ HRESULT Image::Init(const char* fileName, int width, int height, int maxFrameX, 
     this->blendFunc.BlendFlags = 0;
     this->blendFunc.BlendOp = AC_SRC_OVER;
     this->blendFunc.SourceConstantAlpha = 255;
+
+    hBrush = CreateSolidBrush(RGB(255, 0, 255));
 
 
     return S_OK;
@@ -192,24 +198,53 @@ void Image::MinimapRender(HDC hdc, int destX, int destY, Tile* currTile, bool is
 
     if (isTransparent)
     {
-        StretchBlt(
-            hdc,
-            
-            x, y,
-            430,
-            230,
-            imageInfo->hMemDC,
-            offsetx,//-215
-            offsety,//-100,
-            //hdc,
-            /*minP.x * TILE_SIZE,
-            minP.y * TILE_SIZE,*/
-            //(maxP.x+1 - minP.x) * TILE_SIZE , (maxP.y+1 - minP.y) * TILE_SIZE,
+        //StretchBlt(
+        //    hdc,
+        //    
+        //    x, y,
+        //    430,
+        //    230,
+        //    imageInfo->hMemDC,
+        //    offsetx,//-215
+        //    offsety,//-100,
+        //    //hdc,
+        //    /*minP.x * TILE_SIZE,
+        //    minP.y * TILE_SIZE,*/
+        //    //(maxP.x+1 - minP.x) * TILE_SIZE , (maxP.y+1 - minP.y) * TILE_SIZE,
 
-            430,
-            230,
-            SRCCOPY);
+        //    430,
+        //    230,
+        //    SRCCOPY);
+        hOldBrush = (HBRUSH)SelectObject(imageInfo->hAlphaDC, hBrush);
+        PatBlt(imageInfo->hAlphaDC, 0, 0, 430, 220, PATCOPY);  //bitmap fill majenta  
+        SelectObject(imageInfo->hAlphaDC, hOldBrush);
 
+        StretchBlt(imageInfo->hAlphaDC, 0, 0, 430, 220, imageInfo->hMemDC, offsetx, offsety, 430, 220, SRCCOPY);
+       
+        GdiTransparentBlt(hdc, x, y, 430, 220, imageInfo->hAlphaDC, 0, 0, 430, 220, transColor);
+   
+   /*     BitBlt(imageInfo->hBlendDC, 0, 0, imageInfo->width, imageInfo->height,
+            hdc, x, y, SRCCOPY);*/
+
+        //GdiTransparentBlt(imageInfo->)
+
+        // 2. 출력할 이미지 DC에 내용을 BlendDC에 지정한 색상을 제외하면서 복사
+
+
+        //// 3.
+        //AlphaBlend(hdc, x, y, imageInfo->width, imageInfo->height,
+        //    imageInfo->hBlendDC, 0, 0, imageInfo->width, imageInfo->height, blendFunc);
+
+          // bitmap 에 있는 이미지 정보를 다른 비트맵에 복사
+        //BitBlt(
+        //    hdc,                // 복사 목적지 DC
+        //    x, y,               // 복사 시작 위치
+        //    imageInfo->width,   // 원본에서 복사될 가로크기
+        //    imageInfo->height,  // 원본에서 복사될 세로크기
+        //    imageInfo->hMemDC,  // 원본 DC
+        //    0, 0,               // 원본에서 복사 시작 위치
+        //    SRCCOPY             // 복사 옵션
+        //);
 
         //// 특정 색상을 빼고 복사하는 함수
         //      GdiTransparentBlt(
@@ -250,26 +285,70 @@ void Image::MinimapRender(HDC hdc, int destX, int destY, Tile* currTile, bool is
             imageInfo->width, imageInfo->height,
             transColor
         );*/
-        StretchBlt(
-            hdc,
-            x, y,
-            430,
-            230,
-            imageInfo->hMemDC,
-            offsetx,//-215
-            offsety,//-100,
-            //hdc,
-            /*minP.x * TILE_SIZE,
-            minP.y * TILE_SIZE,*/
-            //(maxP.x+1 - minP.x) * TILE_SIZE , (maxP.y+1 - minP.y) * TILE_SIZE,
-           
-            430,
-            230,
-            SRCCOPY);
+        //StretchBlt(
+        //    hdc,
+        //    x, y,
+        //    430,
+        //    230,
+        //    imageInfo->hMemDC,
+        //    offsetx,//-215
+        //    offsety,//-100,
+        //    //hdc,
+        //    /*minP.x * TILE_SIZE,
+        //    minP.y * TILE_SIZE,*/
+        //    //(maxP.x+1 - minP.x) * TILE_SIZE , (maxP.y+1 - minP.y) * TILE_SIZE,
+        //   
+        //    430,
+        //    230,
+        //    SRCCOPY);
 
 
     }
 
+}
+
+void Image::flameRender(HDC hdc, int destX, int destY, Tile* currTile, bool isCenterRenderring)
+{
+    int x = destX +currTile->getPos().x;
+    int y = destY+currTile->getPos().y;
+    int offsetx = currTile->getPos().x - 215;
+    int offsety = currTile->getPos().y - 100;
+    if (isCenterRenderring)
+    {
+        x = destX - (imageInfo->width / 2);
+        y = destY - (imageInfo->height / 2);
+    }
+
+    if (isTransparent)
+    {
+        GdiTransparentBlt(
+            imageInfo->hMemDC,
+            x, y,
+            imageInfo->width, imageInfo->height,
+
+            imageInfo->hMemDC,
+            0, 0,
+            imageInfo->width, imageInfo->height,
+            transColor
+        ); 
+    
+
+
+    }
+    else
+    {
+        GdiTransparentBlt(
+            imageInfo->hMemDC,
+            x, y,
+            imageInfo->width, imageInfo->height,
+
+            imageInfo->hMemDC,
+            0, 0,
+            imageInfo->width, imageInfo->height,
+            transColor
+        );
+
+    }
 }
 
 void Image::Render2(HDC hdc, int destX, int destY, bool isCenterRenderring, float size)
@@ -964,4 +1043,6 @@ void Image::Release()
         delete imageInfo;
         imageInfo = nullptr;
     }
+
+    DeleteObject(hBrush);
 }

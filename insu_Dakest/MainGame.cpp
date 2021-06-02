@@ -83,7 +83,6 @@ void MainGame::Render()
 	TextOut(hBackDC, 200, 20, szText, strlen(szText));
 	// FPS
 	TimerManager::GetSingleton()->Render(hBackDC);
-
 	backBuffer->Render(hdc);
 }
 

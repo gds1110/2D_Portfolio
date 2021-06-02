@@ -22,8 +22,19 @@ void Skill::Update()
 	{
 		hClass = owner->GetClass();
 	}
-	iconImg = ImageManager::GetSingleton()->FindImage(UiDataManager::GetSingleton()->GetClassArr()[hClass] + "스킬셋");
+	if (type == SWAPSKILL)
+	{
+		iconImg = ImageManager::GetSingleton()->FindImage("스왑스킬");
+	}
+	if (type == NOTURNSKILL)
+	{
+		iconImg = ImageManager::GetSingleton()->FindImage("노턴스킬");
 
+	}
+	else
+	{
+		iconImg = ImageManager::GetSingleton()->FindImage(UiDataManager::GetSingleton()->GetClassArr()[hClass] + "스킬셋");
+	}
 	SetRect(&iconRC, pos.x - 25, pos.y - 25, pos.x + 25, pos.y + 25);
 	
 
@@ -31,11 +42,12 @@ void Skill::Update()
 }
 
 void Skill::Render(HDC hdc)
-{	Rectangle(hdc, iconRC.left, iconRC.top, iconRC.right, iconRC.bottom);
-	if (iconImg) {
-		iconImg->FrameRender(hdc, pos.x+10, pos.y+10, skillNum, skillstate, true,0.7);
+{	//Rectangle(hdc, iconRC.left, iconRC.top, iconRC.right, iconRC.bottom);
+ {
+		if(iconImg){ 
+		iconImg->FrameRender(hdc, pos.x + 10, pos.y + 10, skillNum, skillstate, true, 0.7);
+		}
 	}
-
 }
 
 void Skill::SkillInit()
