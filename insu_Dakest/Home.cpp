@@ -149,8 +149,10 @@ void Home::Update()
 				if (PtInRect(&tempRC, g_ptMouse)) {
 					if (PtInRect(&tempRC, g_ptMouse) && rosterList->GetCharacters()[i]->GetIconIsSelecetd() == false)
 					{
-						mouseIcon = rosterList->GetCharacters()[i]->GetIconImage();
-						selectNum = rosterList->GetCharacters()[i]->GetIndex();
+						if (mouseIcon == nullptr) {
+							mouseIcon = rosterList->GetCharacters()[i]->GetIconImage();
+							selectNum = rosterList->GetCharacters()[i]->GetIndex();
+						}
 					}
 
 				}
@@ -206,10 +208,7 @@ void Home::Render(HDC hdc)
 		}
 	}
 
-	if (mouseIcon != nullptr)
-	{
-		mouseIcon->Render(hdc, g_ptMouse.x, g_ptMouse.y);
-	}
+	
 	//Rectangle(hdc, startRC.left, startRC.top, startRC.right, startRC.bottom);
 
 	for (int i = 0; i < rosterList->GetCharacters().size(); i++)
@@ -224,7 +223,10 @@ void Home::Render(HDC hdc)
 			heroSlot[i].icon->Render(hdc, heroSlot[i].pos.x, heroSlot[i].pos.y);
 		}
 	}
-
+if (mouseIcon != nullptr)
+	{
+		mouseIcon->Render(hdc, g_ptMouse.x, g_ptMouse.y);
+	}
 
 	//Rectangle(hdc, divideRc.left, divideRc.top, divideRc.right, divideRc.bottom);
 	wsprintf(szText, "campos : %d", ready);

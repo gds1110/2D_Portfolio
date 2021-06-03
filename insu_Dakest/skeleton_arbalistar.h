@@ -23,7 +23,7 @@ public:
 		stat.atkSpeed = 2;
 		stat.avd = 1; //회피율
 		stat.defense = 1;
-		stat.damage = { 5,10 }; //데미지 x <- low y <- high
+		stat.damage = { 4,6 }; //데미지 x <- low y <- high
 		stat.acc = 5;; //명중률
 		stat.stress = 0;
 	}

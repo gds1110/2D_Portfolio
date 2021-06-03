@@ -68,6 +68,11 @@ void Skill::SkillInit()
 	if (owner->GetUnitType() == UnitType::HERO) {
 		switch (type)
 		{
+		case SWAPSKILL:
+			s_info.skillRank = { 0,3 };
+			s_info.targetRank = { 0,3 };
+			s_info.range = 1;
+			break;
 		case COMBATSKILL:
 			switch (hClass)
 			{
@@ -126,6 +131,11 @@ void Skill::SkillInit()
 			case CRUSADER:
 				break;
 			case BOUNTYHUNTER:
+
+				s_info.skillRank = { 1,3 };
+				s_info.targetRank = { 1,3 };
+				s_info.range = 1;
+
 				break;
 			case HIGHWAYMAN:
 				break;
@@ -151,8 +161,8 @@ void Skill::SkillInit()
 			case LEAPER:
 				if (skillNum == 5)
 				{
-					s_info.skillRank = { 1,2 };
-					s_info.targetRank = { 1,2 };
+					s_info.skillRank = { 0,1 };
+					s_info.targetRank = { 0,1 };
 					s_info.range = 1;
 				}
 				break;
@@ -343,6 +353,8 @@ void CombatAttack::run(int x, Character* target)
 			owner->SetCurrState(State::SKILL3);
 			if (target->GetMark() == true)
 			{
+				target->setMark(false);
+
 				x = x * 1.5;
 			}
 			target->Hurt(x);
@@ -355,6 +367,7 @@ void CombatAttack::run(int x, Character* target)
 		if (skillNum == 1) {
 			owner->SetCurrState(State::SKILL1); 
 			target->setStun(true);
+			target->SetFxon(Character::FxType::STUNFX);
 			target->Hurt(1);
 
 		}
@@ -368,6 +381,8 @@ void CombatAttack::run(int x, Character* target)
 			owner->SetCurrState(State::SKILL3);
 			if (target->GetMark() == true)
 			{
+				target->setMark(false);
+
 				x = x * 1.5;
 			}
 			target->Hurt(x);
@@ -377,6 +392,7 @@ void CombatAttack::run(int x, Character* target)
 			owner->SetCurrState(State::SKILL4);
 			if (target->GetMark() == false) {
 				target->setMark(true);
+				target->SetFxon(Character::FxType::MARKFX);
 			}
 			target->Hurt(1);
 
@@ -386,6 +402,7 @@ void CombatAttack::run(int x, Character* target)
 		owner->SetCurrState(State::SKILL1);
 		if (target->GetMark() == true)
 		{
+			target->setMark(false);
 			x = x * 1.5;
 		}
 		target->Hurt(x);
@@ -423,6 +440,7 @@ HealSkill::HealSkill(Character* owner)
 
 void HealSkill::run(int x, Character* target)
 {
+
 	if (owner->GetClass() == LEAPER)
 	{
 		if (skillNum == 5) {
@@ -469,5 +487,43 @@ StunSkill::StunSkill(Character* owner)
 }
 
 void StunSkill::run(int x, Character* target)
+{
+	if (owner->GetClass() == VESTEL)
+	{
+		if (target->GetStun())
+		{
+			target->setStun(true);
+			target->Hurt(1);
+		}
+		owner->SetCurrState(SKILL1);
+	}
+}
+
+ChargeAttack::ChargeAttack(Character* owner)
+{
+	this->owner = owner;
+}
+
+void ChargeAttack::run(int x, Character* target)
+{
+	if (owner->GetClass() == BOUNTYHUNTER)
+	{
+		if (skillNum == 1) {
+			owner->SetCurrState(State::SKILL1);
+			target->setStun(true);
+			target->SetFxon(Character::FxType::STUNFX);
+			target->Hurt(1);
+
+		}
+		owner->SetCurrState(State::SKILL1);
+	}
+}
+
+SwapSkill::SwapSkill(Character* owner)
+{
+	this->owner = owner;
+}
+
+void SwapSkill::run(int x, Character* target)
 {
 }

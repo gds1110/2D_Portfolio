@@ -62,13 +62,14 @@ private:
 	int	minimapposy;
 	float eltimess = 0;
 
+	int hiteffectFrame;
 	Image* HitEffect;
 	float HitTimes;
+	bool HitEffectCheck;
 
 public:
 	virtual HRESULT Init();
 	virtual HRESULT Init(CharacterManager* SC_MGR,CharacterManager* SM_MGR,Tile* currTile);
-	virtual HRESULT Init(CharacterManager* SC_MGR,CharacterManager* SM_MGR, UnderUi* ui, Tile* currtile);
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
@@ -76,8 +77,7 @@ public:
 
 	static bool compare(const BODER& a, const BODER& b);
 
-	void BattleStages(CharacterManager& C_MGR,CharacterManager& M_MGR);
-	void BattleStages(CharacterManager* C_MGR,CharacterManager* M_MGR, Character* turnchr);
+
 	bool BattleStages2(CharacterManager* C_MGR,CharacterManager* M_MGR, Character* turnchr);
 
 
@@ -113,7 +113,7 @@ public:
 
 	void AddTarget(Character* target) { targetChr.push_back(target); }
 
-	void DoHitEffect(TurnType types);
+	bool DoHitEffect(TurnType types);
 
 };
 

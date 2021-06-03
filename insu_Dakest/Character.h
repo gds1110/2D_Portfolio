@@ -7,7 +7,12 @@ class SkillManager;
 class Character : public GameNode
 {
 public:
-
+	enum FxType
+	{
+		HEALFX,
+		STUNFX,
+		MARKFX,
+	};
 protected:
 	struct Status
 	{
@@ -58,6 +63,7 @@ protected:
 	bool htarget;
 	bool hfixedTarget;
 
+	bool deadcheck;
 	//skill
 	bool AbilOn;
 	float AbilTime;
@@ -76,6 +82,8 @@ protected:
 	float mTime;
 	int alpha;
 	
+	Image* FXimg;
+	Image* deadIcon;
 	Image* rosterIcon;
 	Image* rosterBg;
 	Image* haveturnimg;
@@ -100,6 +108,14 @@ protected:
 	bool battleState = false;
 	bool haveTurn;
 
+	bool fxOn;
+	int fxFrame;
+	float fxTimer;
+	FxType fxType;
+
+	float deadTimer;
+	int deadFrame;
+
 	int index;
 	bool iconIsSeleceted;
 	bool iconMouseOver;
@@ -113,6 +129,8 @@ public:
 	virtual void Render(HDC hdc);
 	virtual void Render2(HDC hdc);
 
+	void BehindFxRender(HDC hdc);
+	void FrontFxRender(HDC hdc);
 	virtual HRESULT RosterInit();
 	virtual void RosterRelease();
 	virtual void RosterUpdate();
@@ -122,6 +140,15 @@ public:
 	virtual void PartyRelease();
 	virtual void PartyUpdate();
 	virtual void PartyRender(HDC hdc);
+
+
+	void SetFxon(FxType fx) { this->fxType = fx; fxOn = true; }
+	bool GetFxon() { return this->fxOn; }
+	bool FxFunc();
+	bool goDead();
+
+	void SetDead(bool dead) { this->deadcheck = dead; }
+	bool GetDead() { return this->deadcheck; }
 
 	void SetHp(int x) { this->stat.hp = x; }
 

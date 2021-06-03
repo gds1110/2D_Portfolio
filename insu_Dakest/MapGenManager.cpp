@@ -170,13 +170,13 @@ void Tile::RandomSetTileInfo()
 	{
 		monnum = rand() % 3+1;
 		d_info.enemySize = monnum;
-		d_info.enemySize = 2; // 지워야할거
+		d_info.enemySize = 4; // 지워야할거
 		for (int i = 0; i < d_info.enemySize; i++)
 		{
 			monrandom = rand() % 4;
 	
 			d_info.enemyArr[i] = monrandom;
-			d_info.enemyArr[i] = 1; //지워야할거
+			//d_info.enemyArr[i] = 1; //지워야할거
 		}
 		d_info.infoDone = true;
 

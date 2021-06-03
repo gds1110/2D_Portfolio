@@ -20,10 +20,10 @@ public:
 		stat.maxHp = 40;
 		//stat.hp = stat.maxHp;
 		stat.hp = 40;
-		stat.atkSpeed = 3;
+		stat.atkSpeed = 10;
 		stat.avd = 1; //회피율
 		stat.defense = 1;
-		stat.damage = { 7,13 }; //데미지 x <- low y <- high
+		stat.damage = { 70,130 }; //데미지 x <- low y <- high
 		stat.acc = 5;; //명중률
 		stat.stress = 0;
 	}

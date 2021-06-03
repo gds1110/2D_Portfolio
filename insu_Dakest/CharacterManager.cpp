@@ -12,13 +12,13 @@ HRESULT CharacterManager::Init()
 {
     index = 0;
  
- 
+    timers = 0;
     return S_OK;
 }
 
 HRESULT CharacterManager::Init(int num)
 {
-   
+    timers = 0;
 
     return S_OK;
 }
@@ -132,32 +132,14 @@ void CharacterManager::Release()
 
 void CharacterManager::Update()
 {
+ /*   timers += TimerManager::GetSingleton()->GetElapsedTime();
+    if (timers > 2.0f) {
+        v_Characters.erase(itChr);
+        timers = 0;
+    }*/
+   
 
-    for (itChr = v_Characters.begin(); itChr != v_Characters.end();)
-    {
-        if ((*itChr)->GetStat().hp <= 0)
-        {
-            /*if (v_Characters.size() > 1) {
-                if (itChr + 1 != v_Characters.end())
-                {
 
-                    int tempindex;
-                    if ((*itChr + 1)) {
-                        tempindex = (*itChr + 1)->GetIndex();
-                        (*itChr + 1)->SetIndex(tempindex - 1);
-
-                    }
-                }
-            }
-            itChr = v_Characters.erase(itChr);*/
-            v_Characters.erase(itChr);
-            break;
-        
-        }
-        else {
-            itChr++;
-        }
-    }
   /*  for (int i = 0; i < v_Characters.size(); i++)
     {
         
@@ -165,13 +147,20 @@ void CharacterManager::Update()
  
     for (int i = 0; i < v_Characters.size(); i++)
     {
+       /* if (v_Characters[i]->GetStat().hp < -1)
+        {
+            if (v_Characters[i]->goDead() == true) {
+                v_Characters[i]->SetDead(true);
+            }
+        }*/
+        v_Characters[i]->SetIndex(i);
         v_Characters[i]->Update();
         if (UiDataManager::GetSingleton()->GetBattleState()==true)
         {
             v_Characters[i]->SetCurrState(State::COMBAT);
         }
         if (v_Characters[i]->GetCurrState() == State::COMBAT && UiDataManager::GetSingleton()->GetBattleState() == false)
-        {
+        {//
             v_Characters[i]->SetCurrState(State::IDLE);
         }
         else
@@ -180,7 +169,36 @@ void CharacterManager::Update()
         }
     }
    
-   
+    for (itChr = v_Characters.begin(); itChr != v_Characters.end();)
+    {
+        if ((*itChr)->GetDead() == true) {
+            itChr = v_Characters.erase(itChr);
+
+            break;
+        }
+        //if ((*itChr)->GetStat().hp <= 0)
+        //{
+        //    /*if (v_Characters.size() > 1) {
+        //        if (itChr + 1 != v_Characters.end())
+        //        {
+
+        //            int tempindex;
+        //            if ((*itChr + 1)) {
+        //                tempindex = (*itChr + 1)->GetIndex();
+        //                (*itChr + 1)->SetIndex(tempindex - 1);
+
+        //            }
+        //        }
+        //    }*/
+        //    itChr = v_Characters.erase(itChr);
+        //
+        //    break;
+        //
+        //}
+        else {
+            itChr++;
+        }
+    }
 
   /*  for (int i = 0; i < v_Characters.size(); i++)
     {
@@ -275,7 +293,15 @@ void CharacterManager::Render(HDC hdc)
    */
     for (int i = 0; i < v_Characters.size(); i++)
     {
-        if (v_Characters[i]->GetStat().hp >= 1) {
+        if (v_Characters[i]->GetDead() == false) {
+
+            v_Characters[i]->BehindFxRender(hdc);
+        }
+
+    }
+    for (int i = 0; i < v_Characters.size(); i++)
+    {
+        if (v_Characters[i]->GetDead()==false) {
             if (v_Characters[i]->GetDepth() == 1)
             {
                 v_Characters[i]->Render(hdc);
@@ -287,7 +313,7 @@ void CharacterManager::Render(HDC hdc)
     }
     for (int i = 0; i < v_Characters.size(); i++)
     {
-        if (v_Characters[i]->GetStat().hp >= 1){
+        if (v_Characters[i]->GetDead() == false){
 
             if (v_Characters[i]->GetDepth() == 2)
             {
@@ -299,7 +325,7 @@ void CharacterManager::Render(HDC hdc)
     }
     for (int i = 0; i < v_Characters.size(); i++)
     {
-        if (v_Characters[i]->GetStat().hp >= 1) {
+        if (v_Characters[i]->GetDead() == false) {
 
             if (v_Characters[i]->GetDepth() == 3)
             {
@@ -312,13 +338,20 @@ void CharacterManager::Render(HDC hdc)
     }
     for (int i = 0; i < v_Characters.size(); i++)
     {
-        if (v_Characters[i]->GetStat().hp >= 1) {
+        if (v_Characters[i]->GetDead() == false) {
      
                 v_Characters[i]->ShareRender(hdc);   
         }
 
     }
+    for (int i = 0; i < v_Characters.size(); i++)
+    {
+        if (v_Characters[i]->GetDead() == false) {
 
+            v_Characters[i]->FrontFxRender(hdc);
+        }
+
+    }
  /*   if (KeyManager::GetSingleton()->IsStayKeyDown(VK_RETURN))
     {
         for (int i = 0; i < v_Characters.size(); i++)

@@ -17,9 +17,9 @@ HRESULT H_Leaper::Init()
     ImageManager::GetSingleton()->AddImage("나병환자 아이콘", "resource/hero/Leaper/icon.BMP", 65, 65, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("나병환자 스킬셋", "resource/hero/Leaper/skill/skillset.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("나병환자 스킬1", "resource/hero/Leaper/skill/chop/hchop.BMP", 600, 450,1, 1, true, RGB(88, 88, 88));
-    ImageManager::GetSingleton()->AddImage("나병환자 스킬2", "resource/hero/Leaper/skill/chop/skill1.BMP", 600, 450,1, 1, true, RGB(88, 88, 88));
-    ImageManager::GetSingleton()->AddImage("나병환자 스킬3", "resource/hero/Leaper/skill/chop/skill2.BMP", 600, 450,1, 1, true, RGB(88, 88, 88));
-    ImageManager::GetSingleton()->AddImage("나병환자 스킬4", "resource/hero/Leaper/skill/chop/skill3.BMP", 600, 450,1, 1, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("나병환자 스킬2", "resource/hero/Leaper/skill1.BMP", 600, 450,1, 1, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("나병환자 스킬3", "resource/hero/Leaper/skill2.BMP", 600, 450,1, 1, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("나병환자 스킬4", "resource/hero/Leaper/skill3.BMP", 600, 450,1, 1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("나병환자 피격", "resource/hero/Leaper/hurt.BMP", 400, 500,1, 1, true, RGB(88, 88, 88));
 
     currstate = State::IDLE;

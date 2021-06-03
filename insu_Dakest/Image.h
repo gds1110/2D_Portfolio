@@ -1,6 +1,6 @@
 #pragma once
 #include "config.h"
-
+#define PI			3.141592654
 class Image
 {
 public:

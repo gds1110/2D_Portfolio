@@ -114,19 +114,10 @@ class ChargeAttack : public  Skill {
 private:
 
 public:
-	ChargeAttack() {
-		s_info.skillRank = { 2,3 };
-		s_info.targetRank = { 2,3 };
-		s_info.range = 2;
-	}
+	ChargeAttack(Character* owner);
+	
 
-	void run(int x, Character* target) {
-		//if(hClass==)
-		//for (int i = 0; i < UiDataManager::GetSingleton()->GetTarGet().size(); i++) {
-		//	//UiDataManager::GetSingleton()->GetTarGet()[i].setHp(gethp - 1);
-		//}
-		//
-	}
+	void run(int x, Character* target);
 
 };
 class StunSkill :public Skill
@@ -143,7 +134,8 @@ class SwapSkill : public Skill {
 private:
 
 public:
-
+	SwapSkill(Character* owner);
+	virtual void run(int x, Character* target);
 	virtual void justRun()
 	{
 		return;

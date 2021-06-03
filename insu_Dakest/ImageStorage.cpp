@@ -4,19 +4,19 @@ HRESULT ImageStorage::Init()
 {
 	//cap
 	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êƒ∏∆æ ƒƒπÓ", "resource/monster/skeleton_captain/combat/combat.BMP", 3706, 400, 17, 1, true, RGB(88, 88, 88));
-	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êƒ∏∆æ ««∞›", "resource/monster/skeleton_captain/defend/hurt.BMP", 400, 500, 1, 1, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êƒ∏∆æ ««∞›", "resource/monster/skeleton_captain/defend/hurt.BMP", 300, 400, 1, 1, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êƒ∏∆æ µ•µÂ", "resource/monster/skeleton_captain/defend/dead.BMP", 2480, 500, 6, 1, true, RGB(88, 88, 88));
-	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êƒ∏∆æ Ω∫≈≥1", "resource/monster/skeleton_captain/attack.BMP", 400, 500, 1, 1, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êƒ∏∆æ Ω∫≈≥1", "resource/monster/skeleton_captain/attack.BMP", 300, 400, 1, 1, true, RGB(88, 88, 88));
 	//ar
-	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êæ∆√≥ ƒƒπÓ", "resource/monster/skeleton_arbalista/combat/combat.BMP", 2115, 250, 15, 1, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êæ∆√≥ ƒƒπÓ", "resource/monster/skeleton_arbalista/combat/combat.BMP", 2115, 300, 15, 1, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êæ∆√≥ ««∞›", "resource/monster/skeleton_arbalista/defend/hurt.BMP", 300, 400, 1, 1, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êæ∆√≥ µ•µÂ", "resource/monster/skeleton_arbalista/dead.BMP", 1980, 318, 10, 1, true, RGB(88, 88, 88));
-	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êæ∆√≥ Ω∫≈≥1", "resource/monster/skeleton_arbalista/attack.BMP", 300, 400, 1, 1, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êæ∆√≥ Ω∫≈≥1", "resource/monster/skeleton_arbalista/attack.BMP", 300, 300, 1, 1, true, RGB(88, 88, 88));
 	//common
 	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êƒø∏’ ƒƒπÓ", "resource/monster/skeleton_common/combat/combat.BMP", 2324, 250, 14, 1, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êƒø∏’ ««∞›", "resource/monster/skeleton_common/defend/hurt.BMP", 300, 400, 1, 1, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êƒø∏’ µ•µÂ", "resource/monster/skeleton_common/dead.BMP", 1730, 400, 10, 1, true, RGB(88, 88, 88));
-	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êƒø∏’ Ω∫≈≥1", "resource/monster/skeleton_common/attack.BMP", 578, 551, 1, 1, true, RGB(88, 88, 88));
+	ImageManager::GetSingleton()->AddImage("Ω∫ƒÃ∑π≈Êƒø∏’ Ω∫≈≥1", "resource/monster/skeleton_common/attack.BMP", 400, 400, 1, 1, true, RGB(88, 88, 88));
 
 	ImageManager::GetSingleton()->AddImage("πÊºº∆Æ", "resource/dungeon/Stage1/rooms.BMP", 1920, 4320, 1, 6, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("¥¯¿¸¿‘±∏", "resource/dungeon/Stage1/Entrance.BMP", 1920, 720, 1, 1, true, RGB(88, 88, 88));
@@ -56,10 +56,13 @@ HRESULT ImageStorage::Init()
 	ImageManager::GetSingleton()->AddImage("»˙æ∆¿Ãƒ‹", "resource/sharedUi/fx/heal.BMP", 24, 24, true,RGB(88,88,88));
 	ImageManager::GetSingleton()->AddImage("Ω∫≈œæ∆¿Ãƒ‹", "resource/sharedUi/fx/stun.BMP", 24, 24, true, RGB(88, 88, 88));
 	ImageManager::GetSingleton()->AddImage("∏∂≈©æ∆¿Ãƒ‹", "resource/sharedUi/fx/target.BMP", 24, 24, true, RGB(88, 88, 88));
-	ImageManager::GetSingleton()->AddImage("»˙¿Ã∆Â∆Æ", "resource/sharedUi/fx/curefx.BMP", 7392, 493,22,1,true,RGB(88,88,88));
-	ImageManager::GetSingleton()->AddImage("Ω∫≈œ¿Ã∆Â∆Æ", "resource/sharedUi/fx/stunfx.BMP", 2210, 169,13,1,true,RGB(88,88,88));
-	ImageManager::GetSingleton()->AddImage("¡◊¿Ω¿Ã∆Â∆Æ", "resource/sharedUi/fx/deathfx.BMP", 6253, 481,22,1,true,RGB(88,88,88));
+	ImageManager::GetSingleton()->AddImage("»˙¿Ã∆Â∆Æ", "resource/sharedUi/fx/curefx22.BMP", 7392, 493,22,1,true,RGB(88,88,88));
+	//ImageManager::GetSingleton()->AddImage("Ω∫≈œ¿Ã∆Â∆Æ", "resource/sharedUi/fx/stunfx.BMP", 2210, 169,13,1,true,RGB(88,88,88));
+	ImageManager::GetSingleton()->AddImage("Ω∫≈œ¿Ã∆Â∆Æ", "resource/sharedUi/fx/stunfx22.BMP", 2210, 169,13,1,true,RGB(114,114,114));
+	ImageManager::GetSingleton()->AddImage("¡◊¿Ω¿Ã∆Â∆Æ", "resource/sharedUi/fx/deathfx.BMP", 6253, 481,13,1,true,RGB(0,0,0));
+	//ImageManager::GetSingleton()->AddImage("««∞›¿Ã∆Â∆Æø¿", "resource/sharedUi/fx/hurtfx.BMP", 12519, 721,13,1,true,RGB(88,88,88));
 	ImageManager::GetSingleton()->AddImage("««∞›¿Ã∆Â∆Æø¿", "resource/sharedUi/fx/hurtfx.BMP", 12519, 721,13,1,true,RGB(88,88,88));
+	ImageManager::GetSingleton()->AddImage("««∞›¿Ã∆Â∆Æø¿2", "resource/sharedUi/fx/hurtfx22.BMP", 12519, 721,13,1,true,RGB(82,93,116));
 	ImageManager::GetSingleton()->AddImage("««∞›¿Ã∆Â∆Æøﬁ", "resource/sharedUi/fx/hurtfxL.BMP", 12519, 721,13,1,true,RGB(88,88,88));
 	ImageManager::GetSingleton()->AddImage("≈∏∞Ÿ¿Ã∆Â∆Æ", "resource/sharedUi/fx/marktarget.BMP", 6800, 369,17,1,true,RGB(88,88,88));
 	ImageManager::GetSingleton()->AddImage("««¿Ã∆Â∆Æ", "resource/sharedUi/fx/blood.BMP", 6390, 292,18,1,true,RGB(88,88,88));

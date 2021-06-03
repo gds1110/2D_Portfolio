@@ -493,6 +493,7 @@ void Image::FrameRender(HDC hdc, int destX, int destY,
 
     if (isTransparent)
     {
+
         // 특정 색상을 빼고 복사하는 함수
         GdiTransparentBlt(
             hdc,                // 목적지 DC
@@ -511,6 +512,8 @@ void Image::FrameRender(HDC hdc, int destX, int destY,
     {
         if (size > 1)
         {
+            SetStretchBltMode(hdc, COLORONCOLOR);
+
             StretchBlt(hdc,
                 x, y,
                 imageInfo->frameWidth * size,
@@ -521,6 +524,7 @@ void Image::FrameRender(HDC hdc, int destX, int destY,
                 imageInfo->frameWidth,
                 imageInfo->frameHeight,
                 SRCCOPY);        
+
         }       
         else
         {
@@ -1048,3 +1052,4 @@ void Image::Release()
 
     DeleteObject(hBrush);
 }
+

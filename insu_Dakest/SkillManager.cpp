@@ -108,7 +108,7 @@ void SkillManager::AddSkill3(SKILLTYPE type, int skillNum, int index)
 {
 	if (type==SWAPSKILL)
 	{
-		skillSlot.push_back(new SwapSkill());
+		skillSlot.push_back(new SwapSkill(owner));
 		skillSlot[4]->Init();
 		skillSlot[4]->SetOwner(this->owner);
 		skillSlot[4]->SetSkillType(type);
@@ -146,6 +146,8 @@ void SkillManager::AddSkill3(SKILLTYPE type, int skillNum, int index)
 
 			break;
 		case CHARGESKILL:
+			skillSlot.push_back(new ChargeAttack(this->owner));
+
 			break;
 		case NONESKILLTYPE:
 			break;

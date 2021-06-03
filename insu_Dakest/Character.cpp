@@ -3,6 +3,7 @@
 #include "SkillManager.h"
 #include "Image.h"
 #include "config.h"
+#include "MapGenManager.h"
 HRESULT Character::Init()
 {
 	return S_OK;
@@ -25,6 +26,48 @@ void Character::Render(HDC hdc)
 void Character::Render2(HDC hdc)
 {
 }
+
+void Character::BehindFxRender(HDC hdc)
+{
+    if (FXimg)
+    {
+        if (fxOn == true) {
+            switch (fxType)
+            {
+            case Character::HEALFX:
+                FXimg->FrameRender(hdc, pos.x, pos.y + 50, fxFrame, 0, true);
+                break;
+            default:
+                break;
+            }
+        }
+    }
+}
+
+void Character::FrontFxRender(HDC hdc)
+{
+    if (FXimg)
+    {
+        if (fxOn == true) {
+            switch (fxType)
+            {
+
+            case Character::STUNFX:
+                FXimg->FrameRender(hdc, WINSIZE_X / 2, 160, fxFrame, 0, false);
+
+                break;
+            case Character::MARKFX:
+                FXimg->FrameRender(hdc, WINSIZE_X / 2 - 100, 160, fxFrame, 0, false);
+
+                break;
+            default:
+                break;
+            }
+        }
+    }
+}
+
+
 
 HRESULT Character::RosterInit()
 {
@@ -85,6 +128,169 @@ void Character::PartyRender(HDC hdc)
 {
 }
 
+bool Character::FxFunc()
+{
+    int FXmaxFrame = 0;
+    switch (fxType)
+    {
+    case Character::HEALFX:
+        FXmaxFrame = 22;
+        FXimg = ImageManager::GetSingleton()->FindImage("ÈúÀÌÆåÆ®");
+        break;
+    case Character::STUNFX:
+        FXmaxFrame = 13;
+        FXimg = ImageManager::GetSingleton()->FindImage("½ºÅÏÀÌÆåÆ®");
+
+        break;
+    case Character::MARKFX:
+        FXmaxFrame = 17;
+        FXimg = ImageManager::GetSingleton()->FindImage("Å¸°ÙÀÌÆåÆ®");
+
+        break;
+    default:
+        break;
+    }
+    if (fxFrame > FXmaxFrame)
+    {
+        fxFrame = 0;
+        return false;
+    }
+    
+    return true;
+}
+
+bool Character::goDead()
+{
+    if (deadFrame > 22) {
+        return true;
+    }
+
+    return false;
+}
+
+void Character::MUpdate()
+{
+    // mTime += TimerManager::GetSingleton()->GetElapsedTime();
+
+
+    if (AbilOn == false) {
+        IdleCombatUpdate();
+        MswitchSprite();
+
+    }
+    abliiltyUpdate();
+    if (fxOn==true)
+    {
+        fxTimer+= TimerManager::GetSingleton()->GetElapsedTime();
+        if (fxType == STUNFX)
+        {
+            if (fxTimer > 2.0f)
+            {
+                fxFrame += 1;
+            }
+        }
+        else {
+            if (fxTimer > 1.0f)
+            {
+                fxFrame += 1;
+            }
+        }
+        fxOn = FxFunc();
+    }
+
+    if (pos.x < (WINSIZE_X / 2 + 100) + (index * 150))
+    {
+        pos.x += 500 * TimerManager::GetSingleton()->GetElapsedTime();//mTime * 1 / 10;
+    }
+    else if (pos.x > (WINSIZE_X / 2 + 100) + (index * 150))
+    {
+        pos.x -= 500 * TimerManager::GetSingleton()->GetElapsedTime();//mTime * 1 / 10;
+    }
+    if (stat.hp <= 0)
+    {
+        deadTimer += TimerManager::GetSingleton()->GetElapsedTime();
+        if (deadTimer > 1.0f)
+        {
+            deadFrame += 1;
+        }
+
+        deadcheck = goDead();
+    }
+}
+
+void Character::SharedUpdate()
+{
+    battleState = UiDataManager::GetSingleton()->GetBattleState();
+    //if selected
+    eltimes += TimerManager::GetSingleton()->GetElapsedTime();
+    if (UiDataManager::GetSingleton()->GetTile()->GetType() == TileType::Path) {
+        if (pos.x < (WINSIZE_X / 2 - 100) - (index * 150))
+        {
+            pos.x += 500 * TimerManager::GetSingleton()->GetElapsedTime();//mTime * 1 / 10;
+        }
+        else if (pos.x > (WINSIZE_X / 2 - 100) - (index * 150))
+        {
+            pos.x -= 500 * TimerManager::GetSingleton()->GetElapsedTime();//mTime * 1 / 10;
+        }
+    }
+    if (selected)
+    {
+        if (eltimes > 0.3)
+        {
+            sIconCurrFrame++;
+            if (sIconCurrFrame > 1) {
+                sIconCurrFrame = 0;
+            }
+            eltimes = 0;
+        }
+    }
+    S_MGR->SetHClass(hClass);
+    if (AbilOn == false) {
+        if (battleState == false) {
+            Move();
+        }
+
+        IdleCombatUpdate();
+        switchSprite();
+    }
+    S_MGR->Update();
+
+    abliiltyUpdate();
+    if (fxOn == true)
+    {
+        fxTimer += TimerManager::GetSingleton()->GetElapsedTime();
+        if (fxTimer > 0.2f)
+        {
+            fxFrame += 1;
+        }
+        fxOn = FxFunc();
+    }
+    if (stat.hp <= 0)
+    {
+        deadTimer += TimerManager::GetSingleton()->GetElapsedTime();
+        if (deadTimer > 1.0f)
+        {
+            deadFrame += 1;
+        }
+
+        deadcheck = goDead();
+    }
+
+
+    //if (pos.x < CharArrPos[index])
+    //{
+    //    pos.x += eltimes * 1/10;
+    //}
+    //else if(pos.x>CharArrPos[index])
+    //{
+    //    pos.x -= eltimes * 1/10;
+    //}
+    //else
+    //{
+    //    eltimes = 0;
+    //}
+
+}
 void Character::ShareRender(HDC hdc)
 {
     if (target)
@@ -149,79 +355,20 @@ void Character::ShareRender(HDC hdc)
             haveturnimg->Render(hdc, pos.x + 70, 455);
         }
     }
+
+    if (deadIcon)
+    {
+        if (stat.hp <= 0) {
+            deadIcon->FrameRender(hdc, pos.x -100, pos.y, deadFrame, 0, false, 0.5);
+        }
+    }
+    
 }
 
 void Character::HUpdate()
 {
 }
 
-void Character::MUpdate()
-{
-   // mTime += TimerManager::GetSingleton()->GetElapsedTime();
-
- 
-    if (AbilOn == false) {
-        IdleCombatUpdate();
-        MswitchSprite();
-       
-    }
-    abliiltyUpdate();
-    if (pos.x < (WINSIZE_X / 2 + 100) + (index * 150))
-    {
-        pos.x += 500*TimerManager::GetSingleton()->GetElapsedTime();//mTime * 1 / 10;
-    }
-    else if (pos.x > (WINSIZE_X / 2 + 100) + (index * 150))
-    {
-        pos.x -= 500*TimerManager::GetSingleton()->GetElapsedTime();//mTime * 1 / 10;
-    }
-    
-}
-
-void Character::SharedUpdate()
-{
-    battleState = UiDataManager::GetSingleton()->GetBattleState();
-    //if selected
-    eltimes += TimerManager::GetSingleton()->GetElapsedTime();
-    if (selected)
-    {
-        if (eltimes > 0.3)
-        {
-            sIconCurrFrame++;
-            if (sIconCurrFrame > 1) {
-                sIconCurrFrame = 0;
-            }
-            eltimes = 0;
-        }
-    }
-    S_MGR->SetHClass(hClass);
-    if (AbilOn == false) {
-        if (battleState == false) {
-            Move();
-        }
-
-        IdleCombatUpdate();
-        switchSprite();
-    }
-    S_MGR->Update();
-  
-    abliiltyUpdate();
-
-   
-
-    //if (pos.x < CharArrPos[index])
-    //{
-    //    pos.x += eltimes * 1/10;
-    //}
-    //else if(pos.x>CharArrPos[index])
-    //{
-    //    pos.x -= eltimes * 1/10;
-    //}
-    //else
-    //{
-    //    eltimes = 0;
-    //}
-       
-}
 
 void Character::switchSprite()
 {
@@ -390,7 +537,6 @@ void Character::IdleCombatUpdate()
     //idle or combat
     if (currstate == State::IDLE || currstate == State::COMBAT) {
        
-        size = 1.0f;
         if (elapsed > 0.04f)
         {
             currFrameX++;
@@ -425,7 +571,7 @@ void Character::abliiltyUpdate()
     {
         AbilTime += TimerManager::GetSingleton()->GetElapsedTime();
 
-        size -= AbilTime*0.001f;
+        //size -= AbilTime*0.001f;
         if (AbilTime > 2.0f)
         {
             AbilTime = 0;
@@ -509,6 +655,7 @@ Character::Character()
     haveturnimg = ImageManager::GetSingleton()->FindImage("ÅÏÆ½");
     stunImage = ImageManager::GetSingleton()->FindImage("½ºÅÏ¾ÆÀÌÄÜ");
     markImage = ImageManager::GetSingleton()->FindImage("¸¶Å©¾ÆÀÌÄÜ");
+    deadIcon = ImageManager::GetSingleton()->FindImage("Á×À½ÀÌÆåÆ®");
     UiDataManager::GetSingleton()->SetClassArr(this->classArr);
 
     index = -1;
@@ -530,6 +677,8 @@ Character::Character()
     stun = false;
     alpha = 150;
     depth = 1;
+    deadTimer = 0;
+    deadFrame = 0;
     SetRect(&body, pos.x - 45, pos.y - 40, pos.x + 45, pos.y + 40);
 
 }

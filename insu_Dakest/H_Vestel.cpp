@@ -14,6 +14,8 @@ HRESULT H_Vestel::Init()
     ImageManager::GetSingleton()->AddImage("¼º³à ¾ÆÀÌÄÜ", "resource/hero/Vestel/icon.BMP", 65, 65, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("¼º³à ÇÇ°Ý", "resource/hero/Vestel/hurt.BMP", 373, 556,1,1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("¼º³à ½ºÅ³¼Â", "resource/hero/Vestel/skill/skills.BMP", 504, 144, 7, 2, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("¼º³à ½ºÅ³1", "resource/hero/Vestel/skillheal.BMP", 396, 725, 1, 1, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("¼º³à ½ºÅ³2", "resource/hero/Vestel/attacck.BMP", 624, 539, 1, 1, true, RGB(88, 88, 88));
     currstate = State::IDLE;
     hClass = HCLASS::VESTEL;
     skillSeting();

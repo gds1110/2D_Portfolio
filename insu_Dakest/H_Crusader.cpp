@@ -24,7 +24,7 @@ HRESULT H_Crusader::Init()
     S_MGR->AddSkill3(COMBATSKILL, 0, 0);
     S_MGR->AddSkill3(ARANGESKILL, 1, 1);
     S_MGR->AddSkill3(COMBATSKILL, 4, 2);
-    S_MGR->AddSkill3(COMBATSKILL, 5, 3);
+    S_MGR->AddSkill3(CHARGESKILL, 5, 3);
     S_MGR->AddSkill3(SWAPSKILL, 5, 4);
     S_MGR->AddSkill3(NOTURNSKILL, 5, 5);
 
