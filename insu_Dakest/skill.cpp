@@ -350,7 +350,7 @@ void CombatAttack::run(int x, Character* target)
 
 		}
 		if (skillNum == 4) {
-			owner->SetCurrState(State::SKILL3);
+			owner->SetCurrState(State::SKILL2);
 			if (target->GetMark() == true)
 			{
 				target->setMark(false);
