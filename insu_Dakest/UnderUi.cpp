@@ -6,6 +6,8 @@
 #include "SkillManager.h"
 #include "CommonFunction.h"
 #include "MapGenManager.h"
+#include "Inventory.h"
+#include "ItemObject.h"
 
 HRESULT UnderUi::Init()
 {
@@ -105,15 +107,7 @@ void UnderUi::Render(HDC hdc)
 	if (underIcon) {
 		underIcon->Render2(hdc, 210, WINSIZE_Y - WINSIZE_Y / 3 + 50, true, 1);
 	}
-	if (selChr) {
-		
-		selSkillmgr->Render(hdc);		
-	}
-	if (selSkill)
-	{
-		selSkillIcon->Render(hdc, selSkill->GetPos().x, selSkill->GetPos().y, true);
-	}	
-	
+
 	if (!minmap.empty())
 	{
 		
@@ -153,5 +147,21 @@ void UnderUi::Render(HDC hdc)
 			currflame->flameRender(hdc, minimapposx-50, minimapposy, currTile);
 		}
 	}
+	UiDataManager::GetSingleton()->GetInven()->Render(hdc);
+
+	if (selChr) {
+
+		selSkillmgr->Render(hdc);
+	}
+
+	if (selSkill)
+	{
+		selSkillIcon->Render(hdc, selSkill->GetPos().x, selSkill->GetPos().y, true);
+	}
+}
+
+void UnderUi::SkillRender(HDC hdc)
+{
+	
 
 }

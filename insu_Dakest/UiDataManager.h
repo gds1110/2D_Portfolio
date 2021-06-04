@@ -12,6 +12,7 @@ class SkillManager;
 class CharacterManager;
 class Image;
 class Tile;
+class Inventory;
 class UiDataManager : public Singleton<UiDataManager>
 {
 public: enum SceneInfo
@@ -21,7 +22,7 @@ public: enum SceneInfo
 	ROOM,
 	TOWN,
 	NONESCENE,
-	};
+};
 
 private:
 	Character* selectedChr;
@@ -40,6 +41,7 @@ private:
 	POINT minIndex = { 99,99 };
 	POINT maxIndex = { -1,-1 };
 	HDC mapHdc;
+	Inventory* inven;
 
 	MapGenManager* MapGen;
 	bool isBattleState;
@@ -48,13 +50,21 @@ private:
 	Tile* currtile;
 	Tile* destTile;
 
-	bool turnexitCheck = false;	
+	bool invenishome = true;
+
+	bool turnexitCheck = false;
 
 	SceneInfo currScene;
 public:
 	HRESULT Init();
 	void Release();
 	void Update();
+
+	void SetInven(Inventory* inven) { this->inven = inven; }
+	Inventory* GetInven() { return this->inven; }
+
+	void SetIShome(bool is) { invenishome = is; }
+	bool GetIShome() { return invenishome; }
 
 	void SetTurnExit(bool set) { turnexitCheck = set; }
 	bool GetTurnExit() { return this->turnexitCheck; }

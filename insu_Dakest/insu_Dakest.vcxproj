@@ -170,6 +170,8 @@
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="ImageStorage.cpp" />
+    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="ItemObject.cpp" />
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="main.cpp" />
@@ -219,6 +221,8 @@
     <ClInclude Include="Image.h" />
     <ClInclude Include="ImageManager.h" />
     <ClInclude Include="ImageStorage.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="ItemObject.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="MainGame.h" />

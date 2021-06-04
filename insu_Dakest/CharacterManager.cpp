@@ -349,6 +349,7 @@ void CharacterManager::Render(HDC hdc)
         if (v_Characters[i]->GetDead() == false) {
 
             v_Characters[i]->FrontFxRender(hdc);
+            v_Characters[i]->FontRender(hdc);
         }
 
     }

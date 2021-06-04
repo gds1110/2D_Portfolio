@@ -230,14 +230,14 @@ void DungeonPath::Render(HDC hdc)
 	}
 
 
-	wsprintf(szText, "campos : %d", CamPos);
+	//wsprintf(szText, "campos : %d", CamPos);
 
 	camBuffer->CamRender(hdc, WINSIZE_X/2+400, 350, true);
 	if (DM)
 	{
 		DM->Render(hdc);
 	}
-	TextOut(hdc, WINSIZE_X / 2, 100, szText, strlen(szText));
+//	TextOut(hdc, WINSIZE_X / 2, 100, szText, strlen(szText));
 
 }
 

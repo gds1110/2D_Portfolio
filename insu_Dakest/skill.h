@@ -8,6 +8,30 @@ class Skill :public GameNode
 {
 public:
 	
+	enum skillstrength
+	{
+		CANT,
+		PLAYERPOS,
+		ENEMYPOS,
+		HEALORMOVE
+	};
+
+	struct  skilltooltips
+	{
+		bool player;
+		bool canskill;
+		bool canhit;
+		Image* img;
+		skillstrength ss=CANT;
+		POINT pos;
+		skilltooltips()
+		{
+			img = ImageManager::GetSingleton()->FindImage("스킬위치");
+			ss = CANT;
+		}
+
+	};
+
 	enum SkillState
 	{
 		ON,
@@ -20,6 +44,7 @@ protected:
 
 
 	Image* iconImg;
+	Image* tooltip;
 	RECT iconRC;
 	POINT pos;
 	SkillState skillstate;
@@ -32,6 +57,9 @@ protected:
 	int slotNum;
 	int index;
 	skillInfo s_info;
+	skilltooltips tipsinfo[8];
+	bool isMouseOver;
+	char szText[128] = "";
 
 
 
@@ -41,6 +69,9 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 	virtual void SkillInit();
+
+	void SetMouseOver(bool isover) { isMouseOver = isover; }
+	bool GetMouseOver() { return this->isMouseOver; }
 
 	void SkillPosState();
 
@@ -79,11 +110,7 @@ class CombatAttack : public  Skill {
 private:
 
 public:
-	//CombatAttack() {
-	//	s_info.skillRank = { 0,1 };
-	//	s_info.targetRank = { 0,1 };
-	//	s_info.range = 1;
-	//}
+
 	CombatAttack();
 	CombatAttack(Character* owner);
 	void run();
@@ -100,13 +127,6 @@ public:
 	ArangeAttack(Character* owner);
 
 	void run(int x, Character* target);
-	//{
-	//	//if(hClass==)
-	//	//for (int i = 0; i < UiDataManager::GetSingleton()->GetTarGet().size(); i++) {
-	//	//	//UiDataManager::GetSingleton()->GetTarGet()[i].setHp(gethp - 1);
-	//	//}
-	//	//
-	//}
 
 };
 

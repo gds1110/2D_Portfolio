@@ -25,6 +25,7 @@ public:
 
 	vector<Character*> GetCharacters() { return this->v_Characters; }
 	vector<Character*>* GetCharactersPointer() { return &(this->v_Characters); }
+	void SetCharactersPointer(vector<Character*>* c_mgr) { (this->v_Characters) = *c_mgr; }
 
 	void AddCharacter(Character* chr, UnitType type= UnitType::HERO);
 	void AddCharacter2(Character* chr, int indexx, bool isroster = false, UnitType type = UnitType::HERO);

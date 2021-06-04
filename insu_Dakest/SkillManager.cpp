@@ -31,7 +31,7 @@ void SkillManager::Release()
 
 void SkillManager::Update()
 {
-
+	
 	for (int i = 0; i < skillSlot.size(); i++)
 	{
 		skillSlot[i]->Update();

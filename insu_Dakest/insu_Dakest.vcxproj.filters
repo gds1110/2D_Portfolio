@@ -147,9 +147,6 @@
     <ClCompile Include="FXmanager.cpp">
       <Filter>소스 파일\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="ReadyScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Observable.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -169,9 +166,18 @@
       <Filter>소스 파일\Scene</Filter>
     </ClCompile>
     <ClCompile Include="LoadingScene.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Scene</Filter>
     </ClCompile>
     <ClCompile Include="DeafeatScene.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadyScene.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemObject.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -293,9 +299,6 @@
     <ClInclude Include="FXmanager.h">
       <Filter>소스 파일\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="ReadyScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Observable.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -315,10 +318,19 @@
       <Filter>소스 파일\Scene</Filter>
     </ClInclude>
     <ClInclude Include="LoadingScene.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\Scene</Filter>
     </ClInclude>
     <ClInclude Include="DeafeatScene.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadyScene.h">
+      <Filter>소스 파일\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemObject.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

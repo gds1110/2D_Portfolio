@@ -146,7 +146,7 @@ void Tile::RandomSetTileInfo()
 		
 		randomn = rand() % 2;
 		random2 = rand() % 101;
-		randtype = rand() % 6+1;
+		randtype = rand() % 6;
 		if (type == TileType::Room)
 		{
 			d_info.dType = DungeonType::ROOM;

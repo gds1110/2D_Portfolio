@@ -23,9 +23,30 @@ void Character::Render(HDC hdc)
 {
 }
 
-void Character::Render2(HDC hdc)
+void Character::FontRender(HDC hdc)
 {
+    if (isatkorheal == true) {
+        HFONT font, oldfont;
+        font = CreateFont(25, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("굴림"));
+        oldfont = (HFONT)SelectObject(hdc, font);
+        SetBkMode(hdc, TRANSPARENT);
+        if (isdmgorheal == true) {
+            SetTextColor(hdc, RGB(0, 255, 0));
+        }
+        else {
+            SetTextColor(hdc, RGB(255, 0, 0));
+
+        }
+        wsprintf(szText, " %d", dmgorheal);
+        TextOut(hdc, pos.x + 60, pos.y - 120-fonttimes*20, szText, strlen(szText));
+        SetBkMode(hdc, TRANSPARENT);
+
+        SelectObject(hdc, oldfont);
+        DeleteObject(font);
+    }
+
 }
+
 
 void Character::BehindFxRender(HDC hdc)
 {
@@ -178,7 +199,7 @@ void Character::MUpdate()
         MswitchSprite();
 
     }
-    abliiltyUpdate();
+        abliiltyUpdate();
     if (fxOn==true)
     {
         fxTimer+= TimerManager::GetSingleton()->GetElapsedTime();
@@ -215,6 +236,17 @@ void Character::MUpdate()
         }
 
         deadcheck = goDead();
+    }
+    if (isatkorheal == true)
+    {
+        fonttimes += TimerManager::GetSingleton()->GetElapsedTime();
+
+        if (fonttimes > 3.0f)
+        {
+            isatkorheal = false;
+            fonttimes = 0;
+        }
+
     }
 }
 
@@ -275,7 +307,17 @@ void Character::SharedUpdate()
 
         deadcheck = goDead();
     }
+    if (isatkorheal == true)
+    {
+        fonttimes += TimerManager::GetSingleton()->GetElapsedTime();
 
+        if (fonttimes > 3.0f)
+        {
+            isatkorheal = false;
+            fonttimes = 0;
+        }
+
+    }
 
     //if (pos.x < CharArrPos[index])
     //{
@@ -305,15 +347,15 @@ void Character::ShareRender(HDC hdc)
         }
         if (mkinds == MonsterKinds::SKELETON_CAPTAIN|| mkinds == MonsterKinds::SKELETON_COMMON)
         {
-            targetIcon->AlphaFrameRenders(hdc, pos.x , 505, 0, 1, true, 0.8, alpha);
+            targetIcon->AlphaFrameRenders(hdc, pos.x , 460, 0, 0, true, 0.8, alpha);
 
         }
         else
         {
-            targetIcon->AlphaFrameRenders(hdc, pos.x + 30, 505, 0, 0, true, 0.8, alpha);
+            targetIcon->AlphaFrameRenders(hdc, pos.x + 30, 460, 0, 0, true, 0.8, alpha);
         }
     }
-    if (htarget)
+    if (htarget==true)
     {
         if (hfixedTarget)
         {
@@ -324,9 +366,23 @@ void Character::ShareRender(HDC hdc)
             alpha = 150;
         }
     
-          htargetIcon->AlphaFrameRenders(hdc, pos.x + 30, 400, 0, 0, true, 0.8, alpha);
+          htargetIcon->AlphaFrameRenders(hdc, pos.x+160, 460, 2, 0, true, 0.8, alpha);
        
      }
+    if (movetarget == true)
+    {
+        if (movefixedTarget)
+        {
+            alpha = 255;
+        }
+        else
+        {
+            alpha = 150;
+        }
+
+        htargetIcon->AlphaFrameRenders(hdc, pos.x + 160, 460, 0, 0, true, 0.8, alpha);
+
+    }
 
 
     if (hpBar)
@@ -343,7 +399,7 @@ void Character::ShareRender(HDC hdc)
         markImage->Render(hdc, pos.x + 25, 440);
     }
     if (selected) {
-        selecetedIcon->FrameRender(hdc, pos.x + 40, 440, 0, sIconCurrFrame, true, 0.8);
+        selecetedIcon->FrameRender(hdc, pos.x + 20, 480, 1, 0, true, 0.8);
     }
     if (haveTurn)
     {
@@ -363,6 +419,7 @@ void Character::ShareRender(HDC hdc)
         }
     }
     
+
 }
 
 void Character::HUpdate()
@@ -643,13 +700,14 @@ void Character::Attack(Character* target)
 {
     int randdom = rand() % stat.damage.y + stat.damage.x;
     target->Hurt(randdom);
+    target->setdmgorhear(randdom, false);
 }
 
 Character::Character()
 {
-    selecetedIcon = ImageManager::GetSingleton()->FindImage("선택아이콘"); 
+    selecetedIcon = ImageManager::GetSingleton()->FindImage("선택아이콘2"); 
     targetIcon = ImageManager::GetSingleton()->FindImage("타겟아이콘");    
-    htargetIcon = ImageManager::GetSingleton()->FindImage("힐아이콘");    
+    htargetIcon = ImageManager::GetSingleton()->FindImage("힐선택아이콘");    
     hpBar = ImageManager::GetSingleton()->FindImage("체력바");
     hpBarBG = ImageManager::GetSingleton()->FindImage("체력바배경");
     haveturnimg = ImageManager::GetSingleton()->FindImage("턴틱");
@@ -679,6 +737,7 @@ Character::Character()
     depth = 1;
     deadTimer = 0;
     deadFrame = 0;
+    dmgorheal = 0;
     SetRect(&body, pos.x - 45, pos.y - 40, pos.x + 45, pos.y + 40);
 
 }

@@ -4,6 +4,8 @@
 class CharacterManager;
 class Image;
 class Character;
+class Inventory;
+class ItemObject;
 class Home : public GameNode
 {
 
@@ -19,6 +21,11 @@ class Home : public GameNode
 	};
 
 private:
+	ItemObject* item1;
+	ItemObject* item2;
+	ItemObject* item3;
+
+
 	Image* bg;
 	CharacterManager* rosterList;
 	Image* mouseIcon;
@@ -31,7 +38,8 @@ private:
 	bool ready;
 	Image* startButton;
 	RECT startRC;
-
+	
+	Inventory* myInven;
 public:
 
 	virtual HRESULT Init();

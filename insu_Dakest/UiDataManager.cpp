@@ -45,7 +45,9 @@ void UiDataManager::Release()
 
 void UiDataManager::Update()
 {
-	/*if (SS_MGR) {
+	/*if (S
+	
+	) {
 		if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
 		{
 

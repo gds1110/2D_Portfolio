@@ -19,13 +19,14 @@ HRESULT H_BountyHunter::Init()
     ImageManager::GetSingleton()->AddImage("바운티헌터 스킬셋", "resource/hero/bountyhunter/skill/skillset.BMP", 504, 144,7,2, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("바운티헌터 스킬1", "resource/hero/bountyhunter/skill4.BMP", 300, 500,1,1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("바운티헌터 스킬2", "resource/hero/bountyhunter/attack1.BMP", 400, 500,1,1, true, RGB(88, 88, 88));
-    ImageManager::GetSingleton()->AddImage("바운티헌터 스킬3", "resource/hero/bountyhunter/skill3.BMP", 300, 500,1,1, true, RGB(88, 88, 88));
-    ImageManager::GetSingleton()->AddImage("바운티헌터 스킬4", "resource/hero/bountyhunter/skill2.BMP", 300, 500,1,1, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("바운티헌터 스킬3", "resource/hero/bountyhunter/skill3.BMP", 700, 500,1,1, true, RGB(88, 88, 88));
+    ImageManager::GetSingleton()->AddImage("바운티헌터 스킬4", "resource/hero/bountyhunter/skill2.BMP", 400, 500,1,1, true, RGB(88, 88, 88));
     ImageManager::GetSingleton()->AddImage("바운티헌터 피격", "resource/hero/bountyhunter/hurt.BMP", 300, 500,1,1, true, RGB(88, 88, 88));
 
     currstate = State::IDLE;
     hClass = HCLASS::BOUNTYHUNTER;
     skillSeting();
+    
     S_MGR->AddSkill3(CHARGESKILL, 1, 0);
     S_MGR->AddSkill3(COMBATSKILL, 2, 1);
     S_MGR->AddSkill3(COMBATSKILL, 5, 2);

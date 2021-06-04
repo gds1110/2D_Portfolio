@@ -8,7 +8,7 @@ class Character;
 class CharacterManager;
 class UnderUi;
 class OverUi;
-
+class Inventory;
 using BODER = pair<Character*, int>;
 
 class DataManager : public GameNode
@@ -52,6 +52,7 @@ private:
 	Tile* thisTile;
 	BattleProGress BPG =NOBATTLE;
 	TurnType TTYPE = NONETURN;
+	TurnType TTYPE2 = NONETURN;
 	bool isChange;
 	int battleTurn;
 	vector<BODER> BDice;
@@ -61,7 +62,7 @@ private:
 	int minimapposx;
 	int	minimapposy;
 	float eltimess = 0;
-
+	Inventory* inven;
 	int hiteffectFrame;
 	Image* HitEffect;
 	float HitTimes;
@@ -73,7 +74,6 @@ public:
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
-
 
 	static bool compare(const BODER& a, const BODER& b);
 

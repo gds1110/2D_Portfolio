@@ -45,6 +45,7 @@ public:
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
+	virtual void SkillRender(HDC hdc);
 
 	inline void setSelSkill(Skill* skill) { this->selSkill = skill; }
 	inline void SetSelChr(Character* chr) { this->selChr = chr; }

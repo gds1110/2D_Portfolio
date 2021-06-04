@@ -7,7 +7,8 @@ HRESULT Skill::Init()
 {
 	iconImg = nullptr;
 	SetRect(&iconRC, pos.x - 25, pos.y - 25, pos.x + 25, pos.y + 25);
-
+	tooltip = ImageManager::GetSingleton()->FindImage("Ω∫≈≥≈¯∆¡");
+	isMouseOver = false;
 	return S_OK;
 }
 
@@ -32,10 +33,54 @@ void Skill::Update()
 		iconImg = ImageManager::GetSingleton()->FindImage("≥Î≈œΩ∫≈≥");
 
 	}
+	for (int i = 0; i < 8; i++)
+	{
+		if (i < 4) {
+			tipsinfo[i].pos = { (pos.x + 20) - i * 15,pos.y + 40 };
+		}
+		else
+		{
+			tipsinfo[i].pos = { (pos.x - 20) + i * 15,pos.y + 40 };
+		}
+	}
+	for (int i = s_info.skillRank.x; i <= s_info.skillRank.y; i++)
+	{
+		tipsinfo[i].canskill = true;
+		tipsinfo[i].ss = PLAYERPOS;
+		if (this->GetSkillType() == SWAPSKILL)
+		{
+			tipsinfo[4-i].canskill = true;
+		}
+	}
 	
-		
+	for (int i = s_info.targetRank.x; i <= s_info.targetRank.y; i++)
+	{
+		tipsinfo[4 + i].canhit = true;
+		tipsinfo[4 + i].ss = ENEMYPOS;
+		if (this->GetSkillType() == HEALSKILL)
+		{
+			tipsinfo[4 + i].ss = HEALORMOVE;
+		}
+
+	}
+	if (this->GetSkillType() == SWAPSKILL)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			tipsinfo[i].ss = HEALORMOVE;
+		}
+	}
+
 	SetRect(&iconRC, pos.x - 25, pos.y - 25, pos.x + 25, pos.y + 25);
 	
+	if (PtInRect(&iconRC, g_ptMouse))
+	{
+		isMouseOver = true;
+	}
+	else
+	{
+		isMouseOver = false;
+	}
 
 	//iconImg=ImageManager::GetSingleton()->FindImage()
 }
@@ -60,6 +105,27 @@ void Skill::Render(HDC hdc)
 				iconImg->FrameRender(hdc, pos.x + 10, pos.y + 10, skillNum, skillstate, true, 0.7);
 			}
 		}
+
+		if (isMouseOver == true)
+		{
+			tooltip->Render(hdc,pos.x-50,pos.y+25);
+			for (int i = 0; i < 8; i++)
+			{
+				tipsinfo[i].img->FrameRender(hdc, tipsinfo[i].pos.x, tipsinfo[i].pos.y, tipsinfo[i].ss, 0);
+			}
+			HFONT font,oldfont;
+			font = CreateFont(25, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("±º∏≤"));
+			oldfont = (HFONT)SelectObject(hdc, font);
+			SetBkMode(hdc, TRANSPARENT);
+			SetTextColor(hdc, RGB(255, 255, 255));
+			wsprintf(szText, "RANGE : %d",s_info.range);
+			TextOut(hdc, pos.x-15, pos.y+100, szText, strlen(szText));
+			SelectObject(hdc, oldfont);
+			DeleteObject(font);
+
+			SetBkMode(hdc, TRANSPARENT);
+		}
+
 	}
 }
 
@@ -77,10 +143,19 @@ void Skill::SkillInit()
 			switch (hClass)
 			{
 			case CRUSADER:
+				s_info.skillRank = { 0,2 };
+				s_info.targetRank = { 0,2 };
+				s_info.range = 1;
 				break;
 			case BOUNTYHUNTER:
+				s_info.skillRank = { 0,2 };
+				s_info.targetRank = { 0,2 };
+				s_info.range = 1;
 				break;
 			case HIGHWAYMAN:
+				s_info.skillRank = { 0,2 };
+				s_info.targetRank = { 0,2 };
+				s_info.range = 1;
 				break;
 			case LEAPER:
 				if (skillNum == 0) {
@@ -96,6 +171,9 @@ void Skill::SkillInit()
 				}
 				break;
 			case VESTEL:
+				s_info.skillRank = { 0,2 };
+				s_info.targetRank = { 0,2 };
+				s_info.range = 1;
 				break;
 			case NONEHCLASS:
 				break;
@@ -107,8 +185,14 @@ void Skill::SkillInit()
 			switch (hClass)
 			{
 			case CRUSADER:
+				s_info.skillRank = { 0,2 };
+				s_info.targetRank = { 1,3 };
+				s_info.range = 2;
 				break;
 			case BOUNTYHUNTER:
+				s_info.skillRank = { 0,2 };
+				s_info.targetRank = { 1,3 };
+				s_info.range = 2;
 				break;
 			case HIGHWAYMAN:
 				break;
@@ -129,6 +213,10 @@ void Skill::SkillInit()
 			switch (hClass)
 			{
 			case CRUSADER:
+				s_info.skillRank = { 1,3 };
+				s_info.targetRank = { 1,3 };
+				s_info.range = 1;
+
 				break;
 			case BOUNTYHUNTER:
 
@@ -153,6 +241,9 @@ void Skill::SkillInit()
 			switch (hClass)
 			{
 			case CRUSADER:
+				s_info.skillRank = { 0,3, };
+				s_info.targetRank = { 0,3 };
+				s_info.range = 1;
 				break;
 			case BOUNTYHUNTER:
 				break;
@@ -347,6 +438,7 @@ void CombatAttack::run(int x, Character* target)
 		if (skillNum == 0) {
 			owner->SetCurrState(State::SKILL1);
 			target->Hurt(x);
+			target->setdmgorhear(x, false);
 
 		}
 		if (skillNum == 4) {
@@ -358,6 +450,7 @@ void CombatAttack::run(int x, Character* target)
 				x = x * 1.5;
 			}
 			target->Hurt(x);
+			target->setdmgorhear(x, false);
 
 		}
 	}
@@ -369,12 +462,14 @@ void CombatAttack::run(int x, Character* target)
 			target->setStun(true);
 			target->SetFxon(Character::FxType::STUNFX);
 			target->Hurt(1);
+			target->setdmgorhear(x, false);
 
 		}
 		if (skillNum == 2) {
 			owner->SetCurrState(State::SKILL2);
 	
 			target->Hurt(x);
+			target->setdmgorhear(x, false);
 
 		}
 		if (skillNum == 5) {
@@ -386,6 +481,7 @@ void CombatAttack::run(int x, Character* target)
 				x = x * 1.5;
 			}
 			target->Hurt(x);
+			target->setdmgorhear(x, false);
 
 		}
 		if (skillNum == 6) {
@@ -395,6 +491,8 @@ void CombatAttack::run(int x, Character* target)
 				target->SetFxon(Character::FxType::MARKFX);
 			}
 			target->Hurt(1);
+			
+			target->setdmgorhear(x, false);
 
 		}
 	}
@@ -406,6 +504,8 @@ void CombatAttack::run(int x, Character* target)
 			x = x * 1.5;
 		}
 		target->Hurt(x);
+		target->setdmgorhear(x, false);
+
 
 	}
 	//target->SetCurrState(State::HURT);
@@ -428,8 +528,13 @@ void ArangeAttack::run(int x, Character* target)
 	{
 		owner->SetCurrState(State::SKILL2);
 		target->Hurt(x);
+		target->setdmgorhear(x, false);
 
 	}
+
+	owner->SetCurrState(State::SKILL2);
+	target->Hurt(x);
+	target->setdmgorhear(x, false);
 }
 
 HealSkill::HealSkill(Character* owner)
@@ -452,6 +557,8 @@ void HealSkill::run(int x, Character* target)
 			else
 			{
 				target->SetHp(target->GetStat().hp + x);
+				target->setdmgorhear(x, true);
+
 			}
 		}
 	}
@@ -465,6 +572,8 @@ void HealSkill::run(int x, Character* target)
 		else
 		{
 			target->SetHp(target->GetStat().hp + 1);
+			target->setdmgorhear(x, true);
+
 		}
 	}
 	else {
@@ -476,6 +585,8 @@ void HealSkill::run(int x, Character* target)
 		else
 		{
 			target->SetHp(target->GetStat().hp + x);
+			target->setdmgorhear(x, true);
+
 		}
 	}
 }
@@ -497,6 +608,8 @@ void StunSkill::run(int x, Character* target)
 		}
 		owner->SetCurrState(SKILL1);
 	}
+	target->setdmgorhear(x, false);
+
 }
 
 ChargeAttack::ChargeAttack(Character* owner)
@@ -516,7 +629,17 @@ void ChargeAttack::run(int x, Character* target)
 
 		}
 		owner->SetCurrState(State::SKILL1);
+
 	}
+	else if(owner->GetClass()==CRUSADER)
+	{
+		owner->SetCurrState(State::SKILL3);
+		target->setStun(true);
+		target->SetFxon(Character::FxType::STUNFX);
+		target->Hurt(1);
+	}
+	target->setdmgorhear(x, false);
+
 }
 
 SwapSkill::SwapSkill(Character* owner)

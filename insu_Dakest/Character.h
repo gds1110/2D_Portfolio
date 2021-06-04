@@ -63,6 +63,9 @@ protected:
 	bool htarget;
 	bool hfixedTarget;
 
+	bool movetarget;
+	bool movefixedTarget;
+
 	bool deadcheck;
 	//skill
 	bool AbilOn;
@@ -115,6 +118,12 @@ protected:
 
 	float deadTimer;
 	int deadFrame;
+	char szText[128] = "";
+
+	bool isatkorheal;
+	bool isdmgorheal;
+	int dmgorheal;
+	float fonttimes = 0;
 
 	int index;
 	bool iconIsSeleceted;
@@ -127,7 +136,7 @@ public:
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
-	virtual void Render2(HDC hdc);
+	void FontRender(HDC hdc);
 
 	void BehindFxRender(HDC hdc);
 	void FrontFxRender(HDC hdc);
@@ -141,6 +150,7 @@ public:
 	virtual void PartyUpdate();
 	virtual void PartyRender(HDC hdc);
 
+	void setdmgorhear(int a, bool isdmg) { this->dmgorheal = a; this->isdmgorheal = isdmg; this->isatkorheal = true; }
 
 	void SetFxon(FxType fx) { this->fxType = fx; fxOn = true; }
 	bool GetFxon() { return this->fxOn; }
@@ -201,6 +211,10 @@ public:
 	void SetHFixed(bool fix) { this->hfixedTarget = fix; }
 	bool GetHFixed() { return this->hfixedTarget; }
 
+	void SetMTargeted(bool target) { this->movetarget = target; }
+	bool GetMTargeted() { return this->movetarget; }
+	void SetMFixed(bool fix) { this->movefixedTarget = fix; }
+	bool GetMFixed() { return this->movefixedTarget; }
 
 	//HeroUpdate
 	void HUpdate();

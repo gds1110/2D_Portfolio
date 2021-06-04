@@ -224,14 +224,14 @@ void DungeonRoom::Render(HDC hdc)
 	}
 	
 	camBuffer->CamRender2(hdc, WINSIZE_X / 2 + 370, 350, true);
-	wsprintf(szText, "campos : %d", CamPos);
+	//wsprintf(szText, "campos : %d", CamPos);
 	
 	if (DM)
 	{
 		DM->Render(hdc);
 	}
 
-	TextOut(hdc, WINSIZE_X / 2, 100, szText, strlen(szText));
+	//TextOut(hdc, WINSIZE_X / 2, 100, szText, strlen(szText));
 	//d_UI->Render(hdc);
 }
 

@@ -18,6 +18,8 @@
 #include "SkillManager.h"
 #include "DataManager.h"
 #include "DungeonUi.h"
+#include "Inventory.h"
+#include "ItemObject.h"
 
 HRESULT Home::Init()
 {
@@ -50,6 +52,23 @@ HRESULT Home::Init()
 	SetRect(&startRC, WINSIZE_X / 2-150, 650, WINSIZE_X/2 + 120, 700);
 	selectNum = -1;
 	buttonframe = 0;
+	myInven = new Inventory();
+	myInven->Init();
+
+	item1 = new ItemObject();
+	item2 = new ItemObject();
+	item3 = new ItemObject();
+	item1->Init(ItemObject::ITEMTYPE::DECODING);
+	item2->Init(ItemObject::ITEMTYPE::BANDAGE);
+	item3->Init(ItemObject::ITEMTYPE::TORCH);
+	item1->SetItemNum(8);
+	item2->SetItemNum(8);
+	item3->SetItemNum(8);
+	item1->SetPos({ WINSIZE_X / 2,100 });
+	item2->SetPos({ WINSIZE_X / 2+100,100 });
+	item3->SetPos({ WINSIZE_X / 2+200,100 });
+
+	UiDataManager::GetSingleton()->SetIShome(true);
 	return S_OK;
 }
 
@@ -60,6 +79,15 @@ void Home::Release()
 
 void Home::Update()
 {
+		item1->Update();
+		item2->Update();
+		item3->Update();
+	if (myInven) {
+		myInven->Update();
+		myInven->SetPos({ 530, 340 });
+	}
+
+
 
 
 	if (PtInRect(&divideRc, g_ptMouse))
@@ -70,12 +98,42 @@ void Home::Update()
 				mouseIcon = nullptr;
 				selectNum = -1;
 			}
+
+			RECT rc1 = item1->GetRC();
+			RECT rc2 = item2->GetRC();
+			RECT rc3 = item3->GetRC();
+			if (PtInRect(&rc1, g_ptMouse))
+			{
+				if (item1->GetItemNum().x - 1 >= 0)
+				{
+					myInven->AddItem((*item1));
+					item1->SetItemNum(item1->GetItemNum().x - 1);
+				}
+			}
+			if (PtInRect(&rc2, g_ptMouse))
+			{
+				if (item2->GetItemNum().x - 1 >= 0)
+				{
+					myInven->AddItem((*item2));
+					item2->SetItemNum(item2->GetItemNum().x - 1);
+
+				}
+			}
+			if (PtInRect(&rc3, g_ptMouse))
+			{
+				if (item3->GetItemNum().x - 1 >= 0)
+				{
+					myInven->AddItem((*item3));
+					item3->SetItemNum(item3->GetItemNum().x - 1);
+
+				}
+			}
 		}
 	}
 	else {
 		
-			if (PtInRect(&startRC, g_ptMouse))
-			{
+	if (PtInRect(&startRC, g_ptMouse))
+		{
 			buttonframe = 1;
 		if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON))
 		{
@@ -96,6 +154,8 @@ void Home::Update()
 						UiDataManager::GetSingleton()->GetSC_MGR()->AddCharacter(rosterList->GetCharacters()[heroSlot[0].HeroNum]);
 					}
 					UiDataManager::GetSingleton()->SetSceneInfo(UiDataManager::SceneInfo::TOWN, UiDataManager::SceneInfo::MAPGEN);
+					UiDataManager::GetSingleton()->SetIShome(false);
+					UiDataManager::GetSingleton()->SetInven(myInven);
 					SceneManager::GetSingleton()->ChangeScene("던전연결기");
 					return;
 
@@ -126,6 +186,7 @@ void Home::Update()
 
 
 		}
+
 
 		if (KeyManager::GetSingleton()->IsOnceKeyUp(VK_LBUTTON))
 		{
@@ -196,6 +257,11 @@ void Home::Render(HDC hdc)
 {
 	bg->Render(hdc);
 
+	item1->Render(hdc);
+	item2->Render(hdc);
+	item3->Render(hdc);
+
+
 	if (startButton != nullptr)
 	{
 		if (buttonframe == 0) {
@@ -215,6 +281,9 @@ void Home::Render(HDC hdc)
 	{
 		rosterList->GetCharacters()[i]->RosterRender(hdc);
 	}	
+
+	myInven->Render(hdc);
+
 	for (int i = 0; i < 4; i++)
 	{
 		//Rectangle(hdc, heroSlot[i].rc.left, heroSlot[i].rc.top, heroSlot[i].rc.right, heroSlot[i].rc.bottom);
@@ -223,12 +292,13 @@ void Home::Render(HDC hdc)
 			heroSlot[i].icon->Render(hdc, heroSlot[i].pos.x, heroSlot[i].pos.y);
 		}
 	}
+
 if (mouseIcon != nullptr)
 	{
 		mouseIcon->Render(hdc, g_ptMouse.x, g_ptMouse.y);
 	}
 
-	//Rectangle(hdc, divideRc.left, divideRc.top, divideRc.right, divideRc.bottom);
-	wsprintf(szText, "campos : %d", ready);
-	TextOut(hdc, WINSIZE_X / 2, 100, szText, strlen(szText));
+	////Rectangle(hdc, divideRc.left, divideRc.top, divideRc.right, divideRc.bottom);
+	//wsprintf(szText, "campos : %d", ready);
+	//TextOut(hdc, WINSIZE_X / 2, 100, szText, strlen(szText));
 }

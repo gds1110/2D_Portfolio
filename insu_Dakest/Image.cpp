@@ -611,6 +611,8 @@ void Image::AlphaFrameRender(HDC hdc, int destX, int destY, int currFrameX, int 
 
 void Image::AlphaFrameRenders(HDC hdc, int destX, int destY, int currFrameX, int currFrameY, bool isCenterRenderring, float size, int Alphas)
 {
+    imageInfo->currFrameX = currFrameX;
+    imageInfo->currFrameY = currFrameY;
 
     int x = destX;
     int y = destY;
