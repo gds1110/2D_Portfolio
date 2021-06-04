@@ -26,7 +26,6 @@ public:
 	virtual void Release();
 	virtual void Update();
 	virtual void Render(HDC hdc);
-	virtual void Render2(HDC hdc);
 
 
 

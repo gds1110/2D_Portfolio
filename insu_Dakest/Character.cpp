@@ -256,13 +256,15 @@ void Character::SharedUpdate()
     //if selected
     eltimes += TimerManager::GetSingleton()->GetElapsedTime();
     if (UiDataManager::GetSingleton()->GetTile()->GetType() == TileType::Path) {
-        if (pos.x < (WINSIZE_X / 2 - 100) - (index * 150))
-        {
-            pos.x += 500 * TimerManager::GetSingleton()->GetElapsedTime();//mTime * 1 / 10;
-        }
-        else if (pos.x > (WINSIZE_X / 2 - 100) - (index * 150))
-        {
-            pos.x -= 500 * TimerManager::GetSingleton()->GetElapsedTime();//mTime * 1 / 10;
+        if (UiDataManager::GetSingleton()->GetBattleState() == true) {
+            if (pos.x < (WINSIZE_X / 2 - 100) - (index * 150))
+            {
+                pos.x += 500 * TimerManager::GetSingleton()->GetElapsedTime();//mTime * 1 / 10;
+            }
+            else if (pos.x > (WINSIZE_X / 2 - 100) - (index * 150))
+            {
+                pos.x -= 500 * TimerManager::GetSingleton()->GetElapsedTime();//mTime * 1 / 10;
+            }
         }
     }
     if (selected)

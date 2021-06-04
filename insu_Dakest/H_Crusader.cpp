@@ -69,8 +69,3 @@ void H_Crusader::Render(HDC hdc)
 
        // RenderRectToCenter(hdc, pos.x, pos.y + 50, 80, 300);
 }
-void H_Crusader::Render2(HDC hdc)
-{
-    //img->FrameRender(hdc, pos.x-300+speed, pos.y + 50, currFrameX, 0, true, 1.5);
-    //img->Render(hdc, pos.x, pos.y);
-}

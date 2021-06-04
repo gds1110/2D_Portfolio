@@ -462,7 +462,7 @@ void CombatAttack::run(int x, Character* target)
 			target->setStun(true);
 			target->SetFxon(Character::FxType::STUNFX);
 			target->Hurt(1);
-			target->setdmgorhear(x, false);
+			target->setdmgorhear(1, false);
 
 		}
 		if (skillNum == 2) {
@@ -492,7 +492,7 @@ void CombatAttack::run(int x, Character* target)
 			}
 			target->Hurt(1);
 			
-			target->setdmgorhear(x, false);
+			target->setdmgorhear(1, false);
 
 		}
 	}

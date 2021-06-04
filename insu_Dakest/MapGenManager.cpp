@@ -258,8 +258,9 @@ void MapGenManager::Update()
 	}
 
 	if (roomnum < 10) {
-
-		MakePath(*currTile);
+		if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_LBUTTON)) {
+			MakePath(*currTile);
+		}
 	
 
 	}
@@ -359,36 +360,37 @@ void MapGenManager::Update()
 		UiDataManager::GetSingleton()->SetMin(minIndex);
 		UiDataManager::GetSingleton()->SetMax(maxIndex);
 		UiDataManager::GetSingleton()->SetMapGeN(this);
+		/*UiDataManager::GetSingleton()->SetSceneInfo(UiDataManager::SceneInfo::MAPGEN, UiDataManager::SceneInfo::ROOM);
+		SceneManager::GetSingleton()->ChangeTile(UiDataManager::GetSingleton()->GetTile());
+
+		return;*/
+	}
+
+	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_F1))
+	{
+		
+
 		UiDataManager::GetSingleton()->SetSceneInfo(UiDataManager::SceneInfo::MAPGEN, UiDataManager::SceneInfo::ROOM);
 		SceneManager::GetSingleton()->ChangeTile(UiDataManager::GetSingleton()->GetTile());
 
 		return;
 	}
 
-	//if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_F1))
-	//{
-	//	
-
-	//	UiDataManager::GetSingleton()->SetSceneInfo(UiDataManager::SceneInfo::MAPGEN, UiDataManager::SceneInfo::ROOM);
-	//	SceneManager::GetSingleton()->ChangeTile(UiDataManager::GetSingleton()->GetTile());
-
-	//	return;
-	//}
-
 }
 
 void MapGenManager::Render(HDC hdc)
 {
-	/*
+	
 	HDC miniDC = MiniMap->GetMemDC();
 	UiDataManager::GetSingleton()->SetHdc(miniDC);
-	if (minimapdone) {
+	Rectangle(hdc, 0, 0, 1500, 1500);
+	//if (minimapdone) {
 		for (int i = 0; i < openList.size(); i++)
 		{
 			openList[i]->Render(miniDC);
 		}
-	}
-	MiniMap->Render(hdc);*/
+	//}
+	MiniMap->Render(hdc);
 	for (int i = 0; i < openList.size(); i++)
 	{
 		if (openList[i]->GetIsPath()) {

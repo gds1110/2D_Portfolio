@@ -136,6 +136,11 @@ void DataManager::Update()
 						int ptmousetesty = g_ptMouse.y - minimapposy + mouseOffsetY;
 						if (PtInRect(&(rc), { ptmousetestx , ptmousetesty }))
 						{
+							for (int i = 0; i < C_MGR->GetCharacters().size();i++)
+							{
+								C_MGR->GetCharacters()[i]->SetSelected(false);
+							}
+
 							for (int j = 0; j < minmap.size(); j++)
 							{
 								if (minmap[j]->GetIsPath())
@@ -181,6 +186,11 @@ void DataManager::Update()
 				{
 					if (PtInRect(&Door, g_ptMouse))
 					{
+						for (int i = 0; i < C_MGR->GetCharacters().size(); i++)
+						{
+							C_MGR->GetCharacters()[i]->SetSelected(false);
+						}
+
 						UiDataManager::GetSingleton()->SetSC_MGR(C_MGR);
 
 						UiDataManager::GetSingleton()->GetDestTile()->SetIsDest(false);
@@ -355,7 +365,7 @@ void DataManager::Render(HDC hdc)
 	//TextOut(hdc, 200, 500, szText, strlen(szText));
 	SetBkMode(hdc, TRANSPARENT);
 
-	
+
 	if (M_MGR)
 	{
 		if (BattleStage) {
@@ -403,16 +413,22 @@ void DataManager::Render(HDC hdc)
 				HitEffect->FrameRender(hdc, WINSIZE_X / 2, 0, hiteffectFrame, 0, false, 1.4);
 
 			}
-			else if(TTYPE2 ==MONTURN)
+			else if (TTYPE2 == MONTURN)
 			{
 				HitEffect->FrameRender(hdc, 00, 0, hiteffectFrame, 0, false, 1.4);
 			}
 		}
 	}
 
-	//Rectangle(hdc, Door.left, Door.top, Door.right, Door.bottom);
-	/*Rectangle(hdc, statusZone.left, statusZone.top, statusZone.right, statusZone.bottom);
-	Rectangle(hdc, characterZone.left, characterZone.top, characterZone.right, characterZone.bottom);*/
+	if (KeyManager::GetSingleton()->IsStayKeyDown(VK_F1)) {
+		Rectangle(hdc, Door.left, Door.top, Door.right, Door.bottom);
+			Rectangle(hdc, statusZone.left, statusZone.top, statusZone.right, statusZone.bottom);
+			Rectangle(hdc, characterZone.left, characterZone.top, characterZone.right, characterZone.bottom);
+			Rectangle(hdc, minimapZone.left, minimapZone.top, minimapZone.right, minimapZone.bottom);
+	}
+	if (KeyManager::GetSingleton()->IsStayKeyDown(VK_F2)) {
+		Rectangle(hdc, Door.left, Door.top, Door.right, Door.bottom);
+	}
 }
 
 
@@ -440,6 +456,8 @@ bool DataManager::BattleStages2(CharacterManager* C_MGR, CharacterManager* M_MGR
 	
 	bool itouch = false;
 	
+	underUI->Update();
+
 	if (turnchr->GetStun() == true)
 	{
 		turnchr->setStun(false);

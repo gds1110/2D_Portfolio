@@ -79,6 +79,11 @@ void UnderUi::Update()
 			{
 				selSkillmgr->GetSkillSlot()[i]->SetSkillState(Skill::SkillState::OFF);
 			}
+			else
+			{
+				selSkillmgr->GetSkillSlot()[i]->SetSkillState(Skill::SkillState::ON);
+
+			}
 		}
 		
 	}
